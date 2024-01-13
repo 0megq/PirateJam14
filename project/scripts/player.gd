@@ -24,7 +24,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 
-func hurtByEnemy(dmg):
+func hurtByEnemy(dmg: int) -> void:
 	currentHealth -= dmg
 	if currentHealth < 0: #PLACEHOLDER!!!! Remove once death mechanic is finished.
 		currentHealth = maxHealth 
