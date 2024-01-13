@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgal6orilt76"]
+
+[ext_resource type="PackedScene" uid="uid://ylvm0hspe11h" path="res://scenes/enemy.tscn" id="1_pkoq4"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_g10ad"]
+vertices = PackedVector2Array(965, -99, 1185, 57, 920, 630, 65, 630, -162, 405, -118, 19, -9, -62, 533, -104)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-13, -72, -128, 14, -173, 409, 62, 640, 927, 641, 1198, 54, 969, -109, 533, -115)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
+[node name="EnemyTest" type="Node2D"]
+
+[node name="Enemy" parent="." instance=ExtResource("1_pkoq4")]
+position = Vector2(19, 14)
+
+[node name="Enemy2" parent="." instance=ExtResource("1_pkoq4")]
+position = Vector2(211, 4)
+
+[node name="Enemy3" parent="." instance=ExtResource("1_pkoq4")]
+position = Vector2(728, 42)
+
+[node name="Enemy4" parent="." instance=ExtResource("1_pkoq4")]
+position = Vector2(7, 170)
+
+[node name="Enemy5" parent="." instance=ExtResource("1_pkoq4")]
+position = Vector2(487, 29)
+
+[node name="Enemy6" parent="." instance=ExtResource("1_pkoq4")]
+position = Vector2(51, 359)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_g10ad")
