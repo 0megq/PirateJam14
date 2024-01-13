@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://k5a4dxqp42g2"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_3alum"]
+[ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="2_vjorp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_op3n7"]
+atlas = ExtResource("2_vjorp")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t8tky"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Attack",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_op3n7")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Moving",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Stopping",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yditj"]
+size = Vector2(128, 127)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_3alum")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+drag_left_margin = 0.02
+drag_top_margin = 0.02
+drag_right_margin = 0.02
+drag_bottom_margin = 0.02
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t8tky")
+animation = &"Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_yditj")

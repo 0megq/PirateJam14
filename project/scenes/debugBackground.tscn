@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dh5px15tmmdix"]
+
+[ext_resource type="Shader" path="res://shaders/debugBackground.gdshader" id="1_fp35i"]
+[ext_resource type="PackedScene" uid="uid://k5a4dxqp42g2" path="res://scenes/player.tscn" id="2_6asjj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a6a7o"]
+shader = ExtResource("1_fp35i")
+shader_parameter/cells = 12.0
+shader_parameter/angle = 0.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_oucpw"]
+
+[node name="DebugBackground" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.0980392, 0.0980392, 0.0941176, 1)
+material = SubResource("ShaderMaterial_a6a7o")
+offset_left = -2742.0
+offset_top = -2527.0
+offset_right = 3049.0
+offset_bottom = 2158.0
+texture = SubResource("PlaceholderTexture2D_oucpw")
+
+[node name="Player" parent="." instance=ExtResource("2_6asjj")]
