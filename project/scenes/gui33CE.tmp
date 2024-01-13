@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dusdi2ij6n235"]
+
+[ext_resource type="Texture2D" uid="uid://k7yne7a7xp5p" path="res://assets/bread health bar/bread health bar over.png" id="2_4hp6m"]
+[ext_resource type="Texture2D" uid="uid://ciho6d1p1srko" path="res://assets/bread health bar/bread health bar6.png" id="2_dy2xc"]
+[ext_resource type="Texture2D" uid="uid://ndcom6gflufx" path="res://assets/bread health bar/bread health bar progress.png" id="3_i7jbj"]
+[ext_resource type="Script" path="res://scripts/textureProgressBar.gd" id="4_n473a"]
+
+[node name="GUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="healthBar" type="TextureProgressBar" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 3.0
+offset_right = 131.0
+offset_bottom = 24.0
+scale = Vector2(4.18462, 4.18462)
+fill_mode = 1
+texture_under = ExtResource("3_i7jbj")
+texture_over = ExtResource("2_4hp6m")
+texture_progress = ExtResource("2_dy2xc")
+script = ExtResource("4_n473a")
