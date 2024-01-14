@@ -5,12 +5,12 @@ signal health_changed
 
 
 # Exports
-@export var max_speed: float = 800.0 # Speed & acceleration may need to be tweaked
-@export var acceleration: float = 4000.0
+@export var max_speed: float = 200.0 # Speed & acceleration may need to be tweaked
+@export var acceleration: float = 2000.0
 
 @export var max_health: int = 30
 
-@export var fire_offset: float = 100
+@export var fire_offset: float = 10
 
 # Normal
 var jam_scene = preload("res://scenes/jam.tscn")
