@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgal6orilt76"]
+[gd_scene load_steps=4 format=3 uid="uid://dgal6orilt76"]
 
-[ext_resource type="PackedScene" uid="uid://ylvm0hspe11h" path="res://scenes/enemy.tscn" id="1_pkoq4"]
+[ext_resource type="PackedScene" uid="uid://c5watah6ubba1" path="res://tests/test_player.tscn" id="2_bgke7"]
+[ext_resource type="PackedScene" uid="uid://celv8gbqce6mj" path="res://scenes/enemy_kamikaze.tscn" id="2_xyiar"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_g10ad"]
 vertices = PackedVector2Array(965, -99, 1185, 57, 920, 630, 65, 630, -162, 405, -118, 19, -9, -62, 533, -104)
@@ -10,23 +11,16 @@ source_geometry_group_name = &"navigation_polygon_source_group"
 
 [node name="EnemyTest" type="Node2D"]
 
-[node name="Enemy" parent="." instance=ExtResource("1_pkoq4")]
-position = Vector2(19, 14)
-
-[node name="Enemy2" parent="." instance=ExtResource("1_pkoq4")]
-position = Vector2(211, 4)
-
-[node name="Enemy3" parent="." instance=ExtResource("1_pkoq4")]
-position = Vector2(728, 42)
-
-[node name="Enemy4" parent="." instance=ExtResource("1_pkoq4")]
-position = Vector2(7, 170)
-
-[node name="Enemy5" parent="." instance=ExtResource("1_pkoq4")]
-position = Vector2(487, 29)
-
-[node name="Enemy6" parent="." instance=ExtResource("1_pkoq4")]
-position = Vector2(51, 359)
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_g10ad")
+
+[node name="EnemyKamikaze" parent="." instance=ExtResource("2_xyiar")]
+
+[node name="EnemyKamikaze2" parent="." instance=ExtResource("2_xyiar")]
+position = Vector2(526, 28)
+
+[node name="EnemyKamikaze3" parent="." instance=ExtResource("2_xyiar")]
+position = Vector2(154, 436)
+
+[node name="TestPlayer" parent="." instance=ExtResource("2_bgke7")]
+position = Vector2(889, 449)
