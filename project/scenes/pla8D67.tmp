@@ -302,7 +302,7 @@ shape = SubResource("RectangleShape2D_yditj")
 
 [node name="HurtTimer" type="Timer" parent="."]
 
-[node name="FireTimer" type="Timer" parent="."]
+[node name="JamTimer" type="Timer" parent="."]
 wait_time = 0.2
 
-[connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]
+[connection signal="timeout" from="JamTimer" to="." method="_on_jam_timer_timeout"]
