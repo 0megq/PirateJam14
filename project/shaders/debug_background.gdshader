@@ -9,5 +9,5 @@ void vertex() { // rotate UVs by angle
 
 void fragment() { // assign color by even/odd checkerboard pattern
 	bool cell = mod(floor(UV.x * cells) + floor(UV.y * cells), 2.0) == 0.0;
-	COLOR = vec4(vec3(cell ? 0.5 : 0.0), 1.0);
+	COLOR = vec4(vec3(cell ? 0.5 : 0.3), 1.0);
 }

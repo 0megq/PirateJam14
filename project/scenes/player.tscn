@@ -274,10 +274,11 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yditj"]
-size = Vector2(62, 96)
+size = Vector2(20, 31.4213)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
+motion_mode = 1
 script = ExtResource("1_i8wxh")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -290,12 +291,12 @@ drag_bottom_margin = 0.02
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_t8tky")
 animation = &"Idle_Right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
+position = Vector2(0, 0.5)
+scale = Vector2(1, 0.986592)
 shape = SubResource("RectangleShape2D_yditj")
 
 [node name="HurtTimer" type="Timer" parent="."]

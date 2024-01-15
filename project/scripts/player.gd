@@ -11,7 +11,7 @@ signal health_changed
 
 @export var max_health: int = 30
 
-@export var fire_offset: float = 100
+@export var fire_offset: float = 10
 
 # Normal
 var jam_scene = preload("res://scenes/jam.tscn")
