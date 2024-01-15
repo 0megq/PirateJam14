@@ -293,8 +293,7 @@ texture_filter = 1
 position = Vector2(1, -0.499996)
 scale = Vector2(4, 3.96875)
 sprite_frames = SubResource("SpriteFrames_t8tky")
-animation = &"Idle_Back"
-frame_progress = 0.282593
+animation = &"Idle_Left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -0.5)

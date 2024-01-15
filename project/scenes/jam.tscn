@@ -51,6 +51,7 @@ color_initial_ramp = SubResource("Gradient_8svgi")
 script = ExtResource("2_0q0xs")
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
 polygon = PackedVector2Array(18.5273, 23.8471, 80.5535, 128.408, 304.492, 190.777, 327.047, -3.66879, 287.576, -214.624, 86.9978, -130.242, 18.5273, -27.5159)
