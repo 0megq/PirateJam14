@@ -292,7 +292,7 @@ drag_bottom_margin = 0.02
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_t8tky")
-animation = &"Idle_Right"
+animation = &"Idle_Left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
