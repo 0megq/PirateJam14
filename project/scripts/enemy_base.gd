@@ -1,6 +1,12 @@
 class_name EnemyBase extends CharacterBody2D
 
+enum Type {
+	KAMIKAZE,
+}
+
 @export var speed: float = 100.0
+
+var type: Type
 
 var _navigation_ready := false
 
