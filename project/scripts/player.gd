@@ -5,12 +5,13 @@ signal health_changed
 
 
 # Exports
-@export var max_speed: float = 800.0 # Speed & acceleration may need to be tweaked
-@export var acceleration: float = 4000.0
+@export var max_speed: float = 200.0 # Speed & acceleration may need to be tweaked
+@export var acceleration: float = 2000.0
+@export var jam_container: Node
 
 @export var max_health: int = 30
 
-@export var fire_offset: float = 100
+@export var fire_offset: float = 10
 
 # Normal
 var jam_scene = preload("res://scenes/jam.tscn")
@@ -92,7 +93,7 @@ func fire() -> void:
 	jam.visible = true
 	jam.global_position = global_position
 	jam.emitting = true
-	get_parent().add_child(jam)
+	jam_container.add_child(jam)
 	
 	# Jam rotation and offset
 	var mouse_dir := global_position.direction_to(get_global_mouse_position())

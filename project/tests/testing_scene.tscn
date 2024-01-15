@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://byr4y4xd4m7t5"]
+[gd_scene load_steps=15 format=3 uid="uid://byr4y4xd4m7t5"]
 
 [ext_resource type="Shader" path="res://shaders/debug_background.gdshader" id="1_q3kdo"]
 [ext_resource type="PackedScene" uid="uid://csvup43edsyfq" path="res://scenes/player.tscn" id="2_egf0e"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bufrjklvnjm4j" path="res://assets/jam/jam_tileable.png" id="4_qm4y3"]
 [ext_resource type="PackedScene" uid="uid://b46yl3xaev06r" path="res://scenes/health_bar.tscn" id="5_a72j4"]
 [ext_resource type="Script" path="res://scripts/fps_display.gd" id="6_r0tvr"]
+[ext_resource type="PackedScene" uid="uid://c8qav8rokomtn" path="res://scenes/enemy_outpost.tscn" id="7_xg3bh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a6a7o"]
 shader = ExtResource("1_q3kdo")
@@ -56,11 +57,20 @@ shader_parameter/speed = 1.0
 shader_parameter/frames = 1
 shader_parameter/flowMap = ExtResource("4_qm4y3")
 
+[sub_resource type="TileSet" id="TileSet_76qq4"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_kel0q"]
+vertices = PackedVector2Array(2498, 1543, -757, 1805, -1760, 955, -2094, -1371, 2438, -1825)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-2106, -1380, -1770, 961, -761, 1816, 2509, 1553, 2448, -1837)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
 [node name="TestingScene" type="Node2D"]
 y_sort_enabled = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
-modulate = Color(0.0980392, 0.0980392, 0.0941176, 1)
+modulate = Color(0.286275, 0.286275, 0.278431, 1)
+z_index = -10
 material = SubResource("ShaderMaterial_a6a7o")
 offset_left = -2742.0
 offset_top = -2527.0
@@ -68,9 +78,11 @@ offset_right = 3049.0
 offset_bottom = 2158.0
 texture = SubResource("PlaceholderTexture2D_oucpw")
 
-[node name="Player" parent="." instance=ExtResource("2_egf0e")]
+[node name="Player" parent="." node_paths=PackedStringArray("jam_container") instance=ExtResource("2_egf0e")]
+jam_container = NodePath("../JamContainer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_5edna")
 position = Vector2(-132, -209)
@@ -79,18 +91,22 @@ texture = ExtResource("4_qm4y3")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="HealthBar" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("5_a72j4")]
+offset_right = 211.0
 player = NodePath("../../Player")
 
 [node name="FPSDisplay" type="Label" parent="UI"]
-offset_left = 1058.0
-offset_top = 1.0
-offset_right = 1098.0
-offset_bottom = 24.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
 text = "FPS:"
 script = ExtResource("6_r0tvr")
 metadata/_edit_use_anchors_ = true
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.945098)
 texture_filter = 1
 material = SubResource("ShaderMaterial_armeo")
@@ -98,3 +114,15 @@ position = Vector2(1992, -297)
 scale = Vector2(2.68538, 3.16143)
 texture = ExtResource("4_qm4y3")
 polygon = PackedVector2Array(53.7842, 19.8383, 18.4075, 7.18575, 18.7799, 41.6638, 23.9933, 63.8057, 40.0059, 57.1631)
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_76qq4")
+format = 2
+
+[node name="JamContainer" type="Node" parent="."]
+
+[node name="EnemyOutpost" parent="." instance=ExtResource("7_xg3bh")]
+position = Vector2(-743, 229)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_kel0q")

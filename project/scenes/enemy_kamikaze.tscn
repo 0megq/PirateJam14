@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ylvm0hspe11h" path="res://scenes/enemy_base.tscn" id="1_4i6aw"]
 [ext_resource type="Script" path="res://scripts/enemy_kamikaze.gd" id="2_4giyb"]
-[ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://icon.svg" id="3_4sgi2"]
+[ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="3_4sgi2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3jbgi"]
 size = Vector2(26, 26)
