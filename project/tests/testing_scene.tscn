@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://byr4y4xd4m7t5"]
+[gd_scene load_steps=13 format=3 uid="uid://byr4y4xd4m7t5"]
 
 [ext_resource type="Shader" path="res://shaders/debug_background.gdshader" id="1_q3kdo"]
 [ext_resource type="PackedScene" uid="uid://csvup43edsyfq" path="res://scenes/player.tscn" id="2_egf0e"]
@@ -56,11 +56,13 @@ shader_parameter/speed = 1.0
 shader_parameter/frames = 1
 shader_parameter/flowMap = ExtResource("4_qm4y3")
 
+[sub_resource type="TileSet" id="TileSet_76qq4"]
+
 [node name="TestingScene" type="Node2D"]
 y_sort_enabled = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
-modulate = Color(0.0980392, 0.0980392, 0.0941176, 1)
+modulate = Color(0.286275, 0.286275, 0.278431, 1)
 material = SubResource("ShaderMaterial_a6a7o")
 offset_left = -2742.0
 offset_top = -2527.0
@@ -71,6 +73,7 @@ texture = SubResource("PlaceholderTexture2D_oucpw")
 [node name="Player" parent="." instance=ExtResource("2_egf0e")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_5edna")
 position = Vector2(-132, -209)
@@ -90,6 +93,7 @@ text = "FPS:"
 script = ExtResource("6_r0tvr")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0.945098)
 texture_filter = 1
 material = SubResource("ShaderMaterial_armeo")
@@ -97,3 +101,7 @@ position = Vector2(1992, -297)
 scale = Vector2(2.68538, 3.16143)
 texture = ExtResource("4_qm4y3")
 polygon = PackedVector2Array(53.7842, 19.8383, 18.4075, 7.18575, 18.7799, 41.6638, 23.9933, 63.8057, 40.0059, 57.1631)
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_76qq4")
+format = 2
