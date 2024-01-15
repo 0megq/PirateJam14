@@ -2,7 +2,7 @@ extends CPUParticles2D
 
 
 func _on_splat_timer_timeout() -> void:
-	z_index = 0	
+	z_index = -1	
 
 
 func _on_timer_timeout() -> void:
