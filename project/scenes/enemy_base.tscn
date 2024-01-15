@@ -13,6 +13,10 @@ avoidance_enabled = true
 radius = 50.0
 neighbor_distance = 120.0
 
-[node name="PlayerDetector" type="Area2D" parent="."]
-collision_layer = 32768
+[node name="PlayerEnter" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+
+[node name="PlayerExit" type="Area2D" parent="."]
+collision_layer = 0
 monitorable = false

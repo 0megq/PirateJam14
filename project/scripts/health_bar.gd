@@ -1,15 +1,9 @@
 extends BoxContainer
 
-@export var player: Player
 @onready var progress_bar := $ProgressBar
 @onready var value_label := $ValueLabel
 
-func _ready():
-	#Health
-	player.health_changed.connect(update)
-	update()
-	
-func update():
-	#Health
-	progress_bar.value = player.current_health * 100 / player.max_health
-	value_label.text = str(player.current_health) + "/" + str(player.max_health)
+
+func _on_player_health_changed(current_health: int, max_health: int):
+	progress_bar.value = current_health * 100 / max_health
+	value_label.text = str(current_health) + "/" + str(max_health)

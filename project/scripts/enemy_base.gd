@@ -5,19 +5,21 @@ enum Type {
 }
 
 @export var speed: float = 100.0
+@export var base_damage: int
 
 var type: Type
 
 var _navigation_ready := false
 
-var player: Node2D # Change this to Player class later
+var player: Player
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var player_detector: Area2D = $PlayerDetector
+@onready var player_enter: Area2D = $PlayerEnter
+@onready var player_exit: Area2D = $PlayerExit
 
 func _ready() -> void:
-	player_detector.body_entered.connect(_on_player_entered)
-	player_detector.body_exited.connect(_on_player_exited)
+	player_enter.body_entered.connect(_on_player_entered)
+	player_exit.body_exited.connect(_on_player_exited)
 	setup_navigation_agent()
 
 	
@@ -27,14 +29,15 @@ func setup_navigation_agent() -> void:
 	navigation_agent.velocity_computed.connect(_on_velocity_computed)
 	set_deferred("_navigation_ready", true)
 	
-	
-func follow_point(point_position: Vector2) -> void:
+
+# Returns whether or not navigation is complete
+func follow_point(point_position: Vector2) -> bool:
 	if !_navigation_ready:
-		return
+		return false
 	navigation_agent.set_target_position(point_position)
 	
 	if navigation_agent.is_navigation_finished():
-		return
+		return true
 
 	var next_path_position := navigation_agent.get_next_path_position()
 	var new_velocity := global_position.direction_to(next_path_position) * speed
@@ -42,6 +45,8 @@ func follow_point(point_position: Vector2) -> void:
 		navigation_agent.set_velocity(new_velocity)
 	else:
 		_on_velocity_computed(new_velocity)
+	
+	return false
 
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
@@ -50,10 +55,12 @@ func _on_velocity_computed(safe_velocity: Vector2) -> void:
 
 
 func _on_player_entered(body: Node2D) -> void:
-	# check for player here
+	if !(body is Player):
+		return
 	player = body
 
 
 func _on_player_exited(body: Node2D) -> void:
-	# check for player here
+	if !(body is Player):
+		return
 	player = null

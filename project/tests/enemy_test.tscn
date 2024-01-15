@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dgal6orilt76"]
 
-[ext_resource type="PackedScene" uid="uid://c5watah6ubba1" path="res://tests/test_player.tscn" id="2_bgke7"]
+[ext_resource type="PackedScene" uid="uid://dfcc6xp1gny8f" path="res://tests/test_player.tscn" id="2_bgke7"]
 [ext_resource type="PackedScene" uid="uid://celv8gbqce6mj" path="res://scenes/enemy_kamikaze.tscn" id="2_xyiar"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_g10ad"]
@@ -20,7 +20,6 @@ navigation_polygon = SubResource("NavigationPolygon_g10ad")
 position = Vector2(526, 28)
 
 [node name="EnemyKamikaze3" parent="." instance=ExtResource("2_xyiar")]
-position = Vector2(154, 436)
+position = Vector2(139, 256)
 
 [node name="TestPlayer" parent="." instance=ExtResource("2_bgke7")]
-position = Vector2(889, 449)
