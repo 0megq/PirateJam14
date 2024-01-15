@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://scripts/jam.gd" id="2_0q0xs"]
 [ext_resource type="Texture2D" uid="uid://f3pers13s54u" path="res://assets/jam/jam_particle.png" id="2_cm63r"]
 
-[sub_resource type="Curve" id="Curve_cl3pj"]
-min_value = -20.0
+[sub_resource type="Curve" id="Curve_5mbmi"]
+min_value = -16.0
 max_value = 16.0
-_data = [Vector2(0, 16), 0.0, 0.0, 0, 0, Vector2(0.393258, -20), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 116.484), 0.0, 0.0, 0, 0, Vector2(1e-05, 19.7802), 0.0, 0.0, 0, 0, Vector2(0.179775, -16), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="Curve" id="Curve_v0ljn"]
 max_value = 3.0
@@ -24,18 +24,18 @@ colors = PackedColorArray(0.557868, 0.00108862, 0.697978, 1, 1, 0.370842, 0.5509
 z_index = 1
 texture_filter = 1
 emitting = false
-amount = 48
+amount = 32
 one_shot = true
 explosiveness = 1.0
 texture = ExtResource("2_cm63r")
 gravity = Vector2(0, 0)
 initial_velocity_min = 50.0
-initial_velocity_max = 200.0
-angular_velocity_min = -16.0
+initial_velocity_max = 150.0
+angular_velocity_min = 16.0
 angular_velocity_max = 16.0
 linear_accel_min = 16.0
 linear_accel_max = 16.0
-linear_accel_curve = SubResource("Curve_cl3pj")
+linear_accel_curve = SubResource("Curve_5mbmi")
 scale_amount_max = 2.0
 scale_amount_curve = SubResource("Curve_v0ljn")
 color = Color(1, 0.615686, 1, 1)
