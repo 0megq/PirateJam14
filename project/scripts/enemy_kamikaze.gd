@@ -19,6 +19,8 @@ var current_state: State = State.NONE
 
 func _ready() -> void:
 	super()
+	$Sprite2D.modulate = Color.TRANSPARENT
+	type = Type.KAMIKAZE
 	anim_player.animation_finished.connect(_on_animation_finished)
 	change_state(start_state)
 	

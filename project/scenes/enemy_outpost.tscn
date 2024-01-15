@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8qav8rokomtn"]
+
+[ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="1_gay8f"]
+[ext_resource type="Script" path="res://scripts/enemy_outpost.gd" id="1_jvp6a"]
+
+[node name="EnemyOutpost" type="Sprite2D"]
+modulate = Color(1, 0.2, 1, 1)
+z_index = -1
+texture = ExtResource("1_gay8f")
+script = ExtResource("1_jvp6a")
+spawn_interval = 7.0
+enemy_types = Array[int]([0])
+
+[node name="SpawnTimer" type="Timer" parent="."]
