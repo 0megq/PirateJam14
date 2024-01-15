@@ -29,14 +29,15 @@ func setup_navigation_agent() -> void:
 	navigation_agent.velocity_computed.connect(_on_velocity_computed)
 	set_deferred("_navigation_ready", true)
 	
-	
-func follow_point(point_position: Vector2) -> void:
+
+# Returns whether or not navigation is complete
+func follow_point(point_position: Vector2) -> bool:
 	if !_navigation_ready:
-		return
+		return false
 	navigation_agent.set_target_position(point_position)
 	
 	if navigation_agent.is_navigation_finished():
-		return
+		return true
 
 	var next_path_position := navigation_agent.get_next_path_position()
 	var new_velocity := global_position.direction_to(next_path_position) * speed
@@ -44,6 +45,8 @@ func follow_point(point_position: Vector2) -> void:
 		navigation_agent.set_velocity(new_velocity)
 	else:
 		_on_velocity_computed(new_velocity)
+	
+	return false
 
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
