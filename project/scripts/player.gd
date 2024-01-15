@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-signal health_changed
+signal health_changed(current_health: int, max_health: int)
 
 
 # Exports
@@ -24,16 +24,24 @@ var aim_input: bool = false
 
 var dir_input: Vector2
 
+var current_health: int :
+	set(value):
+		current_health = value
+		health_changed.emit(current_health, max_health)
+
 #debug
 var particle_count = 0
 #/debug
 
 # Onready
-@onready var current_health: int = max_health
-
 @onready var hurt_timer := $HurtTimer
 @onready var fire_timer := $FireTimer
 @onready var animated_sprite := $AnimatedSprite2D
+
+
+func _ready() -> void:
+	set_deferred("current_health", max_health)
+	animated_sprite.play("Idle_Front")
 
 
 func _physics_process(delta: float) -> void:
@@ -124,11 +132,11 @@ func take_damage(dmg: int) -> void:
 		die()
 		
 	is_hurt = true
-	health_changed.emit()
 	
 	hurt_timer.start()
 	await hurt_timer.timeout
 	is_hurt = false
+
 
 func die() -> void:
 	current_health = max_health #PLACEHOLDER!!!! Remove once death mechanic is finished.

@@ -5,19 +5,21 @@ enum Type {
 }
 
 @export var speed: float = 100.0
+@export var base_damage: int
 
 var type: Type
 
 var _navigation_ready := false
 
-var player: Node2D # Change this to Player class later
+var player: Player
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var player_detector: Area2D = $PlayerDetector
+@onready var player_enter: Area2D = $PlayerEnter
+@onready var player_exit: Area2D = $PlayerExit
 
 func _ready() -> void:
-	player_detector.body_entered.connect(_on_player_entered)
-	player_detector.body_exited.connect(_on_player_exited)
+	player_enter.body_entered.connect(_on_player_entered)
+	player_exit.body_exited.connect(_on_player_exited)
 	setup_navigation_agent()
 
 	
@@ -50,10 +52,12 @@ func _on_velocity_computed(safe_velocity: Vector2) -> void:
 
 
 func _on_player_entered(body: Node2D) -> void:
-	# check for player here
+	if !(body is Player):
+		return
 	player = body
 
 
 func _on_player_exited(body: Node2D) -> void:
-	# check for player here
+	if !(body is Player):
+		return
 	player = null

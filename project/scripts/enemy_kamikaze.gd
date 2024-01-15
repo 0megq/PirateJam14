@@ -9,17 +9,17 @@ enum State {
 	NONE,
 }
 
-const explode_distance: float = 30
+const max_distance_to_explode: float = 60
 
 @export var start_state: State
 
 var current_state: State = State.NONE
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var explosion_area: Area2D = $ExplosionArea
 
 func _ready() -> void:
 	super()
-	$Sprite2D.modulate = Color.TRANSPARENT
 	type = Type.KAMIKAZE
 	anim_player.animation_finished.connect(_on_animation_finished)
 	change_state(start_state)
@@ -55,7 +55,7 @@ func update_state(state: State) -> State:
 		State.CHASE:
 			if !player:
 				return State.IDLE
-			elif global_position.distance_squared_to(player.global_position) > explode_distance ** 2:
+			elif global_position.distance_squared_to(player.global_position) > max_distance_to_explode ** 2:
 				follow_point(player.global_position)
 			else:
 				return State.EXPLODE
@@ -87,6 +87,7 @@ func change_state(new_state: State) -> void:
 	# State enter code
 	match new_state:
 		State.SPAWN:
+			$Sprite2D.modulate = Color.TRANSPARENT
 			anim_player.play("spawn")
 		State.CHASE:
 			navigation_agent.avoidance_enabled = true
@@ -101,7 +102,9 @@ func change_state(new_state: State) -> void:
 
 # Explode and then delete enemy
 func explode() -> void:
-	# Splatting needs to happen here
+	# Splatting mold needs to happen here
+	if (player and explosion_area.overlaps_body(player)):
+		player.take_damage(base_damage)
 	queue_free()
 
 
