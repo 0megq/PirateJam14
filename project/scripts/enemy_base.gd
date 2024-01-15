@@ -51,7 +51,13 @@ func follow_point(point_position: Vector2) -> bool:
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
+	place_mold(global_position)
 	move_and_slide()
+
+# This needs a more permanent solution. Setting the tile to mold can override jam and the surrounded mold terrain. Perhaps a function that is called on the map itself. That way the map can check if the mold can be placed on that tile
+func place_mold(global_pos: Vector2) -> void:
+	var map: Map = Global.tile_map
+	map.set_cell(map.main_layer, map.local_to_map(map.to_local(global_pos)), 0, map.mold_terrain)
 
 
 func _on_player_entered(body: Node2D) -> void:

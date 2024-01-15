@@ -13,12 +13,12 @@ var mold_tiles_cache: PackedVector2Array
 
 var used_cells: PackedVector2Array
 
-@onready var spread_delay:= $MoldSpreadDelay
+@onready var spread_delay := $MoldSpreadDelay
 
 
 func _ready() -> void:
-	print("ok")
-	
+	Global.tile_map = self
+
 
 func spread() -> void:
 
@@ -47,21 +47,23 @@ func get_adjacent_tiles(tile: Vector2i) -> void:
 		next_mold_tiles.append(random_tile_data)
 	#if no bread tiles, appends to mold_tiles_cache
 	else:
-		mold_tiles_cache.append(tile)	
+		mold_tiles_cache.append(tile)
 		
 		
 	for current_tile in next_mold_tiles:
 		set_cell(main_layer, current_tile, 0, mold_terrain)
+
 
 func _on_mold_spread_delay_timeout() -> void:
 	for tile in mold_tiles_cache:
 		set_cell(main_layer, tile, 0, surrounded_mold_terrain)
 	next_mold_tiles.clear()
 	spread()
-	
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_accept"):
-		spread()
+
+# Debug only. Remove later
+#func _input(event: InputEvent) -> void:
+	#if Input.is_action_just_pressed("ui_accept"):
+		#spread()
 	
 	
 
