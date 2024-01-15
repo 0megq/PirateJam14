@@ -186,12 +186,9 @@ debug_color = Color(0, 0.647059, 0.223529, 0.419608)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerExit" index="0"]
 shape = SubResource("CircleShape2D_cwc0o")
 
-[node name="ExplosionArea" type="Area2D" parent="." index="6"]
-collision_layer = 0
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea" index="0"]
+[node name="ExplosionRadius" type="CollisionShape2D" parent="." index="6"]
 shape = SubResource("CircleShape2D_8gcu0")
+disabled = true
 debug_color = Color(0.984314, 0, 0.337255, 0.419608)
 
 [node name="IdleTimer" type="Timer" parent="." index="7"]
