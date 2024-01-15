@@ -20,13 +20,15 @@ const max_idle_time: float = 6.0
 
 const max_wander_time: float = 10.0
 
+const min_mold_per_explosion: int = 20
+
 @export var start_state: State
 
 var current_state: State = State.NONE
 var wander_point: Vector2
 
+@onready var explosion_radius: float = $ExplosionRadius.shape.radius
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var explosion_area: Area2D = $ExplosionArea
 @onready var idle_timer: Timer = $IdleTimer
 @onready var wander_timer: Timer = $WanderTimer
 
@@ -108,7 +110,7 @@ func change_state(new_state: State) -> void:
 			navigation_agent.avoidance_enabled = false
 			animation_reset()
 			
-	#print(State.find_key(current_state) + " -> " + State.find_key(new_state)) Debug print statement
+	#print(State.find_key(current_state) + " -> " + State.find_key(new_state)) Debug state print statement
 	# State enter code
 	match new_state:
 		State.SPAWN:
@@ -133,9 +135,19 @@ func change_state(new_state: State) -> void:
 
 # Explode and then delete enemy
 func explode() -> void:
-	# Splatting mold needs to happen here
-	if (player and explosion_area.overlaps_body(player)):
+	# Mold splatting
+	for i in min_mold_per_explosion:
+		var rand_pos := get_random_position_in_circle(global_position, explosion_radius)
+		while(is_mold(rand_pos)):
+			rand_pos = get_random_position_in_circle(global_position, explosion_radius)
+		
+		place_mold(get_random_position_in_circle(global_position, explosion_radius))
+		
+	# Player damage
+	if (player and global_position.distance_squared_to(player.global_position) <= explosion_radius ** 2):
 		player.take_damage(base_damage)
+	
+	# Removing self
 	queue_free()
 
 
@@ -146,7 +158,7 @@ func animation_reset() -> void:
 
 
 func get_random_wander_point() -> Vector2:
-	var distance := randf_range(min_wander_dist, max_wander_dist)
+	var distance := max_wander_dist * sqrt(randf_range(min_wander_dist / max_wander_dist, 1)) # Sqrt for equal distribution
 	var direction := Vector2.RIGHT.rotated(randf_range(0, 2 * PI))
 
 	return global_position + direction * distance
@@ -156,6 +168,15 @@ func _on_idle_timeout() -> void:
 	if (current_state == State.IDLE):
 		change_state(State.WANDER)
 
+
 func _on_wander_timeout() -> void:
 	if (current_state == State.WANDER):
 		change_state(State.IDLE)
+
+
+func get_random_position_in_circle(center: Vector2, radius: float) -> Vector2:
+	var angle := randf_range(-PI, PI)
+	var direction := Vector2(cos(angle), sin(angle))
+	var distance := radius * randf() # This will cause points to be closer to center generally
+	
+	return center + distance * direction
