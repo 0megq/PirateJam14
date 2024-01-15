@@ -1,19 +1,41 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5watah6ubba1"]
+[gd_scene load_steps=6 format=3 uid="uid://dfcc6xp1gny8f"]
 
 [ext_resource type="Script" path="res://tests/test_player.gd" id="1_ine2x"]
-[ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="2_86i5s"]
+[ext_resource type="Texture2D" uid="uid://dvado8u5bd2qb" path="res://assets/Jam-Boy_Front_Idle_Pro.png" id="2_4q664"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6iwah"]
-size = Vector2(26, 26)
+[sub_resource type="AtlasTexture" id="AtlasTexture_iwicr"]
+atlas = ExtResource("2_4q664")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1qx0y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwicr")
+}],
+"loop": true,
+"name": &"Idle_Front",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yditj"]
+size = Vector2(20, 31.4213)
 
 [node name="TestPlayer" type="CharacterBody2D"]
+z_index = 1
 motion_mode = 1
 script = ExtResource("1_ine2x")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0.466667, 1, 1)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_86i5s")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_1qx0y")
+animation = &"Idle_Front"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_6iwah")
+position = Vector2(0, 0.5)
+scale = Vector2(1, 0.986592)
+shape = SubResource("RectangleShape2D_yditj")
+
+[node name="HurtTimer" type="Timer" parent="."]
+
+[node name="FireTimer" type="Timer" parent="."]
