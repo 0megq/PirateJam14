@@ -6,6 +6,14 @@ enum Type {
 
 @export var speed: float = 100.0
 @export var base_damage: int
+@export var max_health: int
+@export var hurt_time: float # Invulnerability time after getting hit once
+
+var current_health: float :
+	set(value):
+		current_health = value
+
+var is_hurt: bool = false # Is the enemy invulnerable
 
 var type: Type
 
@@ -13,11 +21,13 @@ var _navigation_ready := false
 
 var player: Player
 
+@onready var hurt_timer: Timer = $HurtTimer
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var player_enter: Area2D = $PlayerEnter
 @onready var player_exit: Area2D = $PlayerExit
 
 func _ready() -> void:
+	current_health = max_health
 	player_enter.body_entered.connect(_on_player_entered)
 	player_exit.body_exited.connect(_on_player_exited)
 	setup_navigation_agent()
@@ -79,3 +89,20 @@ func _on_player_exited(body: Node2D) -> void:
 	if !(body is Player):
 		return
 	player = null
+
+
+func take_damage(damage: int) -> void:
+	if is_hurt: # Invulnerability
+		return
+	is_hurt = true
+	current_health -= damage
+	if current_health <= 0:
+		die()
+		
+	hurt_timer.start(hurt_time)
+	await hurt_timer.timeout
+	is_hurt = false
+	
+		
+func die() -> void:
+	pass # To be implemented by inherited class

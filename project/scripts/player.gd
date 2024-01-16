@@ -7,20 +7,25 @@ signal health_changed(current_health: int, max_health: int)
 # Exports
 @export var max_speed: float = 200.0 # Speed & acceleration may need to be tweaked
 @export var acceleration: float = 2000.0
+
+@export var attack_interval: float = 0.6 # Time between attacks
+@export var attack_duration: float = 0.1 # How long attack hitbox is out
+@export var base_damage: int = 5
 @export var jam_container: Node
+@export var fire_offset: float = 10
 
 @export var max_health: int = 30
 
-@export var fire_offset: float = 10
+
 
 # Normal
-var jam_scene = preload("res://scenes/jam.tscn")
+var jam_projectile_scene = preload("res://scenes/jam.tscn")
 
 var is_hurt: bool = false
 
-var can_fire: bool = true
-var fire_input: bool = false
-var aim_input: bool = false
+var can_attack: bool = true
+var attack_input: bool = false
+var reload_input: bool = false
 
 var dir_input: Vector2
 
@@ -34,9 +39,11 @@ var particle_count = 0
 #/debug
 
 # Onready
-@onready var hurt_timer := $HurtTimer
-@onready var fire_timer := $FireTimer
-@onready var animated_sprite := $AnimatedSprite2D
+@onready var attack_hitbox: Area2D = $AttackHitbox
+@onready var hurt_timer: Timer = $HurtTimer
+@onready var attack_interval_timer: Timer = $AttackIntervalTimer
+@onready var attack_duration_timer: Timer = $AttackDurationTimer
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 
 func _ready() -> void:
@@ -50,13 +57,13 @@ func _physics_process(delta: float) -> void:
 	animate()
 	
 	move(delta)
-	manage_firing()
+	manage_attack()
 
 # Gets input and stores in the appropriate input variables
 func input() -> void:
 	dir_input = Input.get_vector("left", "right", "up", "down")
-	fire_input = Input.is_action_pressed("fire")
-	aim_input = Input.is_action_pressed("aim")
+	attack_input = Input.is_action_pressed("attack")
+	reload_input = Input.is_action_pressed("reload")
 
 
 # Animates player based off input
@@ -84,26 +91,24 @@ func move(delta: float) -> void:
 	move_and_slide()
 
 
-# Manages jam firing. 
-func manage_firing() -> void:	
-	# Firing - modify if/else statements once regular attack is ready.
-	if fire_input and aim_input and can_fire:
-		can_fire = false
-		fire()
-		fire_timer.start()
-		
+func reload() -> void:
+	print("reload functionality goes here")
 
-# Fires jam
-func fire() -> void:
-	# Setup jam
-	var jam: CPUParticles2D = jam_scene.instantiate()
-		
-	jam.visible = true
-	jam.global_position = global_position
-	jam.emitting = true
-	jam_container.add_child(jam)
-	
-	# Jam rotation and offset
+
+func manage_attack() -> void:	
+	# Attacking
+	if attack_input and can_attack:
+		can_attack = false
+		attack()
+		attack_interval_timer.start(attack_interval)
+
+
+func _on_attack_interval_timer_timeout() -> void:
+	can_attack = true
+
+
+func attack() -> void:
+	# Hitbox rotation
 	var mouse_dir := global_position.direction_to(get_global_mouse_position())
 	var joystick_r_dir := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)).normalized()
 	
@@ -113,25 +118,57 @@ func fire() -> void:
 	else:
 		aim_dir = mouse_dir
 		
-	jam.rotation = aim_dir.angle()
-	jam.global_position += (aim_dir + velocity.normalized()) * fire_offset # Offset the jam by the aim direction and velocity
+	attack_hitbox.rotation = aim_dir.angle()
 	
-	# Count particles
-	particle_count += jam.amount
+	# Turn hitbox on
+	attack_hitbox.monitoring = true
+	attack_duration_timer.start(attack_duration)
 
 
-# Fire rate timer
-func _on_fire_timer_timeout() -> void:
-	can_fire = true
+func _on_attack_duration_timer_timeout() -> void:
+	# Turn hit box off
+	attack_hitbox.monitoring = false
+	
+
+func _on_attack_area_body_entered(body: Node2D) -> void:
+	# Damage enemy
+	if body is EnemyBase:
+		body.take_damage(base_damage)
+
+
+# Fires jam
+#func fire() -> void:
+	## Setup jam
+	#var jam: CPUParticles2D = jam_projectile_scene.instantiate()
+		#
+	#jam.visible = true
+	#jam.global_position = global_position
+	#jam.emitting = true
+	#jam_container.add_child(jam)
+	#
+	## Jam rotation and offset
+	#var mouse_dir := global_position.direction_to(get_global_mouse_position())
+	#var joystick_r_dir := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)).normalized()
+	#
+	#var aim_dir: Vector2
+	#if Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT): # Check for controller input
+		#aim_dir = joystick_r_dir
+	#else:
+		#aim_dir = mouse_dir
+		#
+	#jam.rotation = aim_dir.angle()
+	#jam.global_position += (aim_dir + velocity.normalized()) * fire_offset # Offset the jam by the aim direction and velocity
+	#
+	## Count particles
+	#particle_count += jam.amount
 
 
 func take_damage(dmg: int) -> void:
 	current_health -= dmg
+	is_hurt = true
 	
 	if current_health <= 0:
 		die()
-		
-	is_hurt = true
 	
 	hurt_timer.start()
 	await hurt_timer.timeout
@@ -140,16 +177,3 @@ func take_damage(dmg: int) -> void:
 
 func die() -> void:
 	current_health = max_health #PLACEHOLDER!!!! Remove once death mechanic is finished.
-
-#Debug
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		take_damage(3)
-		#print(particle_count)
-#/debug
-
-
-
-
-
-

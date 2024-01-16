@@ -180,3 +180,9 @@ func get_random_position_in_circle(center: Vector2, radius: float) -> Vector2:
 	var distance := radius * randf() # This will cause points to be closer to center generally
 	
 	return center + distance * direction
+
+
+func die() -> void:
+	# Placeholder
+	print("%s died :(" % self)
+	queue_free()
