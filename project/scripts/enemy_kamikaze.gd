@@ -23,6 +23,7 @@ const max_wander_time: float = 10.0
 const min_mold_per_explosion: int = 20
 
 @export var start_state: State
+@export var health: int
 
 var current_state: State = State.NONE
 var wander_point: Vector2
@@ -180,3 +181,16 @@ func get_random_position_in_circle(center: Vector2, radius: float) -> Vector2:
 	var distance := radius * randf() # This will cause points to be closer to center generally
 	
 	return center + distance * direction
+<<<<<<< Updated upstream
+=======
+
+
+func is_player_in_radius(radius: float) -> bool:
+	return global_position.distance_squared_to(player.global_position) <= radius ** 2
+
+
+func take_damage(dmg):
+	health = health-dmg
+	if health < 0:
+		queue_free()
+>>>>>>> Stashed changes

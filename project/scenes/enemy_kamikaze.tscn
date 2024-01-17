@@ -160,6 +160,7 @@ radius = 94.0479
 [node name="EnemyKamikaze" instance=ExtResource("1_4i6aw")]
 script = ExtResource("2_4giyb")
 start_state = 0
+health = 0
 speed = 180.0
 base_damage = 5
 
