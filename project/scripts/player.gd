@@ -23,6 +23,7 @@ var fire_input: bool = false
 var aim_input: bool = false
 
 var dir_input: Vector2
+var max_distance: int = 20
 
 var current_health: int :
 	set(value):
@@ -59,11 +60,17 @@ func input() -> void:
 
 # Animates player based off input
 func animate() -> void:
+	var mouse_position = get_global_mouse_position()
+	var mouse_dir := global_position.direction_to(mouse_position)
+	var joystick_r_dir := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)).normalized()
+	$Cursor.rotation = mouse_dir.angle()
+	$Cursor.position = clamp(mouse_position, mouse_dir * 20, mouse_dir * 20)
+	
 	if dir_input == Vector2.ZERO:
 		$AnimationTree.get("parameters/playback").travel("Idle")
+		$AnimationTree.set("parameters/Idle/blend_position", mouse_dir)
 	else:
 		$AnimationTree.get("parameters/playback").travel("Walking")
-		$AnimationTree.set("parameters/Idle/blend_position", dir_input)
 		$AnimationTree.set("parameters/Walking/blend_position", dir_input)
 
 
