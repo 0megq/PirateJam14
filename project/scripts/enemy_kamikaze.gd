@@ -10,17 +10,17 @@ enum State {
 	NONE,
 }
 
-const max_distance_to_explode: float = 60
+const DIST_TO_CHARGE: float = 60
 
-const min_wander_dist: float = 40.0
-const max_wander_dist: float = 100.0
+const MIN_WANDER_DIST: float = 40.0
+const MAX_WANDER_DIST: float = 100.0
 
-const min_idle_time: float = 1.0
-const max_idle_time: float = 6.0
+const MIN_IDLE_TIME: float = 1.0
+const MAX_IDLE_TIME: float = 6.0
 
-const max_wander_time: float = 10.0
+const MAX_WANDER_TIME: float = 10.0
 
-const min_mold_per_explosion: int = 20
+const MOLD_PER_EXPLOSION: int = 20
 
 @export var start_state: State
 
@@ -73,7 +73,7 @@ func update_state(state: State) -> State:
 		State.CHASE:
 			if !player:
 				return State.IDLE
-			elif global_position.distance_squared_to(player.global_position) > max_distance_to_explode ** 2:
+			elif global_position.distance_squared_to(player.global_position) > DIST_TO_CHARGE ** 2:
 				follow_point(player.global_position)
 			else:
 				return State.EXPLODE
@@ -122,12 +122,12 @@ func change_state(new_state: State) -> void:
 		State.EXPLODE:
 			anim_player.play("explode")
 		State.IDLE:
-			idle_timer.start(randf_range(min_idle_time, max_idle_time))
+			idle_timer.start(randf_range(MIN_IDLE_TIME, MAX_IDLE_TIME))
 			anim_player.play("idle")
 		State.WANDER:
 			wander_point = get_random_wander_point()
 			navigation_agent.avoidance_enabled = true
-			wander_timer.start(max_wander_time)
+			wander_timer.start(MAX_WANDER_TIME)
 			anim_player.play("wander")
 		
 	current_state = new_state
@@ -136,7 +136,7 @@ func change_state(new_state: State) -> void:
 # Explode and then delete enemy
 func explode() -> void:
 	# Mold splatting
-	for i in min_mold_per_explosion:
+	for i in MOLD_PER_EXPLOSION:
 		var rand_pos := get_random_position_in_circle(global_position, explosion_radius)
 		while(is_mold(rand_pos)):
 			rand_pos = get_random_position_in_circle(global_position, explosion_radius)
@@ -158,7 +158,7 @@ func animation_reset() -> void:
 
 
 func get_random_wander_point() -> Vector2:
-	var distance := max_wander_dist * sqrt(randf_range(min_wander_dist / max_wander_dist, 1)) # Sqrt for equal distribution
+	var distance := MAX_WANDER_DIST * sqrt(randf_range(MIN_WANDER_DIST / MAX_WANDER_DIST, 1)) # Sqrt for equal distribution
 	var direction := Vector2.RIGHT.rotated(randf_range(0, 2 * PI))
 
 	return global_position + direction * distance
