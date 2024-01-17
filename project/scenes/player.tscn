@@ -316,6 +316,11 @@ monitorable = false
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AttackHitbox"]
 polygon = PackedVector2Array(10, -20, 24, -13, 30, 0, 24, 13, 10, 20)
 
+[node name="AttackDisplay" type="Polygon2D" parent="AttackHitbox"]
+visible = false
+color = Color(1, 1, 1, 0.560784)
+polygon = PackedVector2Array(10, -20, 24, -13, 30, 0, 24, 13, 10, 20)
+
 [node name="AttackDurationTimer" type="Timer" parent="."]
 process_callback = 0
 one_shot = true

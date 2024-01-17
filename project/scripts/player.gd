@@ -121,12 +121,14 @@ func attack() -> void:
 	attack_hitbox.rotation = aim_dir.angle()
 	
 	# Turn hitbox on
+	$AttackHitbox/AttackDisplay.show()
 	attack_hitbox.monitoring = true
 	attack_duration_timer.start(attack_duration)
 
 
 func _on_attack_duration_timer_timeout() -> void:
 	# Turn hit box off
+	$AttackHitbox/AttackDisplay.hide()
 	attack_hitbox.monitoring = false
 	
 
