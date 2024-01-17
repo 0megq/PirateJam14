@@ -4,30 +4,32 @@ class_name EnemyKamikaze extends EnemyBase
 enum State {
 	SPAWN,
 	CHASE,
+	CHARGE,
 	EXPLODE,
 	IDLE,
 	WANDER,
 	NONE,
 }
 
-const max_distance_to_explode: float = 60
+const MIN_WANDER_DIST: float = 40.0
+const MAX_WANDER_DIST: float = 100.0
 
-const min_wander_dist: float = 40.0
-const max_wander_dist: float = 100.0
+const MIN_IDLE_TIME: float = 1.0
+const MAX_IDLE_TIME: float = 6.0
 
-const min_idle_time: float = 1.0
-const max_idle_time: float = 6.0
+const MAX_WANDER_TIME: float = 10.0
 
-const max_wander_time: float = 10.0
-
-const min_mold_per_explosion: int = 20
+const MAX_MOLD_PLACE_ATTEMPTS: int = 10
+const MOLD_PER_EXPLOSION: int = 15
 
 @export var start_state: State
 
 var current_state: State = State.NONE
 var wander_point: Vector2
 
-@onready var explosion_radius: float = $ExplosionRadius.shape.radius
+@onready var explosion_damage_radius: float = $ExplosionDamageRadius.shape.radius
+@onready var explosion_confirm_radius: float = $ExplosionConfirmRadius.shape.radius
+@onready var charge_radius: float = $ChargeRadius.shape.radius
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var idle_timer: Timer = $IdleTimer
 @onready var wander_timer: Timer = $WanderTimer
@@ -57,6 +59,11 @@ func _on_animation_finished(anim_name: StringName) -> void:
 				change_state(State.WANDER)
 		State.CHASE:
 			pass
+		State.CHARGE:
+			if is_player_in_radius(explosion_confirm_radius):
+				change_state(State.EXPLODE)
+			else:
+				change_state(State.CHASE)
 		State.EXPLODE:
 			explode()
 		State.IDLE:
@@ -73,10 +80,12 @@ func update_state(state: State) -> State:
 		State.CHASE:
 			if !player:
 				return State.IDLE
-			elif global_position.distance_squared_to(player.global_position) > max_distance_to_explode ** 2:
-				follow_point(player.global_position)
+			elif is_player_in_radius(charge_radius):
+				return State.CHARGE
 			else:
-				return State.EXPLODE
+				follow_point(player.global_position)
+		State.CHARGE:
+			pass
 		State.EXPLODE:
 			pass
 		State.IDLE:
@@ -99,8 +108,9 @@ func change_state(new_state: State) -> void:
 			pass
 		State.CHASE:
 			navigation_agent.avoidance_enabled = false
-			if new_state != State.EXPLODE:
-				animation_reset()
+			animation_reset()
+		State.CHARGE:
+			pass
 		State.EXPLODE:
 			animation_reset()
 		State.IDLE:
@@ -119,15 +129,17 @@ func change_state(new_state: State) -> void:
 		State.CHASE:
 			navigation_agent.avoidance_enabled = true
 			anim_player.play("chase")
+		State.CHARGE:
+			anim_player.play("charge")
 		State.EXPLODE:
 			anim_player.play("explode")
 		State.IDLE:
-			idle_timer.start(randf_range(min_idle_time, max_idle_time))
+			idle_timer.start(randf_range(MIN_IDLE_TIME, MAX_IDLE_TIME))
 			anim_player.play("idle")
 		State.WANDER:
 			wander_point = get_random_wander_point()
 			navigation_agent.avoidance_enabled = true
-			wander_timer.start(max_wander_time)
+			wander_timer.start(MAX_WANDER_TIME)
 			anim_player.play("wander")
 		
 	current_state = new_state
@@ -136,15 +148,20 @@ func change_state(new_state: State) -> void:
 # Explode and then delete enemy
 func explode() -> void:
 	# Mold splatting
-	for i in min_mold_per_explosion:
-		var rand_pos := get_random_position_in_circle(global_position, explosion_radius)
-		while(is_mold(rand_pos)):
-			rand_pos = get_random_position_in_circle(global_position, explosion_radius)
-		
-		place_mold(get_random_position_in_circle(global_position, explosion_radius))
+	if Global.tile_map:
+		for i in MOLD_PER_EXPLOSION:
+			var rand_pos := get_random_position_in_circle(global_position, explosion_damage_radius)
+			var attempts = 0
+			while(is_mold(rand_pos)):
+				attempts += 1
+				if attempts > MAX_MOLD_PLACE_ATTEMPTS:
+					break
+				rand_pos = get_random_position_in_circle(global_position, explosion_damage_radius)
+			
+			place_mold(rand_pos)
 		
 	# Player damage
-	if (player and global_position.distance_squared_to(player.global_position) <= explosion_radius ** 2):
+	if (player and is_player_in_radius(explosion_damage_radius)):
 		player.take_damage(base_damage)
 	
 	# Removing self
@@ -158,7 +175,7 @@ func animation_reset() -> void:
 
 
 func get_random_wander_point() -> Vector2:
-	var distance := max_wander_dist * sqrt(randf_range(min_wander_dist / max_wander_dist, 1)) # Sqrt for equal distribution
+	var distance := MAX_WANDER_DIST * sqrt(randf_range(MIN_WANDER_DIST / MAX_WANDER_DIST, 1)) # Sqrt for equal distribution
 	var direction := Vector2.RIGHT.rotated(randf_range(0, 2 * PI))
 
 	return global_position + direction * distance
@@ -184,5 +201,9 @@ func get_random_position_in_circle(center: Vector2, radius: float) -> Vector2:
 
 func die() -> void:
 	# Placeholder
-	print("%s died :(" % self)
+	print("%s died" % self)
 	queue_free()
+
+
+func is_player_in_radius(radius: float) -> bool:
+	return global_position.distance_squared_to(player.global_position) <= radius ** 2
