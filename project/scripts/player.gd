@@ -36,12 +36,10 @@ var particle_count = 0
 # Onready
 @onready var hurt_timer := $HurtTimer
 @onready var fire_timer := $FireTimer
-@onready var animated_sprite := $AnimatedSprite2D
 
 
 func _ready() -> void:
 	set_deferred("current_health", max_health)
-	animated_sprite.play("Idle_Front")
 
 
 func _physics_process(delta: float) -> void:
@@ -61,15 +59,12 @@ func input() -> void:
 
 # Animates player based off input
 func animate() -> void:
-	match dir_input: # Match does same thing as if else chain checking if what values match each other. match is also called switch in other languages
-		Vector2.RIGHT:
-			animated_sprite.play("Idle_Right")
-		Vector2.LEFT:
-			animated_sprite.play("Idle_Left")
-		Vector2.UP:
-			animated_sprite.play("Idle_Back")
-		Vector2.DOWN:
-			animated_sprite.play("Idle_Front")
+	if dir_input == Vector2.ZERO:
+		$AnimationTree.get("parameters/playback").travel("Idle")
+	else:
+		$AnimationTree.get("parameters/playback").travel("Walking")
+		$AnimationTree.set("parameters/Idle/blend_position", dir_input)
+		$AnimationTree.set("parameters/Walking/blend_position", dir_input)
 
 
 # Moves the player (duh)
