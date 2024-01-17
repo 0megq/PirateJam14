@@ -79,3 +79,6 @@ func _on_player_exited(body: Node2D) -> void:
 	if !(body is Player):
 		return
 	player = null
+	
+	
+
