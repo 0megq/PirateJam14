@@ -1,22 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfcc6xp1gny8f"]
+[gd_scene load_steps=4 format=3 uid="uid://dfcc6xp1gny8f"]
 
 [ext_resource type="Script" path="res://tests/test_player.gd" id="1_ine2x"]
-[ext_resource type="Texture2D" uid="uid://dvado8u5bd2qb" path="res://assets/Jam-Boy_Front_Idle_Pro.png" id="2_4q664"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_iwicr"]
-atlas = ExtResource("2_4q664")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_1qx0y"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_iwicr")
-}],
-"loop": true,
-"name": &"Idle_Front",
-"speed": 8.0
-}]
+[ext_resource type="Texture2D" uid="uid://d1ha2nhvs16v4" path="res://assets/Animations_spritesheet.png" id="2_rli8u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yditj"]
 size = Vector2(20, 31.4213)
@@ -26,10 +11,11 @@ z_index = 1
 motion_mode = 1
 script = ExtResource("1_ine2x")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_1qx0y")
-animation = &"Idle_Front"
+texture = ExtResource("2_rli8u")
+hframes = 8
+vframes = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
