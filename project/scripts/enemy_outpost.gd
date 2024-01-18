@@ -1,5 +1,4 @@
-extends Node2D
-
+extends Area2D
 
 var enemy_scenes: Dictionary = {
 	EnemyBase.Type.KAMIKAZE : preload("res://scenes/enemy_kamikaze.tscn")
@@ -36,8 +35,10 @@ func spawn_enemy(type: EnemyBase.Type) -> void:
 	var enemy: EnemyBase = enemy_scene.instantiate()
 	enemy.global_position = global_position
 	get_parent().add_child(enemy)
-	
-func take_damage(dmg):
-	health = health-dmg
+
+
+func take_damage(dmg: int) -> void:
+	health -= dmg
 	if health < 0:
+		print(str(self) + " died D:")
 		queue_free()

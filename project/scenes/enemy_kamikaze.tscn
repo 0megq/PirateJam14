@@ -184,10 +184,10 @@ radius = 198.0
 radius = 234.137
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gcu0"]
-radius = 100.0
+radius = 110.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5jiiu"]
-radius = 80.0
+radius = 70.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ygyk1"]
 radius = 40.0
@@ -198,6 +198,7 @@ start_state = 0
 health = 0
 speed = 180.0
 base_damage = 5
+max_health = 20
 
 [node name="NavigationAgent2D" parent="." index="0"]
 radius = 30.0

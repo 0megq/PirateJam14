@@ -199,5 +199,11 @@ func get_random_position_in_circle(center: Vector2, radius: float) -> Vector2:
 	return center + distance * direction
 
 
+func die() -> void:
+	# Placeholder
+	print("%s died" % self)
+	queue_free()
+
+
 func is_player_in_radius(radius: float) -> bool:
 	return global_position.distance_squared_to(player.global_position) <= radius ** 2
