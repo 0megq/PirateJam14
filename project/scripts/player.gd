@@ -28,6 +28,8 @@ var attack_input: bool = false
 var reload_input: bool = false
 
 var dir_input: Vector2
+var js_r_input: Vector2
+var joypad: bool
 
 var current_health: int :
 	set(value):
@@ -43,12 +45,12 @@ var particle_count = 0
 @onready var hurt_timer: Timer = $HurtTimer
 @onready var attack_interval_timer: Timer = $AttackIntervalTimer
 @onready var attack_duration_timer: Timer = $AttackDurationTimer
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var cursor: Sprite2D = $Cursor
 
 
 func _ready() -> void:
 	set_deferred("current_health", max_health)
-	animated_sprite.play("Idle_Front")
 
 
 func _physics_process(delta: float) -> void:
@@ -64,19 +66,38 @@ func input() -> void:
 	dir_input = Input.get_vector("left", "right", "up", "down")
 	attack_input = Input.is_action_pressed("attack")
 	reload_input = Input.is_action_pressed("reload")
-
+	js_r_input = Input.get_vector("aim_left","aim_right","aim_up","aim_down")
 
 # Animates player based off input
 func animate() -> void:
-	match dir_input: # Match does same thing as if else chain checking if what values match each other. match is also called switch in other languages
-		Vector2.RIGHT:
-			animated_sprite.play("Idle_Right")
-		Vector2.LEFT:
-			animated_sprite.play("Idle_Left")
-		Vector2.UP:
-			animated_sprite.play("Idle_Back")
-		Vector2.DOWN:
-			animated_sprite.play("Idle_Front")
+	var mouse_position = get_global_mouse_position()
+	var mouse_dir := global_position.direction_to(mouse_position)
+	var js_r_position = js_r_input.normalized()
+	#Controller
+	if joypad == true:
+		if js_r_input != Vector2.ZERO:
+			var aim_dir = clamp(js_r_position, js_r_position * 20, js_r_position * 20)
+			cursor.rotation = js_r_input.angle()
+			cursor.position = aim_dir
+		else:
+			pass
+
+		if dir_input == Vector2.ZERO:
+			animation_tree.get("parameters/playback").travel("Idle")
+			animation_tree.set("parameters/Idle/blend_position", cursor.position)
+		else:
+			animation_tree.get("parameters/playback").travel("Walking")
+			animation_tree.set("parameters/Walking/blend_position", dir_input)
+	#Mouse & Keyboard
+	else:
+		cursor.rotation = mouse_dir.angle()
+		cursor.position = clamp(mouse_position, mouse_dir * 20, mouse_dir * 20)
+		if dir_input == Vector2.ZERO:
+			animation_tree.get("parameters/playback").travel("Idle")
+			animation_tree.set("parameters/Idle/blend_position", mouse_dir)
+		else:
+			animation_tree.get("parameters/playback").travel("Walking")
+			animation_tree.set("parameters/Walking/blend_position", dir_input)
 
 
 # Moves the player (duh)
@@ -179,3 +200,10 @@ func take_damage(dmg: int) -> void:
 
 func die() -> void:
 	current_health = max_health #PLACEHOLDER!!!! Remove once death mechanic is finished.
+
+
+func _input(event: InputEvent) -> void:
+	if(event is InputEventJoypadButton) or (event is InputEventJoypadMotion):
+		joypad = true
+	elif(event is InputEventKey) or (event is InputEventMouseMotion):
+		joypad = false

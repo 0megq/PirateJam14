@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvado8u5bd2qb"
-path="res://.godot/imported/Jam-Boy_Front_Idle_Pro.png-632f9916a3b4bb5c416ba4fe94d6fe84.ctex"
+uid="uid://d1ha2nhvs16v4"
+path="res://.godot/imported/Animations_spritesheet.png-a33cd631226119193be56e117fac44fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Jam-Boy_Front_Idle_Pro.png"
-dest_files=["res://.godot/imported/Jam-Boy_Front_Idle_Pro.png-632f9916a3b4bb5c416ba4fe94d6fe84.ctex"]
+source_file="res://assets/Animations_spritesheet.png"
+dest_files=["res://.godot/imported/Animations_spritesheet.png-a33cd631226119193be56e117fac44fe.ctex"]
 
 [params]
 

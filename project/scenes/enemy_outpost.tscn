@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="1_gay8f"]
 [ext_resource type="Script" path="res://scripts/enemy_outpost.gd" id="1_jvp6a"]
 
-[node name="EnemyOutpost" type="Sprite2D"]
+[node name="EnemyOutpost" type="Sprite2D" groups=["enemy"]]
 modulate = Color(1, 0.2, 1, 1)
 z_index = -1
 texture = ExtResource("1_gay8f")
