@@ -151,12 +151,16 @@ func _on_attack_duration_timer_timeout() -> void:
 	# Turn hit box off
 	$AttackHitbox/AttackDisplay.hide()
 	attack_hitbox.monitoring = false
-	
 
-func _on_attack_area_body_entered(body: Node2D) -> void:
-	# Damage enemy
-	if body is EnemyBase:
+
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemy"):
 		body.take_damage(base_damage)
+
+
+func _on_attack_hitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("enemy"):
+		area.take_damage(base_damage)
 
 
 # Fires jam
@@ -207,3 +211,4 @@ func _input(event: InputEvent) -> void:
 		joypad = true
 	elif(event is InputEventKey) or (event is InputEventMouseMotion):
 		joypad = false
+
