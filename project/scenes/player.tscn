@@ -1,8 +1,9 @@
-[gd_scene load_steps=41 format=3 uid="uid://csvup43edsyfq"]
+[gd_scene load_steps=42 format=3 uid="uid://csvup43edsyfq"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_i8wxh"]
 [ext_resource type="Texture2D" uid="uid://d1ha2nhvs16v4" path="res://assets/Animations_spritesheet.png" id="2_78ivi"]
 [ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="3_4msb0"]
+[ext_resource type="AudioStream" uid="uid://vlhueovc7pqa" path="res://tests/footysteps.wav" id="4_oju2p"]
 
 [sub_resource type="Animation" id="Animation_dm5uu"]
 length = 0.001
@@ -440,7 +441,15 @@ polygon = PackedVector2Array(10, -20, 24, -13, 30, 0, 24, 13, 10, 20)
 process_callback = 0
 one_shot = true
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_oju2p")
+
+[node name="Footsteps" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
 [connection signal="timeout" from="AttackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
 [connection signal="timeout" from="AttackDurationTimer" to="." method="_on_attack_duration_timer_timeout"]
+[connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]
