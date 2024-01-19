@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	input()
 	
 	animate()
-	sounds()
+	
 	move(delta)
 	manage_attack()
 
@@ -99,13 +99,6 @@ func animate() -> void:
 			animation_tree.get("parameters/playback").travel("Walking")
 			animation_tree.set("parameters/Walking/blend_position", dir_input)
 
-
-func sounds():
-	if velocity.length() > 0:
-		if $Footsteps.time_left == 0:
-			$AudioStreamPlayer2D.set_pitch_scale(randf_range(0.8, 1.2))
-			$AudioStreamPlayer2D.play()
-			$Footsteps.start()
 
 # Moves the player (duh)
 func move(delta: float) -> void:
