@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://csvup43edsyfq"]
+[gd_scene load_steps=44 format=3 uid="uid://csvup43edsyfq"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_i8wxh"]
 [ext_resource type="Texture2D" uid="uid://d1ha2nhvs16v4" path="res://assets/Animations_spritesheet.png" id="2_78ivi"]
@@ -310,16 +310,33 @@ tracks/1/keys = {
 "values": [PackedVector2Array(16, -21, 32, -26, 43, -8, 44, 19, 30, 45, 5, 26), PackedVector2Array(17, -11, 27, -14, 36, -2, 41, 16, 28, 41, 6, 28), PackedVector2Array(12, 8, 18, 13, 24, 26, 21, 37, 11, 41, 0, 22)]
 }
 
+[sub_resource type="Animation" id="Animation_gewd3"]
+resource_name = "jelly_attack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackHitbox/SwordSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [6, 7, 9]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_15xdh"]
 _data = {
-"Attack": SubResource("Animation_nfjny"),
 "RESET": SubResource("Animation_dm5uu"),
+"attack": SubResource("Animation_nfjny"),
 "idle_down": SubResource("Animation_jg75m"),
 "idle_left": SubResource("Animation_th5q6"),
 "idle_right": SubResource("Animation_pihxk"),
 "idle_up": SubResource("Animation_qi1lv"),
 "idle_up_left": SubResource("Animation_vskne"),
 "idle_up_right": SubResource("Animation_eqge4"),
+"jelly_attack": SubResource("Animation_gewd3"),
 "walking_down": SubResource("Animation_jiwdd"),
 "walking_down_left": SubResource("Animation_heqxp"),
 "walking_down_right": SubResource("Animation_4oreh"),
@@ -352,18 +369,20 @@ animation = &"idle_up_left"
 animation = &"idle_up_right"
 
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_tga4w"]
+auto_triangles = false
 blend_point_0/node = SubResource("AnimationNodeAnimation_rs7ss")
-blend_point_0/pos = Vector2(1, 1)
+blend_point_0/pos = Vector2(1, 0)
 blend_point_1/node = SubResource("AnimationNodeAnimation_surri")
 blend_point_1/pos = Vector2(0, 1)
 blend_point_2/node = SubResource("AnimationNodeAnimation_e7chx")
 blend_point_2/pos = Vector2(0, -1)
 blend_point_3/node = SubResource("AnimationNodeAnimation_15i82")
-blend_point_3/pos = Vector2(-1, 1)
+blend_point_3/pos = Vector2(-1, 0)
 blend_point_4/node = SubResource("AnimationNodeAnimation_cldl5")
 blend_point_4/pos = Vector2(-1, -1)
 blend_point_5/node = SubResource("AnimationNodeAnimation_4lgvy")
 blend_point_5/pos = Vector2(1, -1)
+triangles = PackedInt32Array(0, 1, 2, 0, 2, 5, 1, 2, 3, 2, 3, 4)
 blend_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_prefm"]
@@ -469,7 +488,7 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeStateMachine_x0efp")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Idle/blend_position = Vector2(0.00553358, -0.515419)
+parameters/Idle/blend_position = Vector2(-0.992095, 0.978836)
 parameters/Walking/blend_position = Vector2(0.125692, 0.544974)
 
 [node name="AttackIntervalTimer" type="Timer" parent="."]
@@ -495,10 +514,10 @@ polygon = PackedVector2Array(10, -20, 24, -13, 30, 0, 24, 13, 10, 20)
 
 [node name="SwordSprite" type="Sprite2D" parent="AttackHitbox"]
 texture_filter = 1
-position = Vector2(15, 4)
-rotation = 1.5708
+position = Vector2(18.538, 5)
+rotation = 1.52791
 texture = ExtResource("4_ea0ux")
-offset = Vector2(0, -4)
+offset = Vector2(-5, 0)
 hframes = 5
 vframes = 2
 frame = 1
