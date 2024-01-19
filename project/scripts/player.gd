@@ -59,6 +59,7 @@ var current_health: int :
 @onready var attack_look_timer: Timer = $AttackLookTimer
 
 func _ready() -> void:
+	set_deferred("current_ammo", max_ammo)
 	set_deferred("current_health", max_health)
 
 
@@ -120,7 +121,11 @@ func move(delta: float) -> void:
 
 
 func reload() -> void:
+	# Replace this with some sort of reload animation
 	print("reload functionality goes here")
+	# Refill ammo. Placeholder: Current ammo should increase by one based off a certain frame of the animation
+	# Also slow down player
+	current_ammo = max_ammo
 
 
 func manage_attack() -> void:	
@@ -138,26 +143,21 @@ func _on_attack_interval_timer_timeout() -> void:
 	can_attack = true
 
 
-func attack() -> void:
-	# Hitbox rotation
-	var mouse_dir := global_position.direction_to(get_global_mouse_position())
-	var joystick_r_dir := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)).normalized()
-	
-	var aim_dir: Vector2
-	aim_dir = cursor.position
+func attack() -> void:	
+	var aim_dir: Vector2 = cursor.position
 		
 	attack_hitbox.rotation = aim_dir.angle()
-	print(aim_dir)
 	# Turn hitbox on
 	#$AttackHitbox/AttackDisplay.show()
 	$AttackHitbox/SwordSprite.show()
-	$AnimationPlayer.play.call_deferred("attack")
+	$AnimationPlayer.play("attack")
 	attack_hitbox.monitoring = true
 	attack_duration_timer.start(attack_duration)
 	
 	if current_ammo > 0:
-		# Fire jam
-		pass
+		current_ammo -= 1
+		$AnimationPlayer.play("jelly_attack")
+		fire()
 
 
 func _on_attack_duration_timer_timeout() -> void:
@@ -179,23 +179,17 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 
 
  #Fires jam
-#func fire() -> void:
-	## Setup jam
-	#var jam: CPUParticles2D = jam_projectile_scene.instantiate()
-		#
-	#jam.visible = true
-	#jam.global_position = global_position
-	#jam.emitting = true
-	#jam_container.add_child(jam)
-	#
-	## Jam rotation and offset
-	#var aim_dir = cursor.position
-		#
-	#jam.rotation = cursor.position.angle()
-	#jam.global_position += (aim_dir + velocity.normalized()) * fire_offset # Offset the jam by the aim direction and velocity
-	#
-	## Count particles
-	#particle_count += jam.amount
+func fire() -> void:
+	# Setup jam
+	var jam: CPUParticles2D = jam_projectile_scene.instantiate()
+	
+	jam.visible = true
+	jam.emitting = true
+	jam_container.add_child(jam)
+	
+	# Jam rotation and offset
+	jam.rotation = cursor.position.angle()
+	jam.global_position = cursor.global_position
 
 
 func take_damage(dmg: int) -> void:
