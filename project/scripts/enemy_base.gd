@@ -93,6 +93,7 @@ func _on_player_exited(body: Node2D) -> void:
 
 func take_damage(damage: int) -> void:
 	if is_hurt: # Invulnerability
+		set_modulate("Red")
 		return
 	is_hurt = true
 	current_health -= damage
@@ -102,6 +103,7 @@ func take_damage(damage: int) -> void:
 	hurt_timer.start(hurt_time)
 	await hurt_timer.timeout
 	is_hurt = false
+	set_modulate("White")
 	
 		
 func die() -> void:
