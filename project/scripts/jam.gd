@@ -1,4 +1,4 @@
-extends CPUParticles2D
+extends GPUParticles2D
 
 
 func _on_splat_timer_timeout() -> void:
