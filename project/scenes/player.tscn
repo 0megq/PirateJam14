@@ -440,7 +440,12 @@ polygon = PackedVector2Array(10, -20, 24, -13, 30, 0, 24, 13, 10, 20)
 process_callback = 0
 one_shot = true
 
+[node name="Footsteps" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
 [connection signal="timeout" from="AttackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
 [connection signal="timeout" from="AttackDurationTimer" to="." method="_on_attack_duration_timer_timeout"]
+[connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]
