@@ -11,8 +11,7 @@ var surrounded_mold_terrain = Vector2i(1,1)
 var next_mold_tiles: PackedVector2Array
 var mold_tiles_cache: PackedVector2Array
 
-
-var used_cells: Array
+var used_cells: PackedVector2Array
 
 @onready var spread_delay := $MoldSpreadDelay
 
@@ -22,13 +21,10 @@ func _ready() -> void:
 
 
 func spread() -> void:
+
 	used_cells = get_used_cells_by_id(main_layer, 0, mold_terrain)
-	used_cells.shuffle()
-	var random_index = randi_range(10, 50)
-	var cells_to_change = used_cells.slice(0, random_index)
-	for cell in cells_to_change:
+	for cell in used_cells:
 		get_adjacent_tiles(cell)
-	set_cells()
 		
 	spread_delay.start()
 
@@ -54,20 +50,20 @@ func get_adjacent_tiles(tile: Vector2i) -> void:
 		mold_tiles_cache.append(tile)
 		
 		
-func set_cells() -> void:
 	for current_tile in next_mold_tiles:
 		set_cell(main_layer, current_tile, 0, mold_terrain)
-	next_mold_tiles.clear()
 
 
 func _on_mold_spread_delay_timeout() -> void:
 	for tile in mold_tiles_cache:
 		set_cell(main_layer, tile, 0, surrounded_mold_terrain)
+	next_mold_tiles.clear()
 	spread()
 
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_accept"):
-		spread()
+# Debug only. Remove later
+#func _input(event: InputEvent) -> void:
+	#if Input.is_action_just_pressed("ui_accept"):
+		#spread()
 	
 	
 
