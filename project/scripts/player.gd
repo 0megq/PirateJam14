@@ -9,7 +9,7 @@ signal health_changed(current_health: int, max_health: int)
 @export var acceleration: float = 2000.0
 
 @export var attack_interval: float = 0.6 # Time between attacks
-@export var attack_duration: float = 0.1 # How long attack hitbox is out
+@export var attack_duration: float = 0.3 # How long attack hitbox is out
 @export var base_damage: int = 5
 @export var jam_container: Node
 @export var fire_offset: float = 10
@@ -26,6 +26,8 @@ var is_hurt: bool = false
 var can_attack: bool = true
 var attack_input: bool = false
 var reload_input: bool = false
+
+var attack_look: bool = false
 
 var dir_input: Vector2
 var js_r_input: Vector2
@@ -47,20 +49,36 @@ var particle_count = 0
 @onready var attack_duration_timer: Timer = $AttackDurationTimer
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var cursor: Sprite2D = $Cursor
-
+@onready var attack_look_timer: Timer = $AttackLookTimer
 
 func _ready() -> void:
 	set_deferred("current_health", max_health)
 
 
 func _physics_process(delta: float) -> void:
+	detect_controls()
+	
 	input()
-	
 	animate()
-	
 	move(delta)
 	manage_attack()
-
+	
+	
+func detect_controls() -> void:
+	var mouse_position = get_global_mouse_position()
+	var mouse_dir := global_position.direction_to(mouse_position)
+	var js_r_position = js_r_input.normalized()
+	#Controller
+	if joypad:
+		if js_r_input != Vector2.ZERO:
+			cursor.position = clamp(js_r_position, js_r_position * 20, js_r_position * 20)
+			cursor.rotation = js_r_input.angle()
+	#Mouse & Keyboard
+	else:
+		cursor.rotation = mouse_dir.angle()
+		cursor.position = clamp(mouse_position, mouse_dir * 20, mouse_dir * 20)
+		
+		
 # Gets input and stores in the appropriate input variables
 func input() -> void:
 	dir_input = Input.get_vector("left", "right", "up", "down")
@@ -68,36 +86,18 @@ func input() -> void:
 	reload_input = Input.is_action_pressed("reload")
 	js_r_input = Input.get_vector("aim_left","aim_right","aim_up","aim_down")
 
-# Animates player based off input
-func animate() -> void:
-	var mouse_position = get_global_mouse_position()
-	var mouse_dir := global_position.direction_to(mouse_position)
-	var js_r_position = js_r_input.normalized()
-	#Controller
-	if joypad == true:
-		if js_r_input != Vector2.ZERO:
-			var aim_dir = clamp(js_r_position, js_r_position * 20, js_r_position * 20)
-			cursor.rotation = js_r_input.angle()
-			cursor.position = aim_dir
-		else:
-			pass
 
-		if dir_input == Vector2.ZERO:
-			animation_tree.get("parameters/playback").travel("Idle")
-			animation_tree.set("parameters/Idle/blend_position", cursor.position)
-		else:
-			animation_tree.get("parameters/playback").travel("Walking")
-			animation_tree.set("parameters/Walking/blend_position", dir_input)
-	#Mouse & Keyboard
+# Animates player based off cursor position
+func animate() -> void:
+	if dir_input == Vector2.ZERO:
+		animation_tree.get("parameters/playback").travel("Idle")
+		animation_tree.set("parameters/Idle/blend_position", cursor.position)
+	elif attack_look:
+		animation_tree.get("parameters/playback").travel("Walking")
+		animation_tree.set("parameters/Walking/blend_position", cursor.position)
 	else:
-		cursor.rotation = mouse_dir.angle()
-		cursor.position = clamp(mouse_position, mouse_dir * 20, mouse_dir * 20)
-		if dir_input == Vector2.ZERO:
-			animation_tree.get("parameters/playback").travel("Idle")
-			animation_tree.set("parameters/Idle/blend_position", mouse_dir)
-		else:
-			animation_tree.get("parameters/playback").travel("Walking")
-			animation_tree.set("parameters/Walking/blend_position", dir_input)
+		animation_tree.get("parameters/playback").travel("Walking")
+		animation_tree.set("parameters/Walking/blend_position", dir_input)
 
 
 # Moves the player (duh)
@@ -119,10 +119,13 @@ func reload() -> void:
 func manage_attack() -> void:	
 	# Attacking
 	if attack_input and can_attack:
+		attack_look = true
 		can_attack = false
 		attack()
 		attack_interval_timer.start(attack_interval)
-
+		attack_look_timer.start(.3)
+		await attack_look_timer.timeout
+		attack_look = false
 
 func _on_attack_interval_timer_timeout() -> void:
 	can_attack = true
@@ -134,22 +137,23 @@ func attack() -> void:
 	var joystick_r_dir := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)).normalized()
 	
 	var aim_dir: Vector2
-	if Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT): # Check for controller input
-		aim_dir = joystick_r_dir
-	else:
-		aim_dir = mouse_dir
+	aim_dir = cursor.position
 		
 	attack_hitbox.rotation = aim_dir.angle()
-	
+	print(aim_dir)
 	# Turn hitbox on
-	$AttackHitbox/AttackDisplay.show()
+	#$AttackHitbox/AttackDisplay.show()
+	$AttackHitbox/SwordSprite.show()
+	$AnimationPlayer.play.call_deferred("attack")
 	attack_hitbox.monitoring = true
 	attack_duration_timer.start(attack_duration)
 
 
 func _on_attack_duration_timer_timeout() -> void:
 	# Turn hit box off
-	$AttackHitbox/AttackDisplay.hide()
+	#$AttackHitbox/AttackDisplay.hide()
+	$AttackHitbox/SwordSprite.hide()
+	$AnimationPlayer.stop()
 	attack_hitbox.monitoring = false
 
 
@@ -163,7 +167,7 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 		area.take_damage(base_damage)
 
 
-# Fires jam
+ #Fires jam
 #func fire() -> void:
 	## Setup jam
 	#var jam: CPUParticles2D = jam_projectile_scene.instantiate()
@@ -174,16 +178,9 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 	#jam_container.add_child(jam)
 	#
 	## Jam rotation and offset
-	#var mouse_dir := global_position.direction_to(get_global_mouse_position())
-	#var joystick_r_dir := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)).normalized()
-	#
-	#var aim_dir: Vector2
-	#if Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT): # Check for controller input
-		#aim_dir = joystick_r_dir
-	#else:
-		#aim_dir = mouse_dir
+	#var aim_dir = cursor.position
 		#
-	#jam.rotation = aim_dir.angle()
+	#jam.rotation = cursor.position.angle()
 	#jam.global_position += (aim_dir + velocity.normalized()) * fire_offset # Offset the jam by the aim direction and velocity
 	#
 	## Count particles
