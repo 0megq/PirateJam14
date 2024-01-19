@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 signal health_changed(current_health: int, max_health: int)
+signal ammo_changed(current_ammo: int, max_ammo: int)
 
 
 # Exports
@@ -11,12 +12,17 @@ signal health_changed(current_health: int, max_health: int)
 @export var attack_interval: float = 0.6 # Time between attacks
 @export var attack_duration: float = 0.1 # How long attack hitbox is out
 @export var base_damage: int = 5
+@export var max_ammo: int = 6 : 
+	set(value):
+		max_ammo = value
+		ammo_changed.emit(current_ammo, max_ammo)
+		
 @export var jam_container: Node
-@export var fire_offset: float = 10
 
-@export var max_health: int = 30
-
-
+@export var max_health: int = 30 : 
+	set(value):
+		max_health = value
+		health_changed.emit(current_health, max_health)
 
 # Normal
 var jam_projectile_scene = preload("res://scenes/jam.tscn")
@@ -31,14 +37,15 @@ var dir_input: Vector2
 var js_r_input: Vector2
 var joypad: bool
 
+var current_ammo: int :
+	set(value):
+		current_ammo = value
+		ammo_changed.emit(current_ammo, max_ammo)
+
 var current_health: int :
 	set(value):
 		current_health = value
 		health_changed.emit(current_health, max_health)
-
-#debug
-var particle_count = 0
-#/debug
 
 # Onready
 @onready var attack_hitbox: Area2D = $AttackHitbox
@@ -145,6 +152,10 @@ func attack() -> void:
 	$AttackHitbox/AttackDisplay.show()
 	attack_hitbox.monitoring = true
 	attack_duration_timer.start(attack_duration)
+	
+	if current_ammo > 0:
+		# Fire jam
+		pass
 
 
 func _on_attack_duration_timer_timeout() -> void:
