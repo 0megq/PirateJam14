@@ -157,7 +157,7 @@ func attack() -> void:
 	if current_ammo > 0:
 		current_ammo -= 1
 		$AnimationPlayer.play("jelly_attack")
-		fire()
+		fire_jam()
 
 
 func _on_attack_duration_timer_timeout() -> void:
@@ -179,12 +179,12 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 
 
  #Fires jam
-func fire() -> void:
+func fire_jam() -> void:
 	# Setup jam
-	var jam: CPUParticles2D = jam_projectile_scene.instantiate()
+	var jam: GPUParticles2D = jam_projectile_scene.instantiate()
 	
 	jam.visible = true
-	jam.emitting = true
+	jam.restart()
 	jam_container.add_child(jam)
 	
 	# Jam rotation and offset
