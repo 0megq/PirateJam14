@@ -56,22 +56,15 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	detect_controls()
+	
 	input()
-	
 	animate()
-	
 	move(delta)
 	manage_attack()
-
-# Gets input and stores in the appropriate input variables
-func input() -> void:
-	dir_input = Input.get_vector("left", "right", "up", "down")
-	attack_input = Input.is_action_pressed("attack")
-	reload_input = Input.is_action_pressed("reload")
-	js_r_input = Input.get_vector("aim_left","aim_right","aim_up","aim_down")
-
-# Animates player based off input
-func animate() -> void:
+	
+	
+func detect_controls() -> void:
 	var mouse_position = get_global_mouse_position()
 	var mouse_dir := global_position.direction_to(mouse_position)
 	var js_r_position = js_r_input.normalized()
@@ -80,10 +73,22 @@ func animate() -> void:
 		if js_r_input != Vector2.ZERO:
 			cursor.position = clamp(js_r_position, js_r_position * 20, js_r_position * 20)
 			cursor.rotation = js_r_input.angle()
+	#Mouse & Keyboard
 	else:
 		cursor.rotation = mouse_dir.angle()
 		cursor.position = clamp(mouse_position, mouse_dir * 20, mouse_dir * 20)
+		
+		
+# Gets input and stores in the appropriate input variables
+func input() -> void:
+	dir_input = Input.get_vector("left", "right", "up", "down")
+	attack_input = Input.is_action_pressed("attack")
+	reload_input = Input.is_action_pressed("reload")
+	js_r_input = Input.get_vector("aim_left","aim_right","aim_up","aim_down")
 
+
+# Animates player based off cursor position
+func animate() -> void:
 	if dir_input == Vector2.ZERO:
 		animation_tree.get("parameters/playback").travel("Idle")
 		animation_tree.set("parameters/Idle/blend_position", cursor.position)
@@ -139,7 +144,7 @@ func attack() -> void:
 	# Turn hitbox on
 	#$AttackHitbox/AttackDisplay.show()
 	$AttackHitbox/SwordSprite.show()
-	$AnimationPlayer.play.call_deferred("Attack")
+	$AnimationPlayer.play.call_deferred("attack")
 	attack_hitbox.monitoring = true
 	attack_duration_timer.start(attack_duration)
 
@@ -162,7 +167,7 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 		area.take_damage(base_damage)
 
 
-# Fires jam
+ #Fires jam
 #func fire() -> void:
 	## Setup jam
 	#var jam: CPUParticles2D = jam_projectile_scene.instantiate()
@@ -173,16 +178,9 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 	#jam_container.add_child(jam)
 	#
 	## Jam rotation and offset
-	#var mouse_dir := global_position.direction_to(get_global_mouse_position())
-	#var joystick_r_dir := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)).normalized()
-	#
-	#var aim_dir: Vector2
-	#if Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT): # Check for controller input
-		#aim_dir = joystick_r_dir
-	#else:
-		#aim_dir = mouse_dir
+	#var aim_dir = cursor.position
 		#
-	#jam.rotation = aim_dir.angle()
+	#jam.rotation = cursor.position.angle()
 	#jam.global_position += (aim_dir + velocity.normalized()) * fire_offset # Offset the jam by the aim direction and velocity
 	#
 	## Count particles

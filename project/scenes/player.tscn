@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_i8wxh"]
 [ext_resource type="Texture2D" uid="uid://d1ha2nhvs16v4" path="res://assets/Animations_spritesheet.png" id="2_78ivi"]
 [ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="3_4msb0"]
-[ext_resource type="Texture2D" uid="uid://1of78gn7jlbv" path="res://assets/knife.png" id="4_ea0ux"]
+[ext_resource type="Texture2D" uid="uid://hdxa7emrvjta" path="res://assets/knife.png" id="4_ea0ux"]
 
 [sub_resource type="Animation" id="Animation_dm5uu"]
 length = 0.001
@@ -42,6 +42,34 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [PackedVector2Array(16, -21, 26, -24, 39, -8, 41, 16, 24, 41, 5, 26)]
+}
+
+[sub_resource type="Animation" id="Animation_nfjny"]
+resource_name = "Attack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackHitbox/SwordSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [1, 2, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AttackHitbox/CollisionPolygon2D:polygon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(16, -21, 32, -26, 43, -8, 44, 19, 30, 45, 5, 26), PackedVector2Array(17, -11, 27, -14, 36, -2, 41, 16, 28, 41, 6, 28), PackedVector2Array(12, 8, 18, 13, 24, 26, 21, 37, 11, 41, 0, 22)]
 }
 
 [sub_resource type="Animation" id="Animation_jg75m"]
@@ -144,6 +172,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [112, 113, 114, 115, 116, 117, 118, 119]
+}
+
+[sub_resource type="Animation" id="Animation_gewd3"]
+resource_name = "jelly_attack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackHitbox/SwordSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [6, 7, 9]
 }
 
 [sub_resource type="Animation" id="Animation_jiwdd"]
