@@ -223,4 +223,7 @@ func _input(event: InputEvent) -> void:
 		joypad = true
 	elif(event is InputEventKey) or (event is InputEventMouseMotion):
 		joypad = false
+	
+	if Input.is_action_just_pressed("reload"):
+		fire()
 
