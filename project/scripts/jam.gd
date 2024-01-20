@@ -105,9 +105,9 @@ func damage_enemy(enemy: Node2D) -> void:
 
 
 func place_jam_tiles() -> void:
-	var bounding_box := get_polygon_bounding_box(collision_polygon.polygon)
+	var col_polygon_global := polygon_to_global(collision_polygon.polygon)
+	var bounding_box := get_polygon_bounding_box(col_polygon_global)
 	var tile_size := Global.tile_map.tile_set.tile_size
-	print(bounding_box)
 	
 
 # Returns a rectangle which outlines the entire collision polygon
@@ -115,19 +115,24 @@ func get_polygon_bounding_box(polygon: PackedVector2Array) -> Rect2:
 	var minv: Vector2
 	var maxv: Vector2
 	for vertex in polygon:
-		vertex = vertex.rotated(rotation)
-		vertex += position
-		if minv != null: # This has to be explicit. just doing minv will result in Vector2.ZERO being considered as false which is bad
+		if minv:
 			minv = Vector2(min(minv.x, vertex.x), min(minv.y, vertex.y))
 		else:
 			minv = vertex
-		if maxv != null:
+		if maxv:
 			maxv = Vector2(max(maxv.x, vertex.x), max(maxv.y, vertex.y))
 		else: 
 			maxv = vertex
 	visualize_bounding_box_global(minv, maxv)
 	var bounding_box = Rect2(minv, maxv - minv)
 	return bounding_box
+	
+	
+func polygon_to_global(polygon: PackedVector2Array) -> PackedVector2Array:	
+	for i in polygon.size():
+		polygon[i] = polygon[i].rotated(rotation) + global_position
+	
+	return polygon
 
 
 func visualize_bounding_box_global(minv: Vector2, maxv: Vector2) -> void:
@@ -139,4 +144,12 @@ func visualize_bounding_box_global(minv: Vector2, maxv: Vector2) -> void:
 	new_line.add_point(minv)
 	new_line.width = 1
 	get_parent().add_child(new_line)
+
+
+func visualize_polygon_global(polygon: PackedVector2Array) -> void:
+	var new_polygon: Polygon2D = Polygon2D.new()
+	new_polygon.polygon = polygon
+	get_parent().add_child(new_polygon)
 	
+
+
