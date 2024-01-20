@@ -17,6 +17,7 @@ texture_filter = 1
 
 texture = ExtResource("2_ih5ft")
 
+texture = ExtResource("2_ih5ft")
 hframes = 8
 vframes = 16
 
