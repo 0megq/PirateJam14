@@ -6,7 +6,7 @@ var enemy_scenes: Dictionary = {
 
 @export var spawn_interval: float
 @export var enemy_types: Array[EnemyBase.Type]
-@export var health: int
+@export var current_health: float
 
 @onready var spawn_timer: Timer = $SpawnTimer
 
@@ -37,8 +37,8 @@ func spawn_enemy(type: EnemyBase.Type) -> void:
 	get_parent().add_child(enemy)
 
 
-func take_damage(dmg: int) -> void:
-	health -= dmg
-	if health < 0:
+func take_damage(dmg: float) -> void:
+	current_health -= dmg
+	if current_health < 0:
 		print(str(self) + " died D:")
 		queue_free()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8qav8rokomtn"]
+[gd_scene load_steps=5 format=3 uid="uid://c8qav8rokomtn"]
 
 [ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="1_gay8f"]
 [ext_resource type="Script" path="res://scripts/enemy_outpost.gd" id="1_jvp6a"]
@@ -6,13 +6,16 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_epaar"]
 size = Vector2(128, 128)
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sql12"]
+polygon = PackedVector2Array(-64, -64, -64, 64, 64, 64, 64, -64)
+
 [node name="EnemyOutpost" type="Area2D" groups=["enemy"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_jvp6a")
 spawn_interval = 5.0
 enemy_types = Array[int]([0])
-health = 30
+current_health = 30.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 0.2, 1, 1)
@@ -23,3 +26,6 @@ texture = ExtResource("1_gay8f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_epaar")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_sql12")
