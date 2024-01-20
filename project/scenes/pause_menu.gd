@@ -11,7 +11,8 @@ func _on_resume_pressed() -> void:
 
 
 func _on_yes_pressed() -> void:
-	pass # quit the game/return to main menu
+	hide()
+	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
 
 
 func _on_quit_pressed() -> void:
@@ -21,3 +22,14 @@ func _on_quit_pressed() -> void:
 func _on_no_pressed() -> void:
 	$Pausing/Quitting.hide()
 
+
+
+func _on_options_pressed() -> void:
+	$Pausing/OptionsMenu.popup()
+
+
+
+
+
+func _on_save_pressed() -> void:
+	$Pausing/OptionsMenu.hide()
