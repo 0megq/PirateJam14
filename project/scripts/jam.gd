@@ -1,13 +1,59 @@
-extends GPUParticles2D
+class_name Jam extends GPUParticles2D
+
+
+# Explanation for how the jam projectile collision works:
+# Every time the collide and damge timer times out, we call the collide_and_damage() function that will damage enemies and update the hitbox's collision polygon. We give the collide and damage a length to check, this way it is in line with the movement of the particles. Every time the collide and damage is called we increment the length by COLLISION_LENGTH_PER_STEP until we have incremented DAMAGE_MAX_STEPS. Each step increases the current_damage_step integer by one.
+
+# Damage
+# The total damage variable is the damage the jam would do if the entire projectile hit one enemy. the damage_per_touch is used by the damage_enemy function to damage an enemy every time the collide and damage function collides with an enemy. This is a little complicated. Ask Nick for explanation on this part.
+
+const COLLISION_LENGTH_PER_STEP: float = 20.0
+const DAMAGE_MAX_STEPS: int = 10
+
+# This is to be set by the script that instantiates the jam
+var total_damage: float = 0.0 # this is the damage it would do if the enemy got hit by all the projectiles
+var damage_per_touch: float = 0.0
+
+var current_collision_length: float = 0.0
+var current_damage_step: int = 0
+
+
+@onready var collide_and_damage_timer: Timer = $CollideAndDamageTimer
+
+
+# Shows and starts particle and sets damage
+func initialize(total_jam_damage: float) -> void:
+	show()
+	restart()
+	$Hitbox.jam = self
+	total_damage = total_jam_damage
+	damage_per_touch = total_damage / $Hitbox.precision
 
 
 func _on_splat_timer_timeout() -> void:
-	z_index = -1	
-
-
-func _on_timer_timeout() -> void:
-	process_mode = PROCESS_MODE_DISABLED
+	z_index = -1
 
 
 func _on_decay_timer_timeout() -> void:
 	queue_free()
+
+
+func _on_end_timer_timeout() -> void:
+	process_mode = PROCESS_MODE_DISABLED
+
+
+func _on_collide_and_damage_timer_timeout() -> void:
+	current_damage_step += 1
+	if current_damage_step > DAMAGE_MAX_STEPS:
+		collide_and_damage_timer.stop()
+		return
+	
+	current_collision_length += COLLISION_LENGTH_PER_STEP
+	$Hitbox.collide_and_damage(current_collision_length)
+
+
+func damage_enemy(enemy: Node2D) -> void:
+	if enemy is EnemyBase:
+		enemy.take_damage(damage_per_touch, true)
+	else:
+		enemy.take_damage(damage_per_touch)

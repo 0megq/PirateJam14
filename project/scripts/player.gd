@@ -16,6 +16,9 @@ signal ammo_changed(current_ammo: int, max_ammo: int)
 	set(value):
 		max_ammo = value
 		ammo_changed.emit(current_ammo, max_ammo)
+
+## This is damage the enemy would take if they got hit by the entire jam projectile
+@export var total_jam_damage: int = 40
 		
 @export var jam_container: Node
 
@@ -181,10 +184,9 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
  #Fires jam
 func fire_jam() -> void:
 	# Setup jam
-	var jam: GPUParticles2D = jam_projectile_scene.instantiate()
+	var jam: Jam = jam_projectile_scene.instantiate()
 	
-	jam.visible = true
-	jam.restart()
+	jam.initialize(total_jam_damage)
 	jam_container.add_child(jam)
 	
 	# Jam rotation and offset

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://carppqx6aqt8h"]
+[gd_scene load_steps=14 format=3 uid="uid://carppqx6aqt8h"]
 
 [ext_resource type="Script" path="res://scripts/jam.gd" id="2_0q0xs"]
 [ext_resource type="Texture2D" uid="uid://f3pers13s54u" path="res://assets/jam/jam_particle.png" id="2_cm63r"]
@@ -50,6 +50,8 @@ color_ramp = SubResource("GradientTexture1D_j8jnx")
 color_initial_ramp = SubResource("GradientTexture1D_up0om")
 collision_mode = 2
 
+[sub_resource type="ConcavePolygonShape2D" id="ConcavePolygonShape2D_ot8iv"]
+
 [node name="Jam" type="GPUParticles2D"]
 z_index = 1
 texture_filter = 1
@@ -79,23 +81,24 @@ wait_time = 4.0
 one_shot = true
 autostart = true
 
-[node name="CollideAndDamageTimer" type="Timer" parent="."]
-wait_time = 0.1
-autostart = true
-
 [node name="Hitbox" type="Area2D" parent="."]
 position = Vector2(-13, 0)
 script = ExtResource("3_yo8lh")
-angle = 70.0
+length = 120.0
+angle = 80.0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("ConcavePolygonShape2D_ot8iv")
 
 [node name="EnemyCast" type="RayCast2D" parent="Hitbox"]
 target_position = Vector2(50, 0)
 collision_mask = 2
-collide_with_areas = true
 
-[connection signal="timeout" from="EndTimer" to="." method="_on_end_timer_timeout"]
+[node name="Polygon2D" type="Polygon2D" parent="Hitbox"]
+
+[node name="Line2D" type="Line2D" parent="Hitbox"]
+width = 4.0
+
+[connection signal="timeout" from="EndTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="SplatTimer" to="." method="_on_splat_timer_timeout"]
 [connection signal="timeout" from="DecayTimer" to="." method="_on_decay_timer_timeout"]
-[connection signal="timeout" from="CollideAndDamageTimer" to="." method="_on_collide_and_damage_timer_timeout"]

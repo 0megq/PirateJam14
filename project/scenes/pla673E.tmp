@@ -460,7 +460,14 @@ z_index = 1
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_i8wxh")
-total_jam_damage = 20
+max_speed = null
+acceleration = null
+attack_interval = null
+attack_duration = null
+base_damage = null
+max_ammo = null
+jam_damage = null
+max_health = null
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 texture_filter = 1

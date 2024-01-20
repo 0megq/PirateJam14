@@ -91,11 +91,12 @@ func _on_player_exited(body: Node2D) -> void:
 	player = null
 
 
-func take_damage(damage: int) -> void:
-	if is_hurt: # Invulnerability
+func take_damage(damage: float, bypass_hurt: bool = false) -> void:
+	if is_hurt && !bypass_hurt: # Invulnerability
 		set_modulate("Red")
 		return
 	is_hurt = true
+	
 	current_health -= damage
 	if current_health <= 0:
 		die()
