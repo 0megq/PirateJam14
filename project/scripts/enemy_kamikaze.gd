@@ -85,6 +85,8 @@ func update_state(state: State) -> State:
 			else:
 				follow_point(player.global_position)
 		State.CHARGE:
+			if !player:
+				return State.IDLE
 			pass
 		State.EXPLODE:
 			pass
