@@ -1,0 +1,134 @@
+[gd_scene load_steps=8 format=3 uid="uid://cutak7tx55oc3"]
+
+[ext_resource type="Texture2D" uid="uid://b3grdh8t27ghd" path="res://assets/Untitled_Artwork.png" id="1_wdpfc"]
+[ext_resource type="Script" path="res://scripts/title_screen.gd" id="1_xlxoc"]
+[ext_resource type="FontFile" uid="uid://bgjvh5rplektc" path="res://assets/fonts/AtariGames.ttf" id="2_3x2ct"]
+[ext_resource type="FontFile" uid="uid://bjtxep2m1e6vr" path="res://assets/fonts/CelticTime.ttf" id="3_84h43"]
+[ext_resource type="Script" path="res://scripts/Play.gd" id="4_7jap4"]
+[ext_resource type="Texture2D" uid="uid://ctb3k6l12rqrs" path="res://assets/controls.png" id="5_48w7x"]
+[ext_resource type="PackedScene" uid="uid://cwo022lpg0jc" path="res://scenes/options.tscn" id="5_58vub"]
+
+[node name="Container" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xlxoc")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_wdpfc")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 80
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Title" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Jam Samurai" type="Label" parent="MarginContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_3x2ct")
+theme_override_font_sizes/font_size = 40
+text = "UNTITLED BREAD GAME"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Controls" type="CenterContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Background" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Controls"]
+layout_mode = 2
+
+[node name="Image" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background"]
+visible = false
+custom_minimum_size = Vector2(400, 250)
+layout_direction = 3
+layout_mode = 2
+texture = ExtResource("5_48w7x")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Options" parent="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background" instance=ExtResource("5_58vub")]
+visible = false
+custom_minimum_size = Vector2(400, 250)
+layout_mode = 2
+
+[node name="Buttons" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons"]
+layout_mode = 2
+alignment = 1
+
+[node name="Play" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_84h43")
+theme_override_font_sizes/font_size = 20
+text = "Play"
+script = ExtResource("4_7jap4")
+
+[node name="Controls" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_84h43")
+theme_override_font_sizes/font_size = 20
+text = "Controls"
+
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_84h43")
+theme_override_font_sizes/font_size = 20
+text = "Options"
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_84h43")
+theme_override_font_sizes/font_size = 20
+text = "Quit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -30.0
+bus = &"Music"
+
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Play" to="." method="_on_play_focus_entered"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="focus_exited" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Controls" to="." method="_on_controls_focus_exited"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Controls" to="." method="_on_controls_pressed"]
+[connection signal="focus_exited" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Options" to="." method="_on_options_focus_exited"]
+[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Options" to="." method="_on_options_gui_input"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://byr4y4xd4m7t5"]
+[gd_scene load_steps=18 format=3 uid="uid://byr4y4xd4m7t5"]
 
 [ext_resource type="Shader" path="res://shaders/debug_background.gdshader" id="1_q3kdo"]
 [ext_resource type="PackedScene" uid="uid://csvup43edsyfq" path="res://scenes/player.tscn" id="2_egf0e"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/fps_display.gd" id="6_r0tvr"]
 [ext_resource type="PackedScene" uid="uid://vlc4tca1q8dq" path="res://scenes/tile_map.tscn" id="7_8hspy"]
 [ext_resource type="PackedScene" uid="uid://c8qav8rokomtn" path="res://scenes/enemy_outpost.tscn" id="7_xg3bh"]
+[ext_resource type="Script" path="res://scenes/pause_menu.gd" id="8_4bloi"]
 [ext_resource type="PackedScene" uid="uid://bsamh5jjjcrqu" path="res://scenes/pause_menu.tscn" id="8_to8r1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a6a7o"]
@@ -110,6 +111,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("8_to8r1")]
 handle_input_locally = false
+script = ExtResource("8_4bloi")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 visible = false

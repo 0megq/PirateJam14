@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsamh5jjjcrqu"]
+[gd_scene load_steps=8 format=3 uid="uid://bsamh5jjjcrqu"]
 
 [ext_resource type="FontFile" uid="uid://cy2mr8pwdog77" path="res://assets/fonts/Beanstalk.ttf" id="1_jhko7"]
-[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_mlke6"]
+[ext_resource type="Script" path="res://scenes/pause_menu.gd" id="1_mlke6"]
 [ext_resource type="FontFile" uid="uid://bjtxep2m1e6vr" path="res://assets/fonts/CelticTime.ttf" id="2_677lm"]
-[ext_resource type="Script" path="res://scripts/Button.gd" id="3_qf7kl"]
-[ext_resource type="Script" path="res://scripts/no.gd" id="5_7aue0"]
+[ext_resource type="Script" path="res://scenes/Button.gd" id="3_qf7kl"]
+[ext_resource type="Script" path="res://scenes/no.gd" id="5_7aue0"]
 
 [node name="Pause Menu" type="PopupPanel"]
 process_mode = 2
@@ -52,6 +52,7 @@ text = "quit"
 title = "Quitting"
 initial_position = 2
 size = Vector2i(73, 75)
+visible = true
 always_on_top = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Pausing/Quitting"]
@@ -80,6 +81,78 @@ theme_override_fonts/font = ExtResource("2_677lm")
 text = "no"
 script = ExtResource("5_7aue0")
 
+[node name="OptionsMenu" type="PopupPanel" parent="Pausing"]
+initial_position = 2
+size = Vector2i(193, 128)
+always_on_top = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Pausing/OptionsMenu"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 189.0
+offset_bottom = 124.0
+size_flags_vertical = 0
+theme_override_constants/separation = 35
+
+[node name="Master" type="VBoxContainer" parent="Pausing/OptionsMenu/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="Pausing/OptionsMenu/HBoxContainer/Master"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_ly5qy")
+text = "@"
+horizontal_alignment = 1
+
+[node name="MasterVSlider" type="VSlider" parent="Pausing/OptionsMenu/HBoxContainer/Master"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+step = 10.0
+value = 50.0
+rounded = true
+
+[node name="Sounds" type="VBoxContainer" parent="Pausing/OptionsMenu/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Pausing/OptionsMenu/HBoxContainer/Sounds"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_ly5qy")
+text = "Z"
+horizontal_alignment = 1
+
+[node name="MusicVSlider" type="VSlider" parent="Pausing/OptionsMenu/HBoxContainer/Sounds"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+step = 10.0
+value = 50.0
+
+[node name="Music" type="VBoxContainer" parent="Pausing/OptionsMenu/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Pausing/OptionsMenu/HBoxContainer/Music"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_ly5qy")
+text = "W"
+horizontal_alignment = 1
+
+[node name="SoundsVSlider" type="VSlider" parent="Pausing/OptionsMenu/HBoxContainer/Music"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+step = 10.0
+value = 50.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Pausing/OptionsMenu/HBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Save" type="Button" parent="Pausing/OptionsMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_677lm")
+text = "save"
+script = ExtResource("7_nj71a")
+
 [connection signal="about_to_popup" from="." to="." method="_on_about_to_popup"]
 [connection signal="about_to_popup" from="." to="Pausing/resume" method="_on_pause_menu_about_to_popup"]
 [connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
@@ -91,3 +164,6 @@ script = ExtResource("5_7aue0")
 [connection signal="about_to_popup" from="Pausing/Quitting" to="Pausing/Quitting/VBoxContainer/no" method="_on_quitting_about_to_popup"]
 [connection signal="pressed" from="Pausing/Quitting/VBoxContainer/yes" to="." method="_on_yes_pressed"]
 [connection signal="pressed" from="Pausing/Quitting/VBoxContainer/no" to="." method="_on_no_pressed"]
+[connection signal="about_to_popup" from="Pausing/OptionsMenu" to="Pausing/OptionsMenu/HBoxContainer/Master/MasterVSlider" method="_on_options_menu_about_to_popup"]
+[connection signal="about_to_popup" from="Pausing/OptionsMenu" to="Pausing/OptionsMenu/HBoxContainer/VBoxContainer/Save" method="_on_options_menu_about_to_popup"]
+[connection signal="pressed" from="Pausing/OptionsMenu/HBoxContainer/VBoxContainer/Save" to="." method="_on_save_pressed"]
