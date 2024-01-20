@@ -104,11 +104,38 @@ func damage_enemy(enemy: Node2D) -> void:
 		enemy.take_damage(damage_per_touch)
 
 
-func place_jam_tiles() -> void:
-	var col_polygon_global := polygon_to_global(collision_polygon.polygon)
-	var bounding_box := get_polygon_bounding_box(col_polygon_global)
-	var tile_size := Global.tile_map.tile_set.tile_size
+
+func get_tilemap_aligned_bounding_box(polygon: PackedVector2Array, tile_size: Vector2i) -> Rect2i:
+	# Getting bounding box of polygon. Polygon should be in global coords
+	var bounding_box := get_polygon_bounding_box(polygon)
 	
+	
+	var tile_aligned_minv: Vector2i
+	var tile_aligned_maxv: Vector2i
+
+	# Snapping start to tile_size
+	tile_aligned_minv.x = floori(bounding_box.position.x / tile_size.x) * tile_size.x
+	tile_aligned_minv.y = floori(bounding_box.position.y / tile_size.y) * tile_size.y
+	
+	# Snapping end to tile_size
+	tile_aligned_maxv.x = ceili(bounding_box.end.x / tile_size.x) * tile_size.x
+	tile_aligned_maxv.y = ceili(bounding_box.end.y / tile_size.y) * tile_size.y
+	
+	return Rect2i(tile_aligned_minv, tile_aligned_maxv - tile_aligned_minv)
+
+
+func place_jam_tiles() -> void:
+	var tile_size := Global.tile_map.tile_set.tile_size
+	var col_polygon_global := polygon_to_global(collision_polygon.polygon)
+	var tile_aligned_bounding_box: Rect2i = get_tilemap_aligned_bounding_box(col_polygon_global, tile_size)
+	
+	for x in range(tile_aligned_bounding_box.position.x, tile_aligned_bounding_box.end.x, tile_size.x):
+		for y in range(tile_aligned_bounding_box.position.y, tile_aligned_bounding_box.end.y, tile_size.y):
+			if Geometry2D.is_point_in_polygon(Vector2(x + tile_size.x / 2, y + tile_size.y / 2), col_polygon_global):
+				var tile_coord := Global.tile_map.local_to_map(Global.tile_map.to_local(Vector2(x, y)))
+				Global.tile_map.set_cell(0, tile_coord, 0,  Global.tile_map.jam_terrain)
+			
+			
 
 # Returns a rectangle which outlines the entire collision polygon
 func get_polygon_bounding_box(polygon: PackedVector2Array) -> Rect2:
@@ -123,7 +150,6 @@ func get_polygon_bounding_box(polygon: PackedVector2Array) -> Rect2:
 			maxv = Vector2(max(maxv.x, vertex.x), max(maxv.y, vertex.y))
 		else: 
 			maxv = vertex
-	visualize_bounding_box_global(minv, maxv)
 	var bounding_box = Rect2(minv, maxv - minv)
 	return bounding_box
 	
@@ -135,21 +161,20 @@ func polygon_to_global(polygon: PackedVector2Array) -> PackedVector2Array:
 	return polygon
 
 
-func visualize_bounding_box_global(minv: Vector2, maxv: Vector2) -> void:
-	var new_line = Line2D.new()
-	new_line.add_point(minv)
-	new_line.add_point(Vector2(maxv.x, minv.y))
-	new_line.add_point(maxv)
-	new_line.add_point(Vector2(minv.x, maxv.y))
-	new_line.add_point(minv)
-	new_line.width = 1
-	get_parent().add_child(new_line)
+#func visualize_bounding_box_global(minv: Vector2, maxv: Vector2) -> void:
+	#var new_line = Line2D.new()
+	#new_line.add_point(minv)
+	#new_line.add_point(Vector2(maxv.x, minv.y))
+	#new_line.add_point(maxv)
+	#new_line.add_point(Vector2(minv.x, maxv.y))
+	#new_line.add_point(minv)
+	#new_line.width = 1
+	#get_parent().add_child(new_line)
 
 
-func visualize_polygon_global(polygon: PackedVector2Array) -> void:
-	var new_polygon: Polygon2D = Polygon2D.new()
-	new_polygon.polygon = polygon
-	get_parent().add_child(new_polygon)
-	
+#func visualize_polygon_global(polygon: PackedVector2Array) -> void:
+	#var new_polygon: Polygon2D = Polygon2D.new()
+	#new_polygon.polygon = polygon
+	#get_parent().add_child(new_polygon)
 
 
