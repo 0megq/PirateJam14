@@ -65,10 +65,7 @@ func _on_mold_spread_delay_timeout() -> void:
 		set_cell(main_layer, tile, 0, surrounded_mold_terrain)
 	spread()
 
+
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		spread()
-	
-	
-
-
