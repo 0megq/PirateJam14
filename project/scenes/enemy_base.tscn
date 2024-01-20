@@ -23,3 +23,5 @@ collision_layer = 0
 monitorable = false
 
 [node name="HurtTimer" type="Timer" parent="."]
+
+[node name="JamCollider2D" type="LightOccluder2D" parent="."]
