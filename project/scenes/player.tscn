@@ -1,10 +1,9 @@
-[gd_scene load_steps=45 format=3 uid="uid://csvup43edsyfq"]
+[gd_scene load_steps=44 format=3 uid="uid://csvup43edsyfq"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_i8wxh"]
 [ext_resource type="Texture2D" uid="uid://d1ha2nhvs16v4" path="res://assets/Animations_spritesheet.png" id="2_78ivi"]
 [ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="3_4msb0"]
 [ext_resource type="Texture2D" uid="uid://hdxa7emrvjta" path="res://assets/knife.png" id="4_ea0ux"]
-[ext_resource type="AudioStream" uid="uid://vlhueovc7pqa" path="res://tests/footysteps.wav" id="4_oju2p"]
 
 [sub_resource type="Animation" id="Animation_dm5uu"]
 length = 0.001
@@ -175,7 +174,7 @@ tracks/0/keys = {
 "values": [112, 113, 114, 115, 116, 117, 118, 119]
 }
 
-[sub_resource type="Animation" id="Animation_ce2oa"]
+[sub_resource type="Animation" id="Animation_gewd3"]
 resource_name = "jelly_attack"
 length = 0.2
 tracks/0/type = "value"
@@ -188,19 +187,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [6, 2, 9]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AttackHitbox/CollisionPolygon2D:polygon")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [PackedVector2Array(16, -21, 32, -26, 43, -8, 44, 19, 30, 45, 5, 26), PackedVector2Array(17, -11, 27, -14, 36, -2, 41, 16, 28, 41, 6, 28), PackedVector2Array(12, 8, 18, 13, 24, 26, 21, 37, 11, 41, 0, 22)]
+"values": [6, 7, 9]
 }
 
 [sub_resource type="Animation" id="Animation_jiwdd"]
@@ -349,7 +336,7 @@ _data = {
 "idle_up": SubResource("Animation_qi1lv"),
 "idle_up_left": SubResource("Animation_vskne"),
 "idle_up_right": SubResource("Animation_eqge4"),
-"jelly_attack": SubResource("Animation_ce2oa"),
+"jelly_attack": SubResource("Animation_gewd3"),
 "walking_down": SubResource("Animation_jiwdd"),
 "walking_down_left": SubResource("Animation_heqxp"),
 "walking_down_right": SubResource("Animation_4oreh"),
@@ -461,7 +448,6 @@ z_index = 1
 y_sort_enabled = true
 motion_mode = 1
 script = ExtResource("1_i8wxh")
-total_jam_damage = 20
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -507,13 +493,7 @@ parameters/Walking/blend_position = Vector2(0.125692, 0.544974)
 
 [node name="AttackIntervalTimer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 0.2
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_oju2p")
-
-[node name="Footsteps" type="Timer" parent="."]
-wait_time = 0.4
+wait_time = 0.8
 one_shot = true
 
 [node name="AttackHitbox" type="Area2D" parent="."]
@@ -533,7 +513,6 @@ color = Color(1, 1, 1, 0.560784)
 polygon = PackedVector2Array(10, -20, 24, -13, 30, 0, 24, 13, 10, 20)
 
 [node name="SwordSprite" type="Sprite2D" parent="AttackHitbox"]
-visible = false
 texture_filter = 1
 position = Vector2(18.538, 5)
 rotation = 1.52791

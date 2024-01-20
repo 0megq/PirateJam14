@@ -2,7 +2,6 @@ class_name Player
 extends CharacterBody2D
 
 signal health_changed(current_health: int, max_health: int)
-signal ammo_changed(current_ammo: int, max_ammo: int)
 
 
 # Exports
@@ -12,20 +11,12 @@ signal ammo_changed(current_ammo: int, max_ammo: int)
 @export var attack_interval: float = 0.6 # Time between attacks
 @export var attack_duration: float = 0.3 # How long attack hitbox is out
 @export var base_damage: int = 5
-@export var max_ammo: int = 6 : 
-	set(value):
-		max_ammo = value
-		ammo_changed.emit(current_ammo, max_ammo)
-
-## This is damage the enemy would take if they got hit by the entire jam projectile
-@export var total_jam_damage: int = 40
-		
 @export var jam_container: Node
+@export var fire_offset: float = 10
 
-@export var max_health: int = 30 : 
-	set(value):
-		max_health = value
-		health_changed.emit(current_health, max_health)
+@export var max_health: int = 30
+
+
 
 # Normal
 var jam_projectile_scene = preload("res://scenes/jam.tscn")
@@ -42,15 +33,14 @@ var dir_input: Vector2
 var js_r_input: Vector2
 var joypad: bool
 
-var current_ammo: int :
-	set(value):
-		current_ammo = value
-		ammo_changed.emit(current_ammo, max_ammo)
-
 var current_health: int :
 	set(value):
 		current_health = value
 		health_changed.emit(current_health, max_health)
+
+#debug
+var particle_count = 0
+#/debug
 
 # Onready
 @onready var attack_hitbox: Area2D = $AttackHitbox
@@ -62,7 +52,6 @@ var current_health: int :
 @onready var attack_look_timer: Timer = $AttackLookTimer
 
 func _ready() -> void:
-	set_deferred("current_ammo", max_ammo)
 	set_deferred("current_health", max_health)
 
 
@@ -71,7 +60,6 @@ func _physics_process(delta: float) -> void:
 	
 	input()
 	animate()
-	sounds()
 	move(delta)
 	manage_attack()
 	
@@ -112,13 +100,6 @@ func animate() -> void:
 		animation_tree.set("parameters/Walking/blend_position", dir_input)
 
 
-func sounds():
-	if velocity.length() > 0:
-		if $Footsteps.time_left == 0:
-			$AudioStreamPlayer2D.set_pitch_scale(randf_range(0.8, 1.2))
-			$AudioStreamPlayer2D.play()
-			$Footsteps.start()
-
 # Moves the player (duh)
 func move(delta: float) -> void:
 	#Movementa
@@ -132,11 +113,7 @@ func move(delta: float) -> void:
 
 
 func reload() -> void:
-	# Replace this with some sort of reload animation
 	print("reload functionality goes here")
-	# Refill ammo. Placeholder: Current ammo should increase by one based off a certain frame of the animation
-	# Also slow down player
-	current_ammo = max_ammo
 
 
 func manage_attack() -> void:	
@@ -154,21 +131,22 @@ func _on_attack_interval_timer_timeout() -> void:
 	can_attack = true
 
 
-func attack() -> void:	
-	var aim_dir: Vector2 = cursor.position
+func attack() -> void:
+	# Hitbox rotation
+	var mouse_dir := global_position.direction_to(get_global_mouse_position())
+	var joystick_r_dir := Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)).normalized()
+	
+	var aim_dir: Vector2
+	aim_dir = cursor.position
 		
 	attack_hitbox.rotation = aim_dir.angle()
+	print(aim_dir)
 	# Turn hitbox on
 	#$AttackHitbox/AttackDisplay.show()
 	$AttackHitbox/SwordSprite.show()
-	$AnimationPlayer.play("attack")
+	$AnimationPlayer.play.call_deferred("attack")
 	attack_hitbox.monitoring = true
 	attack_duration_timer.start(attack_duration)
-	
-	if current_ammo > 0:
-		current_ammo -= 1
-		$AnimationPlayer.play("jelly_attack")
-		fire_jam()
 
 
 func _on_attack_duration_timer_timeout() -> void:
@@ -190,16 +168,23 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 
 
  #Fires jam
-func fire_jam() -> void:
+func fire() -> void:
 	# Setup jam
-	var jam: Jam = jam_projectile_scene.instantiate()
-	
-	jam.total_damage = total_jam_damage
+	var jam: CPUParticles2D = jam_projectile_scene.instantiate()
+		
+	jam.visible = true
+	jam.position = cursor.global_position
+	jam.emitting = true
 	jam_container.add_child(jam)
 	
 	# Jam rotation and offset
+	var aim_dir = cursor.position
+		
 	jam.rotation = cursor.position.angle()
-	jam.global_position = cursor.global_position
+	#jam.global_position += (aim_dir + velocity.normalized()) * fire_offset # Offset the jam by the aim direction and velocity
+	
+	# Count particles
+	particle_count += jam.amount
 
 
 func take_damage(dmg: int) -> void:

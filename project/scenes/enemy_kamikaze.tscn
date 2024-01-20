@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://celv8gbqce6mj"]
+[gd_scene load_steps=18 format=3 uid="uid://celv8gbqce6mj"]
 
 [ext_resource type="PackedScene" uid="uid://ylvm0hspe11h" path="res://scenes/enemy_base.tscn" id="1_4i6aw"]
 [ext_resource type="Script" path="res://scripts/enemy_kamikaze.gd" id="2_4giyb"]
@@ -192,9 +192,6 @@ radius = 70.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_ygyk1"]
 radius = 40.0
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_yhthv"]
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
-
 [node name="EnemyKamikaze" instance=ExtResource("1_4i6aw")]
 script = ExtResource("2_4giyb")
 start_state = 0
@@ -241,6 +238,3 @@ disabled = true
 [node name="IdleTimer" type="Timer" parent="." index="9"]
 
 [node name="WanderTimer" type="Timer" parent="." index="10"]
-
-[node name="JamCollider2D" parent="." index="12"]
-occluder = SubResource("OccluderPolygon2D_yhthv")
