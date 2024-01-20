@@ -194,7 +194,7 @@ func fire_jam() -> void:
 	# Setup jam
 	var jam: Jam = jam_projectile_scene.instantiate()
 	
-	jam.initialize(total_jam_damage)
+	jam.total_damage = total_jam_damage
 	jam_container.add_child(jam)
 	
 	# Jam rotation and offset
