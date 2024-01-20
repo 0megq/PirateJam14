@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d1ha2nhvs16v4" path="res://assets/Animations_spritesheet.png" id="2_78ivi"]
 [ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="3_4msb0"]
 [ext_resource type="AudioStream" uid="uid://vlhueovc7pqa" path="res://tests/footysteps.wav" id="4_oju2p"]
+[ext_resource type="Texture2D" uid="uid://hdxa7emrvjta" path="res://assets/knife.png" id="4_ea0ux"]
 
 [sub_resource type="Animation" id="Animation_dm5uu"]
 length = 0.001
