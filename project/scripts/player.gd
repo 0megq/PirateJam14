@@ -168,23 +168,23 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 
 
  #Fires jam
-#func fire() -> void:
-	## Setup jam
-	#var jam: CPUParticles2D = jam_projectile_scene.instantiate()
-		#
-	#jam.visible = true
-	#jam.global_position = global_position
-	#jam.emitting = true
-	#jam_container.add_child(jam)
-	#
-	## Jam rotation and offset
-	#var aim_dir = cursor.position
-		#
-	#jam.rotation = cursor.position.angle()
+func fire() -> void:
+	# Setup jam
+	var jam: CPUParticles2D = jam_projectile_scene.instantiate()
+		
+	jam.visible = true
+	jam.position = cursor.global_position
+	jam.emitting = true
+	jam_container.add_child(jam)
+	
+	# Jam rotation and offset
+	var aim_dir = cursor.position
+		
+	jam.rotation = cursor.position.angle()
 	#jam.global_position += (aim_dir + velocity.normalized()) * fire_offset # Offset the jam by the aim direction and velocity
-	#
-	## Count particles
-	#particle_count += jam.amount
+	
+	# Count particles
+	particle_count += jam.amount
 
 
 func take_damage(dmg: int) -> void:
@@ -208,4 +208,7 @@ func _input(event: InputEvent) -> void:
 		joypad = true
 	elif(event is InputEventKey) or (event is InputEventMouseMotion):
 		joypad = false
+	
+	if Input.is_action_just_pressed("reload"):
+		fire()
 
