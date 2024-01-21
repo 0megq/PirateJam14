@@ -31,6 +31,7 @@ signal ammo_changed(current_ammo: int, max_ammo: int)
 var jam_projectile_scene = preload("res://scenes/jam.tscn")
 
 var is_hurt: bool = false
+var reloading: bool = false
 
 var can_attack: bool = true
 var attack_input: bool = false
@@ -45,6 +46,7 @@ var joypad: bool
 var current_ammo: int :
 	set(value):
 		current_ammo = value
+		#print("%s / %s ammo" % [current_ammo, max_ammo]) prints current_ammo / max_ammo
 		ammo_changed.emit(current_ammo, max_ammo)
 
 var current_health: int :
@@ -58,6 +60,7 @@ var current_health: int :
 @onready var attack_interval_timer: Timer = $AttackIntervalTimer
 @onready var attack_duration_timer: Timer = $AttackDurationTimer
 @onready var animation_tree: AnimationTree = $AnimationTree
+@onready var reload_anim_player: AnimationPlayer = $ReloadAnimationPlayer
 @onready var cursor: Sprite2D = $Cursor
 @onready var attack_look_timer: Timer = $AttackLookTimer
 
@@ -72,6 +75,7 @@ func _physics_process(delta: float) -> void:
 	input()
 	animate()
 	sounds()
+	manage_reload()
 	move(delta)
 	manage_attack()
 	
@@ -101,7 +105,10 @@ func input() -> void:
 
 # Animates player based off cursor position
 func animate() -> void:
-	if dir_input == Vector2.ZERO:
+	if reloading:
+		animation_tree.get("parameters/playback").travel("Idle")
+		animation_tree.set("parameters/Idle/blend_position", Vector2.DOWN)
+	elif dir_input == Vector2.ZERO:
 		animation_tree.get("parameters/playback").travel("Idle")
 		animation_tree.set("parameters/Idle/blend_position", cursor.position)
 	elif attack_look:
@@ -131,12 +138,44 @@ func move(delta: float) -> void:
 	move_and_slide()
 
 
+func manage_reload() -> void:
+	if current_ammo < max_ammo && reload_input && !reloading: # Start reload
+		reloading = true
+		reload()
+	elif (attack_input || dir_input != Vector2.ZERO) && reloading: # Stop reloading if player is trying to move or attack
+		exit_reload()
+
+
 func reload() -> void:
-	# Replace this with some sort of reload animation
-	print("reload functionality goes here")
-	# Refill ammo. Placeholder: Current ammo should increase by one based off a certain frame of the animation
-	# Also slow down player
-	current_ammo = max_ammo
+	# Dont reload if already at max
+	if current_ammo >= max_ammo:
+		return
+		
+	# Refill ammo. "reload" animation will call increment_ammo to increase ammo
+	reload_anim_player.play("reload_start")
+
+
+# Increases current_ammo by 1. Used by the reload anim player to increase ammo at a specific frame of the reload animation
+func increment_ammo() -> void:
+	if current_ammo < max_ammo:
+		current_ammo += 1
+
+
+func exit_reload() -> void:
+	reloading = false
+	reload_anim_player.play("RESET")
+
+
+func _on_reload_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "reload_start":
+		reload_anim_player.play("reload")
+	elif anim_name == "reload":
+		if current_ammo < max_ammo:
+			reload_anim_player.play("reload")
+		else:
+			reload_anim_player.play("reload_finish")
+	elif anim_name == "reload_finish":
+		exit_reload()
 
 
 func manage_attack() -> void:	
@@ -149,6 +188,7 @@ func manage_attack() -> void:
 		attack_look_timer.start(.3)
 		await attack_look_timer.timeout
 		attack_look = false
+
 
 func _on_attack_interval_timer_timeout() -> void:
 	can_attack = true
@@ -223,4 +263,5 @@ func _input(event: InputEvent) -> void:
 		joypad = true
 	elif(event is InputEventKey) or (event is InputEventMouseMotion):
 		joypad = false
+
 
