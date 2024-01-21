@@ -8,6 +8,7 @@ enum Type {
 @export var base_damage: int
 @export var max_health: int
 @export var hurt_time: float # Invulnerability time after getting hit once
+@export var knockback_amount: float
 
 var current_health: float :
 	set(value):
@@ -20,6 +21,8 @@ var type: Type
 var _navigation_ready := false
 
 var player: Player
+
+var should_knockback: bool = false
 
 @onready var hurt_timer: Timer = $HurtTimer
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
@@ -91,13 +94,17 @@ func _on_player_exited(body: Node2D) -> void:
 	player = null
 
 
-func take_damage(damage: float, is_jam: bool = false) -> void:
+func take_damage(damage: float, damage_position: Vector2, is_jam: bool = false) -> void:
 	if is_hurt && !is_jam: # Invulnerability
 		return
 	if is_jam:
 		set_modulate(Color.MAGENTA)
 	else:
-		set_modulate("Red")
+		set_modulate(Color.RED)
+		# knockback
+		var knockback_dir: Vector2 = damage_position.direction_to(global_position)
+		var pos_tween: Tween = create_tween()
+		pos_tween.tween_property(self, "global_position", global_position + knockback_dir * knockback_amount, 0.2)
 	is_hurt = true
 	
 	current_health -= damage
@@ -107,7 +114,7 @@ func take_damage(damage: float, is_jam: bool = false) -> void:
 	hurt_timer.start(hurt_time)
 	await hurt_timer.timeout
 	is_hurt = false
-	set_modulate("White")
+	set_modulate(Color.WHITE)
 	
 		
 func die() -> void:
