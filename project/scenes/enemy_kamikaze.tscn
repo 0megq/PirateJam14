@@ -201,6 +201,7 @@ start_state = 0
 speed = 180.0
 base_damage = 5
 max_health = 20
+knockback_distance = 30.0
 
 [node name="NavigationAgent2D" parent="." index="0"]
 radius = 30.0
