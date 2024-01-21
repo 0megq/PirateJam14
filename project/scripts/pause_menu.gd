@@ -11,6 +11,7 @@ func _on_resume_pressed() -> void:
 
 
 func _on_yes_pressed() -> void:
+	hide()
 	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
 
 

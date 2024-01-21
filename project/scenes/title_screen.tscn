@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cutak7tx55oc3"]
+[gd_scene load_steps=9 format=3 uid="uid://cutak7tx55oc3"]
 
 [ext_resource type="Texture2D" uid="uid://b3grdh8t27ghd" path="res://assets/Untitled_Artwork.png" id="1_wdpfc"]
 [ext_resource type="Script" path="res://scripts/title_screen.gd" id="1_xlxoc"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://scripts/Play.gd" id="4_7jap4"]
 [ext_resource type="Texture2D" uid="uid://ctb3k6l12rqrs" path="res://assets/controls.png" id="5_48w7x"]
 [ext_resource type="PackedScene" uid="uid://cwo022lpg0jc" path="res://scenes/options.tscn" id="5_58vub"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ch0rc"]
 
 [node name="Container" type="Control"]
 layout_mode = 3
@@ -81,10 +83,16 @@ texture = ExtResource("5_48w7x")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="Options" parent="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background" instance=ExtResource("5_58vub")]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background"]
 visible = false
 custom_minimum_size = Vector2(400, 250)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ch0rc")
+
+[node name="Sliders" parent="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel" instance=ExtResource("5_58vub")]
+visible = false
+layout_mode = 1
+size_flags_vertical = 4
 
 [node name="Buttons" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -124,6 +132,8 @@ text = "Quit"
 volume_db = -30.0
 bus = &"Music"
 
+[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders" to="." method="_on_sliders_gui_input"]
+[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders" to="." method="_on_options_gui_input"]
 [connection signal="focus_entered" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Play" to="." method="_on_play_focus_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="focus_exited" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Controls" to="." method="_on_controls_focus_exited"]
