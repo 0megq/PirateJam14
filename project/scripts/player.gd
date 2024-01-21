@@ -99,7 +99,7 @@ func detect_controls() -> void:
 func input() -> void:
 	dir_input = Input.get_vector("left", "right", "up", "down")
 	attack_input = Input.is_action_pressed("attack")
-	reload_input = Input.is_action_pressed("reload")
+	reload_input = Input.is_action_just_pressed("reload")
 	js_r_input = Input.get_vector("aim_left","aim_right","aim_up","aim_down")
 
 
