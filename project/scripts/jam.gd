@@ -101,7 +101,7 @@ func damage_enemy(enemy: Node2D) -> void:
 	if enemy is EnemyBase:
 		enemy.take_damage(damage_per_touch, global_position, true)
 	else:
-		enemy.take_damage(damage_per_touch)
+		enemy.take_damage(damage_per_touch, true)
 
 
 
