@@ -123,5 +123,3 @@ position = Vector2(-743, 229)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_kel0q")
-
-[connection signal="health_changed" from="Player" to="UI/HealthBar" method="_on_player_health_changed"]

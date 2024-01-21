@@ -65,6 +65,7 @@ var current_health: int :
 @onready var attack_look_timer: Timer = $AttackLookTimer
 
 func _ready() -> void:
+	Global.player = self
 	set_deferred("current_ammo", max_ammo)
 	set_deferred("current_health", max_health)
 
