@@ -40,9 +40,9 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 2
-step = 10.0
-value = 50.0
-rounded = true
+max_value = 1.0
+step = 0.1
+value = 1.0
 
 [node name="Sounds" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -53,11 +53,12 @@ theme_override_fonts/font = ExtResource("1_chtwh")
 text = "Z"
 horizontal_alignment = 1
 
-[node name="MusicVSlider" type="VSlider" parent="HBoxContainer/Sounds"]
+[node name="SoundsVSlider" type="VSlider" parent="HBoxContainer/Sounds"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-step = 10.0
-value = 50.0
+max_value = 1.0
+step = 0.1
+value = 1.0
 
 [node name="Music" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -68,8 +69,13 @@ theme_override_fonts/font = ExtResource("1_chtwh")
 text = "W"
 horizontal_alignment = 1
 
-[node name="SoundsVSlider" type="VSlider" parent="HBoxContainer/Music"]
+[node name="MusicVSlider" type="VSlider" parent="HBoxContainer/Music"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-step = 10.0
-value = 50.0
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[connection signal="value_changed" from="HBoxContainer/Master/MasterVSlider" to="." method="_on_master_v_slider_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/Sounds/SoundsVSlider" to="." method="_on_sounds_v_slider_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/Music/MusicVSlider" to="." method="_on_music_v_slider_value_changed"]

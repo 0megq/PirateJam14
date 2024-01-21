@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/Button.gd" id="3_qf7kl"]
 [ext_resource type="Script" path="res://scripts/no.gd" id="5_7aue0"]
 [ext_resource type="PackedScene" uid="uid://cwo022lpg0jc" path="res://scenes/options.tscn" id="6_05rjj"]
-[ext_resource type="Script" path="res://scripts/savesettings.gd" id="7_15bc8"]
+[ext_resource type="Script" path="res://scripts/savesettings.gd" id="6_qu4q3"]
 
 [node name="PauseMenu" type="PopupPanel"]
 process_mode = 2
@@ -108,7 +108,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("2_677lm")
 text = "save"
-script = ExtResource("7_15bc8")
+script = ExtResource("6_qu4q3")
 
 [node name="Options" parent="OptionsMenu/HBoxContainer" instance=ExtResource("6_05rjj")]
 layout_mode = 2

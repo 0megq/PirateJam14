@@ -8,6 +8,7 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Background.modulate = Color(0.9,0.9,0.9)
+	$Background2/AnimationPlayer.play("parallax_fade_in")
 
 
 func _on_controls_pressed() -> void:
@@ -45,3 +46,7 @@ func _on_play_focus_entered() -> void:
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
+	
+#func _input(event: InputEvent) -> void:
+	#if event.is_action_pressed("ui_focus_next"):
+		#$Background2/AnimationPlayer.play("parallax_fade_in")
