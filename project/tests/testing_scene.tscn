@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bufrjklvnjm4j" path="res://assets/jam/jam_tileable.png" id="4_qm4y3"]
 [ext_resource type="PackedScene" uid="uid://b46yl3xaev06r" path="res://scenes/health_bar.tscn" id="5_a72j4"]
 [ext_resource type="Script" path="res://scripts/fps_display.gd" id="6_r0tvr"]
+[ext_resource type="PackedScene" uid="uid://vlc4tca1q8dq" path="res://scenes/tile_map.tscn" id="7_8hspy"]
 [ext_resource type="PackedScene" uid="uid://c8qav8rokomtn" path="res://scenes/enemy_outpost.tscn" id="7_xg3bh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a6a7o"]
@@ -56,8 +57,6 @@ shader_parameter/wave = 0.4
 shader_parameter/speed = 1.0
 shader_parameter/frames = 1
 shader_parameter/flowMap = ExtResource("4_qm4y3")
-
-[sub_resource type="TileSet" id="TileSet_76qq4"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_kel0q"]
 vertices = PackedVector2Array(2498, 1543, -757, 1805, -1760, 955, -2094, -1371, 2438, -1825)
@@ -114,9 +113,8 @@ scale = Vector2(2.68538, 3.16143)
 texture = ExtResource("4_qm4y3")
 polygon = PackedVector2Array(53.7842, 19.8383, 18.4075, 7.18575, 18.7799, 41.6638, 23.9933, 63.8057, 40.0059, 57.1631)
 
-[node name="TileMap" type="TileMap" parent="."]
-tile_set = SubResource("TileSet_76qq4")
-format = 2
+[node name="TileMap2" parent="." instance=ExtResource("7_8hspy")]
+z_index = -1
 
 [node name="JamContainer" type="Node" parent="."]
 
