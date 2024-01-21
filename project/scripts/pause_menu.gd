@@ -25,3 +25,7 @@ func _on_no_pressed() -> void:
 
 func _on_options_pressed() -> void:
 	$OptionsMenu.popup()
+
+
+func _on_savesettings_pressed() -> void:
+	$OptionsMenu.hide()
