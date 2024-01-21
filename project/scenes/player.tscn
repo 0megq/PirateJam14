@@ -1,10 +1,10 @@
-[gd_scene load_steps=45 format=3 uid="uid://csvup43edsyfq"]
+[gd_scene load_steps=49 format=3 uid="uid://csvup43edsyfq"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_i8wxh"]
 [ext_resource type="Texture2D" uid="uid://d1ha2nhvs16v4" path="res://assets/Animations_spritesheet.png" id="2_78ivi"]
 [ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="3_4msb0"]
 [ext_resource type="Texture2D" uid="uid://hdxa7emrvjta" path="res://assets/knife.png" id="4_ea0ux"]
-[ext_resource type="AudioStream" path="res://tests/footysteps.wav" id="4_oju2p"]
+[ext_resource type="AudioStream" uid="uid://vlhueovc7pqa" path="res://tests/footysteps.wav" id="4_oju2p"]
 
 [sub_resource type="Animation" id="Animation_dm5uu"]
 length = 0.001
@@ -437,12 +437,238 @@ blend_mode = 1
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_x0efp"]
 states/Idle/node = SubResource("AnimationNodeBlendSpace2D_tga4w")
-states/Idle/position = Vector2(299, 100)
+states/Idle/position = Vector2(297, 100)
 states/Start/position = Vector2(131, 100)
 states/Walking/node = SubResource("AnimationNodeBlendSpace2D_ddgrx")
 states/Walking/position = Vector2(501, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_lubud"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_mquph"), "Walking", "Idle", SubResource("AnimationNodeStateMachineTransition_wlw30")]
 graph_offset = Vector2(-236, 18)
+
+[sub_resource type="Animation" id="Animation_4p6b8"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JamJarWithKnife:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("JamJar:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SwordReload:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("JamJar:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SwordReload:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_l7g31"]
+resource_name = "reload"
+length = 0.6
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JamJarWithKnife:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("JamJarWithKnife:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.2001, 0.3, 0.4, 0.45, 0.55, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 5, 6, 7, 8, 9, 9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("JamJar:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SwordReload:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_t4sgy"]
+resource_name = "reload_start"
+length = 0.6
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JamJar:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.35, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.2, 1.2), Vector2(1, 1.5), Vector2(1, 1), Vector2(1.2, 1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("JamJar:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 8), Vector2(0, 8), Vector2(0, 21)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("JamJar:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SwordReload:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.35, 0.4, 0.45, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -4), Vector2(0, -4), Vector2(2, -32), Vector2(2, -12), Vector2(2, 12), Vector2(2, 20)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SwordReload:offset")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.35, 0.45, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-8, 0), Vector2(-8, 0), Vector2(36, 0), Vector2(20, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("SwordReload:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("SwordReload:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("JamJarWithKnife:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ttt1c"]
+_data = {
+"RESET": SubResource("Animation_4p6b8"),
+"reload": SubResource("Animation_l7g31"),
+"reload_start": SubResource("Animation_t4sgy")
+}
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
@@ -489,8 +715,8 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeStateMachine_x0efp")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Idle/blend_position = Vector2(-0.992095, 0.978836)
-parameters/Walking/blend_position = Vector2(0.125692, 0.544974)
+parameters/Idle/blend_position = Vector2(-1.10256, 0.153439)
+parameters/Walking/blend_position = Vector2(0.0803419, -0.280423)
 
 [node name="AttackIntervalTimer" type="Timer" parent="."]
 process_callback = 0
@@ -529,6 +755,8 @@ offset = Vector2(-5, 0)
 hframes = 5
 vframes = 2
 frame = 1
+region_enabled = true
+region_rect = Rect2(0, 0, 320, 64)
 
 [node name="AttackDurationTimer" type="Timer" parent="."]
 process_callback = 0
@@ -537,7 +765,46 @@ one_shot = true
 [node name="AttackLookTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="ReloadAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ttt1c")
+}
+next/reload_start = &"reload_exit"
+
+[node name="SwordReload" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(2, -12)
+rotation = -1.5708
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("4_ea0ux")
+offset = Vector2(14, 0)
+region_enabled = true
+region_rect = Rect2(29, 77, 32, 10)
+
+[node name="JamJarWithKnife" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(0, 5)
+rotation = -1.5708
+texture = ExtResource("4_ea0ux")
+hframes = 5
+vframes = 2
+frame = 7
+region_enabled = true
+region_rect = Rect2(0, 64, 320, 64)
+
+[node name="JamJar" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(0, 21)
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("4_ea0ux")
+region_enabled = true
+region_rect = Rect2(288, 128, 32, 32)
+
 [connection signal="timeout" from="AttackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
 [connection signal="timeout" from="AttackDurationTimer" to="." method="_on_attack_duration_timer_timeout"]
+[connection signal="animation_finished" from="ReloadAnimationPlayer" to="." method="_on_reload_animation_player_animation_finished"]
