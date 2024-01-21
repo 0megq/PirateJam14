@@ -1,4 +1,11 @@
-[gd_resource type="AudioBusLayout" format=3 uid="uid://qodlebvi2da2"]
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://c4yl73qfn861l"]
+
+[sub_resource type="AudioEffectEQ6" id="AudioEffectEQ6_0tjqm"]
+resource_name = "EQ6"
+band_db/32_hz = -14.0
+band_db/1000_hz = -6.5
+band_db/3200_hz = -16.2
+band_db/10000_hz = -33.4
 
 [resource]
 bus/1/name = &"Music"
