@@ -5,19 +5,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vrdaj"]
 
-[node name="Options" type="Control"]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_e24er")
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-layout_mode = 1
+[node name="Options" type="PanelContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -30,23 +18,24 @@ offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_vrdaj")
+script = ExtResource("1_e24er")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 35
 
-[node name="Master" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+[node name="Master" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/Master"]
+[node name="Label" type="Label" parent="HBoxContainer/Master"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_chtwh")
 text = "@"
 horizontal_alignment = 1
 
-[node name="MasterVSlider" type="VSlider" parent="PanelContainer/HBoxContainer/Master"]
+[node name="MasterVSlider" type="VSlider" parent="HBoxContainer/Master"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -55,40 +44,32 @@ step = 10.0
 value = 50.0
 rounded = true
 
-[node name="Sounds" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+[node name="Sounds" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/Sounds"]
+[node name="Label" type="Label" parent="HBoxContainer/Sounds"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_chtwh")
 text = "Z"
 horizontal_alignment = 1
 
-[node name="MusicVSlider" type="VSlider" parent="PanelContainer/HBoxContainer/Sounds"]
+[node name="MusicVSlider" type="VSlider" parent="HBoxContainer/Sounds"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 step = 10.0
 value = 50.0
 
-[node name="Music" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+[node name="Music" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/Music"]
+[node name="Label" type="Label" parent="HBoxContainer/Music"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_chtwh")
 text = "W"
 horizontal_alignment = 1
 
-[node name="SoundsVSlider" type="VSlider" parent="PanelContainer/HBoxContainer/Music"]
+[node name="SoundsVSlider" type="VSlider" parent="HBoxContainer/Music"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 step = 10.0
 value = 50.0
-
-[connection signal="gui_input" from="." to="." method="_on_gui_input"]
-[connection signal="value_changed" from="PanelContainer/HBoxContainer/Master/MasterVSlider" to="." method="_on_master_v_slider_value_changed"]
-[connection signal="value_changed" from="PanelContainer/HBoxContainer/Master/MasterVSlider" to="." method="_on_v_slider_value_changed"]
-[connection signal="value_changed" from="PanelContainer/HBoxContainer/Sounds/MusicVSlider" to="." method="_on_music_v_slider_value_changed"]
-[connection signal="value_changed" from="PanelContainer/HBoxContainer/Sounds/MusicVSlider" to="." method="_on_v_slider_value_changed"]
-[connection signal="gui_input" from="PanelContainer/HBoxContainer/Music/SoundsVSlider" to="." method="_on_v_slider_gui_input"]
-[connection signal="value_changed" from="PanelContainer/HBoxContainer/Music/SoundsVSlider" to="." method="_on_sounds_v_slider_value_changed"]

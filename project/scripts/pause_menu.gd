@@ -21,3 +21,7 @@ func _on_quit_pressed() -> void:
 func _on_no_pressed() -> void:
 	$Pausing/Quitting.hide()
 
+
+
+func _on_options_pressed() -> void:
+	$OptionsMenu.popup()
