@@ -8,7 +8,10 @@ enum Type {
 @export var base_damage: int
 @export var max_health: int
 @export var hurt_time: float # Invulnerability time after getting hit once
-@export var knockback_amount: float
+## Distance the enemy gets knocked back when taking non jam damage
+@export var knockback_distance: float
+## This is the time it takes for the enemy to go there full knockback_distance
+@export var knockback_time: float = 0.2
 
 var current_health: float :
 	set(value):
@@ -21,8 +24,6 @@ var type: Type
 var _navigation_ready := false
 
 var player: Player
-
-var should_knockback: bool = false
 
 @onready var hurt_timer: Timer = $HurtTimer
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
@@ -104,7 +105,7 @@ func take_damage(damage: float, damage_position: Vector2, is_jam: bool = false) 
 		# knockback
 		var knockback_dir: Vector2 = damage_position.direction_to(global_position)
 		var pos_tween: Tween = create_tween()
-		pos_tween.tween_property(self, "global_position", global_position + knockback_dir * knockback_amount, 0.2)
+		pos_tween.tween_property(self, "global_position", global_position + knockback_dir * knockback_distance, knockback_time)
 	is_hurt = true
 	
 	current_health -= damage
