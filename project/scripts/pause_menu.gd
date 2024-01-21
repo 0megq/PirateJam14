@@ -11,7 +11,7 @@ func _on_resume_pressed() -> void:
 
 
 func _on_yes_pressed() -> void:
-	pass # quit the game/return to main menu
+	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
 
 
 func _on_quit_pressed() -> void:
