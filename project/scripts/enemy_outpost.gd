@@ -45,7 +45,6 @@ func take_damage(damage: float, is_jam: bool = false) -> void:
 	if is_hurt && !is_jam:
 		return
 	current_health -= damage
-	print("outpost took %s damage" % damage)
 	if current_health < 0:
 		print(str(self) + " died D:")
 		queue_free()
