@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dygdx3ytitk4g"]
+
+[ext_resource type="Script" path="res://scripts/enemy_health_bar.gd" id="1_3lwrd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vffot"]
+bg_color = Color(0.152941, 0.152941, 0.211765, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c5v3n"]
+bg_color = Color(0.921569, 0.337255, 0.294118, 1)
+
+[node name="EnemyHealthBar" type="ProgressBar"]
+anchors_preset = -1
+anchor_right = 0.112
+anchor_bottom = 0.036
+offset_right = 0.32
+offset_bottom = 0.039999
+theme_override_styles/background = SubResource("StyleBoxFlat_vffot")
+theme_override_styles/fill = SubResource("StyleBoxFlat_c5v3n")
+show_percentage = false
+script = ExtResource("1_3lwrd")
+fade_in_time = 0.5
+fade_out_time = 0.5
+display_time = 3.0
+
+[node name="BarDisplayTimer" type="Timer" parent="."]
