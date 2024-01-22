@@ -73,7 +73,8 @@ func place_mold(global_pos: Vector2) -> void:
 	if !Global.tile_map:
 		return
 	var map: Map = Global.tile_map
-	map.set_cell(map.main_layer, map.local_to_map(map.to_local(global_pos)), 0, map.mold_terrain)
+	if map.get_cell_atlas_coords(map.main_layer,map.local_to_map(map.to_local(global_pos))) == map.bread_terrain:
+		map.set_cell(map.main_layer, map.local_to_map(map.to_local(global_pos)), 0, map.mold_terrain)
 
 
 func is_mold(global_pos: Vector2) -> bool:
