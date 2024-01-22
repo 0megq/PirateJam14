@@ -3,7 +3,7 @@ extends TileMap
 
 var main_layer: int = 0
 
-var bread_terrain:= Vector2i(0,0)
+var bread_terrain:= [Vector2i(0,0), Vector2i(0,3)]
 var mold_terrain:= Vector2i(1,0)
 var jam_terrain:= Vector2i(0,1)
 var surrounded_mold_terrain = Vector2i(1,1)
@@ -39,7 +39,7 @@ func get_adjacent_tiles(tile: Vector2i) -> void:
 	adjacent_tiles = get_surrounding_cells(tile)
 	
 	for tile_data in adjacent_tiles:
-		if get_cell_atlas_coords(main_layer,tile_data) == bread_terrain:
+		if get_cell_atlas_coords(main_layer,tile_data) in bread_terrain:
 			matching_tiles.append(tile_data)
 
 	#Selects a random bread tile if there is one
