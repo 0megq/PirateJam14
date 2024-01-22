@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8qav8rokomtn"]
+[gd_scene load_steps=6 format=3 uid="uid://c8qav8rokomtn"]
 
 [ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="1_gay8f"]
 [ext_resource type="Script" path="res://scripts/enemy_outpost.gd" id="1_jvp6a"]
+[ext_resource type="PackedScene" uid="uid://dygdx3ytitk4g" path="res://scenes/enemy_health_bar.tscn" id="3_gj1y3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_epaar"]
 size = Vector2(128, 128)
@@ -16,7 +17,7 @@ script = ExtResource("1_jvp6a")
 spawn_interval = 5.0
 hurt_time = 0.5
 enemy_types = Array[int]([0])
-current_health = 30.0
+max_health = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 0.2, 1, 1)
@@ -33,3 +34,11 @@ occluder = SubResource("OccluderPolygon2D_sql12")
 
 [node name="HurtTimer" type="Timer" parent="."]
 wait_time = 0.4
+
+[node name="EnemyHealthBar" parent="." node_paths=PackedStringArray("enemy") instance=ExtResource("3_gj1y3")]
+offset_left = -18.0
+offset_top = -47.0
+offset_right = 18.0
+offset_bottom = -40.0
+display_time = 7.0
+enemy = NodePath("..")

@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-signal health_changed(current_health: int, max_health: int)
+signal health_changed(current_health: float, max_health: int)
 signal ammo_changed(current_ammo: int, max_ammo: int)
 
 
