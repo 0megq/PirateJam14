@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://x83r2pgk43lv"]
+
+[ext_resource type="Script" path="res://scripts/UI.gd" id="1_acbpq"]
+[ext_resource type="PackedScene" uid="uid://b46yl3xaev06r" path="res://scenes/health_bar.tscn" id="2_wa4u4"]
+[ext_resource type="Script" path="res://scripts/fps_display.gd" id="3_gsej2"]
+[ext_resource type="PackedScene" uid="uid://cuhdcu3glcrkg" path="res://scenes/pause_menu.tscn" id="4_iwxwn"]
+[ext_resource type="PackedScene" uid="uid://qx6k5ivmf32w" path="res://scenes/ammo_bar.tscn" id="5_uk13r"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_acbpq")
+
+[node name="HealthBar" parent="." instance=ExtResource("2_wa4u4")]
+offset_right = 211.0
+
+[node name="FPSDisplay" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "FPS:"
+script = ExtResource("3_gsej2")
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenu" parent="." instance=ExtResource("4_iwxwn")]
+handle_input_locally = false
+visible = false
+
+[node name="AmmoBar" parent="." instance=ExtResource("5_uk13r")]
+offset_left = 6.0
+offset_top = 44.0
+offset_right = 46.0
+offset_bottom = 84.0
+
+[connection signal="about_to_popup" from="PauseMenu" to="." method="_on_pause_menu_about_to_popup"]
+[connection signal="popup_hide" from="PauseMenu" to="." method="_on_pause_menu_popup_hide"]

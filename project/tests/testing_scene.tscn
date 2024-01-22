@@ -20,7 +20,7 @@ shader_parameter/angle = 0.0
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_oucpw"]
 
-[sub_resource type="Shader" id="Shader_rwwar"]
+[sub_resource type="Shader" id="Shader_02isa"]
 code = "shader_type canvas_item;
 
 uniform sampler2D flowMap; //Displacement map
@@ -49,14 +49,14 @@ void fragment(){
 */"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5edna"]
-shader = SubResource("Shader_rwwar")
+shader = SubResource("Shader_02isa")
 shader_parameter/wave = 0.26
 shader_parameter/speed = 3.565
 shader_parameter/frames = 1
 shader_parameter/flowMap = ExtResource("3_aa74w")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_armeo"]
-shader = SubResource("Shader_rwwar")
+shader = SubResource("Shader_02isa")
 shader_parameter/wave = 0.4
 shader_parameter/speed = 1.0
 shader_parameter/frames = 1

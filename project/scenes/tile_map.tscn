@@ -47,6 +47,7 @@ format = 2
 script = ExtResource("2_8cqx2")
 
 [node name="MoldSpreadDelay" type="Timer" parent="."]
+wait_time = 30.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.2, 0.2)

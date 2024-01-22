@@ -6,7 +6,6 @@ const jar_scene: PackedScene = preload("res://scenes/ammo_bar_jar.tscn")
 func _ready() -> void:
 	Global.player.ammo_changed.connect(_on_player_ammo_changed)
 
-
 func _on_player_ammo_changed(current_ammo: int, max_ammo: int):
 	for new_child in (max_ammo - get_child_count()): # Make enough jars for max_ammo
 		new_jar()
