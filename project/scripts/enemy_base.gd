@@ -8,6 +8,10 @@ enum Type {
 @export var base_damage: int
 @export var max_health: int
 @export var hurt_time: float # Invulnerability time after getting hit once
+## Distance the enemy gets knocked back when taking non jam damage
+@export var knockback_distance: float
+## This is the time it takes for the enemy to go there full knockback_distance
+@export var knockback_time: float = 0.2
 
 var current_health: float :
 	set(value):
@@ -69,7 +73,8 @@ func place_mold(global_pos: Vector2) -> void:
 	if !Global.tile_map:
 		return
 	var map: Map = Global.tile_map
-	map.set_cell(map.main_layer, map.local_to_map(map.to_local(global_pos)), 0, map.mold_terrain)
+	if map.get_cell_atlas_coords(map.main_layer,map.local_to_map(map.to_local(global_pos))) == map.bread_terrain:
+		map.set_cell(map.main_layer, map.local_to_map(map.to_local(global_pos)), 0, map.mold_terrain)
 
 
 func is_mold(global_pos: Vector2) -> bool:
@@ -91,13 +96,17 @@ func _on_player_exited(body: Node2D) -> void:
 	player = null
 
 
-func take_damage(damage: float, is_jam: bool = false) -> void:
+func take_damage(damage: float, damage_position: Vector2, is_jam: bool = false) -> void:
 	if is_hurt && !is_jam: # Invulnerability
 		return
 	if is_jam:
 		set_modulate(Color.MAGENTA)
 	else:
-		set_modulate("Red")
+		set_modulate(Color.RED)
+		# knockback
+		var knockback_dir: Vector2 = damage_position.direction_to(global_position)
+		var pos_tween: Tween = create_tween()
+		pos_tween.tween_property(self, "global_position", global_position + knockback_dir * knockback_distance, knockback_time)
 	is_hurt = true
 	
 	current_health -= damage
@@ -107,7 +116,7 @@ func take_damage(damage: float, is_jam: bool = false) -> void:
 	hurt_timer.start(hurt_time)
 	await hurt_timer.timeout
 	is_hurt = false
-	set_modulate("White")
+	set_modulate(Color.WHITE)
 	
 		
 func die() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://byr4y4xd4m7t5"]
+[gd_scene load_steps=19 format=3 uid="uid://byr4y4xd4m7t5"]
 
 [ext_resource type="Shader" path="res://shaders/debug_background.gdshader" id="1_q3kdo"]
 [ext_resource type="PackedScene" uid="uid://csvup43edsyfq" path="res://scenes/player.tscn" id="2_egf0e"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://vlc4tca1q8dq" path="res://scenes/tile_map.tscn" id="7_8hspy"]
 [ext_resource type="PackedScene" uid="uid://qx6k5ivmf32w" path="res://scenes/ammo_bar.tscn" id="7_cl0li"]
 [ext_resource type="PackedScene" uid="uid://c8qav8rokomtn" path="res://scenes/enemy_outpost.tscn" id="7_xg3bh"]
+[ext_resource type="PackedScene" uid="uid://cuhdcu3glcrkg" path="res://scenes/pause_menu.tscn" id="8_to8r1"]
+[ext_resource type="AudioStream" uid="uid://0kmx2q3byb7w" path="res://tests/Cymatics - End Of The World - 80 BPM G Min.wav" id="10_rlx25"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a6a7o"]
 shader = ExtResource("1_q3kdo")
@@ -90,6 +92,7 @@ position = Vector2(-132, -209)
 texture = ExtResource("4_qm4y3")
 
 [node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("5_y6y8x")
 
 [node name="PlayerHealthBar" parent="UI" instance=ExtResource("5_a72j4")]
 offset_right = 211.0
@@ -104,6 +107,10 @@ grow_horizontal = 0
 text = "FPS:"
 script = ExtResource("6_r0tvr")
 metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("8_to8r1")]
+handle_input_locally = false
+visible = false
 
 [node name="AmmoBar" parent="UI" instance=ExtResource("7_cl0li")]
 offset_left = 6.0
@@ -136,5 +143,6 @@ navigation_polygon = SubResource("NavigationPolygon_kel0q")
 process_mode = 3
 stream = ExtResource("10_rlx25")
 
+[connection signal="health_changed" from="Player" to="UI/HealthBar" method="_on_player_health_changed"]
 [connection signal="about_to_popup" from="UI/PauseMenu" to="UI" method="_on_pause_menu_about_to_popup"]
 [connection signal="popup_hide" from="UI/PauseMenu" to="UI" method="_on_pause_menu_popup_hide"]

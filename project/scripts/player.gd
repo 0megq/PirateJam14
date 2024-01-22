@@ -221,7 +221,9 @@ func _on_attack_duration_timer_timeout() -> void:
 
 
 func _on_attack_hitbox_body_entered(body: Node2D) -> void:
-	if body.is_in_group("enemy"):
+	if body is EnemyBase:
+		body.take_damage(base_damage, global_position)
+	elif body.is_in_group("enemy"):
 		body.take_damage(base_damage)
 
 
