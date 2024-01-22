@@ -245,3 +245,9 @@ disabled = true
 
 [node name="JamCollider2D" parent="." index="12"]
 occluder = SubResource("OccluderPolygon2D_yhthv")
+
+[node name="EnemyHealthBar" parent="." index="13"]
+offset_left = -14.0
+offset_top = -21.0
+offset_right = 14.0
+offset_bottom = -15.0

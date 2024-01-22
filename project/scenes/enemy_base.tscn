@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://ylvm0hspe11h"]
+[gd_scene load_steps=3 format=3 uid="uid://ylvm0hspe11h"]
 
 [ext_resource type="Script" path="res://scripts/enemy_base.gd" id="1_omc3k"]
+[ext_resource type="PackedScene" uid="uid://dygdx3ytitk4g" path="res://scenes/enemy_health_bar.tscn" id="2_v8vpn"]
 
 [node name="EnemyBase" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 2
@@ -25,3 +26,8 @@ monitorable = false
 [node name="HurtTimer" type="Timer" parent="."]
 
 [node name="JamCollider2D" type="LightOccluder2D" parent="."]
+
+[node name="EnemyHealthBar" parent="." node_paths=PackedStringArray("enemy") instance=ExtResource("2_v8vpn")]
+offset_right = 22.0
+offset_bottom = 10.0
+enemy = NodePath("..")

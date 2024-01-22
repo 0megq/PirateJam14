@@ -1,5 +1,7 @@
 extends Area2D
 
+signal health_changed(current_health: float, max_health: int)
+
 var enemy_scenes: Dictionary = {
 	EnemyBase.Type.KAMIKAZE : preload("res://scenes/enemy_kamikaze.tscn")
 }
@@ -7,8 +9,16 @@ var enemy_scenes: Dictionary = {
 @export var spawn_interval: float
 @export var hurt_time: float
 @export var enemy_types: Array[EnemyBase.Type]
-@export var current_health: float
+@export var max_health: int :
+	set(value):
+		max_health = value
+		health_changed.emit(current_health, max_health)
 
+var current_health: float :
+	set(value):
+		current_health = value
+		health_changed.emit(current_health, max_health)
+		
 var is_hurt: bool = false
 
 @onready var hurt_timer: Timer = $HurtTimer
@@ -16,6 +26,7 @@ var is_hurt: bool = false
 
 
 func _ready() -> void:
+	set_deferred("current_health", max_health)
 	enemy_scenes.make_read_only()
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	_on_spawn_timer_timeout.call_deferred()
@@ -45,7 +56,8 @@ func take_damage(damage: float, is_jam: bool = false) -> void:
 	if is_hurt && !is_jam:
 		return
 	current_health -= damage
-	if current_health < 0:
+	
+	if current_health <= 0:
 		print(str(self) + " died D:")
 		queue_free()
 	

@@ -1,12 +1,18 @@
 class_name EnemyBase extends CharacterBody2D
 
+signal health_changed(current_health: float, max_health: int)
+
 enum Type {
 	KAMIKAZE,
 }
 
 @export var speed: float = 100.0
 @export var base_damage: int
-@export var max_health: int
+@export var max_health: int :
+	set(value):
+		max_health = value
+		health_changed.emit(current_health, max_health)
+		
 @export var hurt_time: float # Invulnerability time after getting hit once
 ## Distance the enemy gets knocked back when taking non jam damage
 @export var knockback_distance: float
@@ -16,6 +22,7 @@ enum Type {
 var current_health: float :
 	set(value):
 		current_health = value
+		health_changed.emit(current_health, max_health)
 
 var is_hurt: bool = false # Is the enemy invulnerable
 
