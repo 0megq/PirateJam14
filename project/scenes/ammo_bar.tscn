@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://qx6k5ivmf32w"]
+
+[ext_resource type="Script" path="res://scripts/ammo_bar.gd" id="1_lji3v"]
+
+[node name="AmmoBar" type="VFlowContainer"]
+offset_right = 40.0
+size_flags_horizontal = 8
+size_flags_vertical = 4
+script = ExtResource("1_lji3v")
