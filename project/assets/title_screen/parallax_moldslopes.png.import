@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://co7lsdiqvgm60"
-path="res://.godot/imported/parallax_color_test_4.png-b27c266114130b301fc0ba86aaf62037.ctex"
+uid="uid://cfssu1d7k8dlv"
+path="res://.godot/imported/parallax_moldslopes.png-d937f35995a79a2e3b2808e9f3d7b108.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/title_screen/parallax_color_test_4.png"
-dest_files=["res://.godot/imported/parallax_color_test_4.png-b27c266114130b301fc0ba86aaf62037.ctex"]
+source_file="res://assets/title_screen/parallax_moldslopes.png"
+dest_files=["res://.godot/imported/parallax_moldslopes.png-d937f35995a79a2e3b2808e9f3d7b108.ctex"]
 
 [params]
 
