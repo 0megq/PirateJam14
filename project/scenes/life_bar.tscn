@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ciok0vj6ut33y"]
+
+[ext_resource type="Script" path="res://scripts/life_bar.gd" id="1_d3tmm"]
+
+[node name="LifeBar" type="VFlowContainer"]
+offset_right = 40.0
+size_flags_horizontal = 8
+size_flags_vertical = 4
+script = ExtResource("1_d3tmm")

@@ -1,16 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://byr4y4xd4m7t5"]
+[gd_scene load_steps=20 format=3 uid="uid://byr4y4xd4m7t5"]
 
 [ext_resource type="Shader" path="res://shaders/debug_background.gdshader" id="1_q3kdo"]
 [ext_resource type="PackedScene" uid="uid://csvup43edsyfq" path="res://scenes/player.tscn" id="2_egf0e"]
 [ext_resource type="Texture2D" uid="uid://dckked44u57u6" path="res://assets/jam/jam.png" id="3_aa74w"]
 [ext_resource type="Texture2D" uid="uid://bufrjklvnjm4j" path="res://assets/jam/jam_tileable.png" id="4_qm4y3"]
-[ext_resource type="PackedScene" path="res://scenes/player_health_bar.tscn" id="5_a72j4"]
+[ext_resource type="PackedScene" uid="uid://c4thh8utbayxe" path="res://scenes/player_health_bar.tscn" id="5_a72j4"]
 [ext_resource type="Script" path="res://scripts/UI.gd" id="5_y6y8x"]
 [ext_resource type="Script" path="res://scripts/fps_display.gd" id="6_r0tvr"]
 [ext_resource type="PackedScene" uid="uid://vlc4tca1q8dq" path="res://scenes/tile_map.tscn" id="7_8hspy"]
 [ext_resource type="PackedScene" uid="uid://qx6k5ivmf32w" path="res://scenes/ammo_bar.tscn" id="7_cl0li"]
 [ext_resource type="PackedScene" uid="uid://c8qav8rokomtn" path="res://scenes/enemy_outpost.tscn" id="7_xg3bh"]
 [ext_resource type="PackedScene" uid="uid://cuhdcu3glcrkg" path="res://scenes/pause_menu.tscn" id="8_to8r1"]
+[ext_resource type="PackedScene" uid="uid://ciok0vj6ut33y" path="res://scenes/life_bar.tscn" id="10_kgna0"]
 [ext_resource type="AudioStream" uid="uid://0kmx2q3byb7w" path="res://tests/Cymatics - End Of The World - 80 BPM G Min.wav" id="10_rlx25"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a6a7o"]
@@ -117,6 +118,12 @@ offset_left = 6.0
 offset_top = 44.0
 offset_right = 46.0
 offset_bottom = 84.0
+
+[node name="LifeBar" parent="UI" instance=ExtResource("10_kgna0")]
+offset_left = 309.0
+offset_top = 41.0
+offset_right = 349.0
+offset_bottom = 41.0
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 visible = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b46yl3xaev06r"]
+[gd_scene load_steps=7 format=3 uid="uid://c4thh8utbayxe"]
 
 [ext_resource type="Script" path="res://scripts/player_health_bar.gd" id="1_1xsae"]
 [ext_resource type="FontFile" uid="uid://g35xuvkjsgxa" path="res://assets/fonts/joystix monospace.otf" id="2_fj2jf"]
@@ -28,9 +28,3 @@ value = 100.0
 texture_under = ExtResource("3_or5he")
 texture_over = ExtResource("4_7ryee")
 texture_progress = ExtResource("5_blmig")
-
-[node name="ValueLabel" type="Label" parent="."]
-texture_filter = 1
-layout_mode = 2
-theme = SubResource("Theme_ghywp")
-text = "100/100"
