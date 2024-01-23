@@ -104,7 +104,7 @@ func damage_enemy(enemy: Node2D) -> void:
 		enemy.take_damage(damage_per_touch, true)
 
 
-
+# Takes a polygon and returns a bounding box that is aligned on a tile grid of tile_size
 func get_tilemap_aligned_bounding_box(polygon: PackedVector2Array, tile_size: Vector2i) -> Rect2i:
 	# Getting bounding box of polygon. Polygon should be in global coords
 	var bounding_box := get_polygon_bounding_box(polygon)
@@ -129,13 +129,12 @@ func place_jam_tiles() -> void:
 	var col_polygon_global := polygon_to_global(collision_polygon.polygon)
 	var tile_aligned_bounding_box: Rect2i = get_tilemap_aligned_bounding_box(col_polygon_global, tile_size)
 	
+	# For each position separated by tile_size in the tile_aligned_bounding_box place a jam tile if the center of the tile is in the polygon
 	for x in range(tile_aligned_bounding_box.position.x, tile_aligned_bounding_box.end.x, tile_size.x):
 		for y in range(tile_aligned_bounding_box.position.y, tile_aligned_bounding_box.end.y, tile_size.y):
-			if Geometry2D.is_point_in_polygon(Vector2(x + tile_size.x / 2, y + tile_size.y / 2), col_polygon_global):
-				var tile_coord := Global.tile_map.local_to_map(Global.tile_map.to_local(Vector2(x, y)))
-				Global.tile_map.set_cell(0, tile_coord, 0,  Global.tile_map.jam_terrain)
-			
-			
+			var tile_center := Vector2(x + tile_size.x / 2, y + tile_size.y / 2)
+			if Geometry2D.is_point_in_polygon(tile_center, col_polygon_global):
+				Global.tile_map.place_jam_g(tile_center)
 
 # Returns a rectangle which outlines the entire collision polygon
 func get_polygon_bounding_box(polygon: PackedVector2Array) -> Rect2:
