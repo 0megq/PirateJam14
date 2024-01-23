@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 signal health_changed(current_health: float, max_health: int)
 signal ammo_changed(current_ammo: int, max_ammo: int)
+signal lives_changed(current_lives: int, max_lives: int)
 
 
 # Exports
@@ -27,8 +28,19 @@ signal ammo_changed(current_ammo: int, max_ammo: int)
 		max_health = value
 		health_changed.emit(current_health, max_health)
 
+@export var max_lives: int = 3 :
+	set(value):
+		max_lives = value
+		lives_changed.emit(current_lives, max_lives)
+		
+@export var lost_life_hurt_time: float = 5.0
+@export var normal_hurt_time: float = 0.5
+
+@export var lost_life_speed_multiplier: float = 1.5
+@export var lost_life_zoom_multiplier: float = 1.2
+
 # Normal
-var jam_projectile_scene = preload("res://scenes/jam.tscn")
+var jam_projectile_scene := preload("res://scenes/jam.tscn")
 
 var is_hurt: bool = false
 var reloading: bool = false
@@ -49,10 +61,17 @@ var current_ammo: int :
 		#print("%s / %s ammo" % [current_ammo, max_ammo]) prints current_ammo / max_ammo
 		ammo_changed.emit(current_ammo, max_ammo)
 
-var current_health: int :
+var current_health: float :
 	set(value):
 		current_health = value
 		health_changed.emit(current_health, max_health)
+		
+var current_lives: int :
+	set(value):
+		current_lives = value
+		lives_changed.emit(current_lives, max_lives)
+
+var current_max_speed: float
 
 # Onready
 @onready var attack_hitbox: Area2D = $AttackHitbox
@@ -66,7 +85,9 @@ var current_health: int :
 
 func _ready() -> void:
 	Global.player = self
+	current_max_speed = max_speed
 	set_deferred("current_ammo", max_ammo)
+	set_deferred("current_lives", max_lives)
 	set_deferred("current_health", max_health)
 
 
@@ -130,7 +151,7 @@ func sounds():
 # Moves the player (duh)
 func move(delta: float) -> void:
 	#Movementa
-	velocity = velocity.move_toward(dir_input * max_speed, acceleration * delta)
+	velocity = velocity.move_toward(dir_input * current_max_speed, acceleration * delta)
 	
 	#Removes speed-down before speeding back up. Satisfying :D
 	if dir_input == Vector2(0,0):
@@ -245,20 +266,50 @@ func fire_jam() -> void:
 	jam.global_position = cursor.global_position
 
 
-func take_damage(dmg: int) -> void:
-	current_health -= dmg
+func take_damage(damage: int) -> void:
+	if is_hurt:
+		return
+	current_health -= damage
+	
+	modulate = Color.RED
 	is_hurt = true
 	
 	if current_health <= 0:
-		die()
+		lose_life()
+		hurt_timer.start(lost_life_hurt_time)
+	else:
+		hurt_timer.start(normal_hurt_time)
 	
-	hurt_timer.start()
 	await hurt_timer.timeout
 	is_hurt = false
+	modulate = Color.WHITE
+	
+
+func lose_life() -> void:
+	current_lives -= 1
+	if current_lives <= 0:
+		die()
+	else:
+		new_life_effects()
+		
+
+func new_life_effects() -> void:
+	current_ammo = max_ammo
+	var health_tween: Tween = create_tween()
+	health_tween.tween_property(self, "current_health", max_health, lost_life_hurt_time)
+	
+	var speed_tween: Tween = create_tween()
+	speed_tween.tween_property(self, "current_max_speed", max_speed * lost_life_speed_multiplier, 0.2)
+	speed_tween.parallel().tween_property($Camera2D, "zoom", Vector2.ONE / lost_life_zoom_multiplier, 0.2)
+	await hurt_timer.timeout
+	speed_tween = create_tween()
+	speed_tween.tween_property(self, "current_max_speed", max_speed, 0.2)
+	speed_tween.parallel().tween_property($Camera2D, "zoom", Vector2.ONE, 0.2)
 
 
 func die() -> void:
-	current_health = max_health #PLACEHOLDER!!!! Remove once death mechanic is finished.
+	print("player is dead")
+	queue_free()
 
 
 func _input(event: InputEvent) -> void:
