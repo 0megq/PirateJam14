@@ -74,6 +74,7 @@ var current_lives: int :
 var current_max_speed: float
 
 # Onready
+@onready var attack_col_polygon: CollisionPolygon2D = $AttackHitbox/CollisionPolygon2D
 @onready var attack_hitbox: Area2D = $AttackHitbox
 @onready var hurt_timer: Timer = $HurtTimer
 @onready var attack_interval_timer: Timer = $AttackIntervalTimer
@@ -319,3 +320,67 @@ func _input(event: InputEvent) -> void:
 		joypad = false
 
 
+func clear_mold_tiles() -> void:
+	var tile_size := Global.tile_map.tile_set.tile_size
+	var rotated_polygon := rotate_polygon(attack_col_polygon.polygon, attack_hitbox.rotation)
+	var col_polygon_global := polygon_to_global(rotated_polygon)
+	var tile_aligned_bounding_box: Rect2i = get_tilemap_aligned_bounding_box(col_polygon_global, tile_size)
+	
+	# For each position separated by tile_size in the tile_aligned_bounding_box place a jam tile if the center of the tile is in the polygon
+	for x in range(tile_aligned_bounding_box.position.x, tile_aligned_bounding_box.end.x, tile_size.x):
+		for y in range(tile_aligned_bounding_box.position.y, tile_aligned_bounding_box.end.y, tile_size.y):
+			var tile_center := Vector2(x + tile_size.x / 2, y + tile_size.y / 2)
+			if Geometry2D.is_point_in_polygon(tile_center, col_polygon_global):
+				Global.tile_map.clear_mold_g(tile_center)
+
+
+func rotate_polygon(polygon: PackedVector2Array, angle: float) -> PackedVector2Array:
+	var new_polygon: PackedVector2Array = []
+	for point in polygon:
+		new_polygon.append(point.rotated(angle))
+	return new_polygon
+
+
+# Copied from the jam script and slightly modified
+# Takes a polygon and returns a bounding box that is aligned on a tile grid of tile_size
+func get_tilemap_aligned_bounding_box(polygon: PackedVector2Array, tile_size: Vector2i) -> Rect2i:
+	# Getting bounding box of polygon. Polygon should be in global coords
+	var bounding_box := get_polygon_bounding_box(polygon)
+	
+	
+	var tile_aligned_minv: Vector2i
+	var tile_aligned_maxv: Vector2i
+
+	# Snapping start to tile_size
+	tile_aligned_minv.x = floori(bounding_box.position.x / tile_size.x) * tile_size.x
+	tile_aligned_minv.y = floori(bounding_box.position.y / tile_size.y) * tile_size.y
+	
+	# Snapping end to tile_size
+	tile_aligned_maxv.x = ceili(bounding_box.end.x / tile_size.x) * tile_size.x
+	tile_aligned_maxv.y = ceili(bounding_box.end.y / tile_size.y) * tile_size.y
+	
+	return Rect2i(tile_aligned_minv, tile_aligned_maxv - tile_aligned_minv)
+	
+
+# Returns a rectangle which outlines the entire collision polygon
+func get_polygon_bounding_box(polygon: PackedVector2Array) -> Rect2:
+	var minv: Vector2
+	var maxv: Vector2
+	for vertex in polygon:
+		if minv:
+			minv = Vector2(min(minv.x, vertex.x), min(minv.y, vertex.y))
+		else:
+			minv = vertex
+		if maxv:
+			maxv = Vector2(max(maxv.x, vertex.x), max(maxv.y, vertex.y))
+		else: 
+			maxv = vertex
+	var bounding_box = Rect2(minv, maxv - minv)
+	return bounding_box
+	
+	
+func polygon_to_global(polygon: PackedVector2Array) -> PackedVector2Array:	
+	for i in polygon.size():
+		polygon[i] = polygon[i].rotated(rotation) + global_position
+	
+	return polygon
