@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dna0la61chtpu"
-path="res://.godot/imported/parallax_color_test.png-58610f7e2e39350eb9f7fedfa8906850.ctex"
+uid="uid://cbtwre726dcm6"
+path="res://.godot/imported/parallax_shroomlord.png-e23e5350e58f56844e728703ac086d2c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/title_screen/parallax_color_test.png"
-dest_files=["res://.godot/imported/parallax_color_test.png-58610f7e2e39350eb9f7fedfa8906850.ctex"]
+source_file="res://assets/title_screen/parallax_shroomlord.png"
+dest_files=["res://.godot/imported/parallax_shroomlord.png-e23e5350e58f56844e728703ac086d2c.ctex"]
 
 [params]
 

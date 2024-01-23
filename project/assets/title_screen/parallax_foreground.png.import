@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doq3p4h7dffwp"
-path="res://.godot/imported/parallax_color_test_3.png-f2203be5f0af60dece67b9aa064a901c.ctex"
+uid="uid://v1xpnuc5fhwh"
+path="res://.godot/imported/parallax_foreground.png-7e49f6133eb5a7c7d09bd737b91fa65e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/title_screen/parallax_color_test_3.png"
-dest_files=["res://.godot/imported/parallax_color_test_3.png-f2203be5f0af60dece67b9aa064a901c.ctex"]
+source_file="res://assets/title_screen/parallax_foreground.png"
+dest_files=["res://.godot/imported/parallax_foreground.png-7e49f6133eb5a7c7d09bd737b91fa65e.ctex"]
 
 [params]
 

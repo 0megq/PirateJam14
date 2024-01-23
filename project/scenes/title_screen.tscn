@@ -1,19 +1,21 @@
-[gd_scene load_steps=20 format=3 uid="uid://cutak7tx55oc3"]
+[gd_scene load_steps=21 format=3 uid="uid://cutak7tx55oc3"]
 
 [ext_resource type="Texture2D" uid="uid://b3grdh8t27ghd" path="res://assets/Untitled_Artwork.png" id="1_wdpfc"]
 [ext_resource type="Script" path="res://scripts/title_screen.gd" id="1_xlxoc"]
 [ext_resource type="FontFile" uid="uid://bgjvh5rplektc" path="res://assets/fonts/AtariGames.ttf" id="2_3x2ct"]
-[ext_resource type="Texture2D" uid="uid://dna0la61chtpu" path="res://assets/title_screen/parallax_color_test.png" id="2_fl24b"]
+[ext_resource type="Texture2D" uid="uid://452wlhj7le" path="res://assets/title_screen/parallax_bgshrooms.png" id="2_sci8w"]
 [ext_resource type="FontFile" uid="uid://bjtxep2m1e6vr" path="res://assets/fonts/CelticTime.ttf" id="3_84h43"]
-[ext_resource type="Texture2D" uid="uid://1rlm8p6qio1h" path="res://assets/title_screen/parallax_color_test_1.png" id="3_oyrv0"]
+[ext_resource type="Texture2D" uid="uid://cbtwre726dcm6" path="res://assets/title_screen/parallax_shroomlord.png" id="3_jstct"]
 [ext_resource type="Script" path="res://scripts/Play.gd" id="4_7jap4"]
-[ext_resource type="Texture2D" uid="uid://c3cnl81r3n873" path="res://assets/title_screen/parallax_color_test_2.png" id="4_54mjw"]
-[ext_resource type="Texture2D" uid="uid://w3tow4fsduq2" path="res://assets/title_screen/parallax_color_test_3left.png" id="5_3xwkr"]
+[ext_resource type="Texture2D" uid="uid://cfssu1d7k8dlv" path="res://assets/title_screen/parallax_moldslopes.png" id="4_8auti"]
 [ext_resource type="Texture2D" uid="uid://ctb3k6l12rqrs" path="res://assets/controls.png" id="5_48w7x"]
 [ext_resource type="PackedScene" uid="uid://cwo022lpg0jc" path="res://scenes/options.tscn" id="5_58vub"]
-[ext_resource type="Texture2D" uid="uid://rcvao7mnljfr" path="res://assets/title_screen/parallax_color_test_3right.png" id="6_eqelh"]
-[ext_resource type="Texture2D" uid="uid://co7lsdiqvgm60" path="res://assets/title_screen/parallax_color_test_4.png" id="6_ii61h"]
+[ext_resource type="Texture2D" uid="uid://wvhnpns2b8xr" path="res://assets/title_screen/parallax_midgroundL.png" id="5_g2q8b"]
+[ext_resource type="Texture2D" uid="uid://doac84qmi3ile" path="res://assets/title_screen/parallax_midgroundR.png" id="6_iu4kf"]
+[ext_resource type="Texture2D" uid="uid://v1xpnuc5fhwh" path="res://assets/title_screen/parallax_foreground.png" id="7_bytyd"]
 [ext_resource type="AudioStream" uid="uid://0kmx2q3byb7w" path="res://tests/Cymatics - End Of The World - 80 BPM G Min.wav" id="8_1ce8i"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_hvv5k"]
 
 [sub_resource type="Animation" id="Animation_xp5q7"]
 length = 0.001
@@ -265,6 +267,19 @@ script = ExtResource("1_xlxoc")
 layout_mode = 1
 anchors_preset = 0
 
+[node name="White" type="TextureRect" parent="Background2"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_hvv5k")
+expand_mode = 2
+
 [node name="purple" type="TextureRect" parent="Background2"]
 layout_mode = 1
 anchors_preset = 15
@@ -274,7 +289,7 @@ offset_right = 640.0
 offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_fl24b")
+texture = ExtResource("2_sci8w")
 expand_mode = 2
 
 [node name="blue" type="TextureRect" parent="Background2"]
@@ -287,7 +302,7 @@ offset_right = 640.0
 offset_bottom = 370.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_oyrv0")
+texture = ExtResource("3_jstct")
 expand_mode = 2
 
 [node name="dark green" type="TextureRect" parent="Background2"]
@@ -300,7 +315,7 @@ offset_right = 640.0
 offset_bottom = 390.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_54mjw")
+texture = ExtResource("4_8auti")
 expand_mode = 2
 
 [node name="greenleft" type="TextureRect" parent="Background2"]
@@ -313,7 +328,7 @@ offset_right = 640.0
 offset_bottom = 480.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_3xwkr")
+texture = ExtResource("5_g2q8b")
 expand_mode = 2
 
 [node name="greenright" type="TextureRect" parent="Background2"]
@@ -327,7 +342,7 @@ offset_right = 670.0
 offset_bottom = 460.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("6_eqelh")
+texture = ExtResource("6_iu4kf")
 expand_mode = 2
 
 [node name="yellow" type="TextureRect" parent="Background2"]
@@ -340,7 +355,7 @@ offset_right = 640.0
 offset_bottom = 510.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("6_ii61h")
+texture = ExtResource("7_bytyd")
 expand_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Background2"]
@@ -386,7 +401,7 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_3x2ct")
 theme_override_font_sizes/font_size = 40
-text = "UNTITLED BREAD GAME"
+text = "Jam Samurai"
 horizontal_alignment = 1
 vertical_alignment = 2
 
