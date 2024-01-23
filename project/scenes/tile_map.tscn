@@ -1,18 +1,16 @@
 [gd_scene load_steps=5 format=3 uid="uid://vlc4tca1q8dq"]
 
-[ext_resource type="Texture2D" uid="uid://dqfsarh3thops" path="res://assets/tile_test.png" id="1_7c5se"]
+[ext_resource type="Texture2D" uid="uid://8m6sob4dtpc8" path="res://assets/tile_test16.png" id="1_srnun"]
 [ext_resource type="Script" path="res://scripts/tile_map.gd" id="2_8cqx2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cv13u"]
-texture = ExtResource("1_7c5se")
-texture_region_size = Vector2i(32, 32)
+texture = ExtResource("1_srnun")
 0:0/0 = 0
 1:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_l2fie"]
-tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_cv13u")
 
 [node name="TileMap" type="TileMap"]

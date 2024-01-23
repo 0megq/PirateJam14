@@ -33,8 +33,8 @@ func _ready() -> void:
 		start_spread_with_delay(autostart_delay)
 	
 	
-func start_spread_with_delay(autostart_delay: float) -> void:
-	$StartDelay.start(autostart_delay)
+func start_spread_with_delay(delay: float) -> void:
+	$StartDelay.start(delay)
 	await $StartDelay.timeout
 	start_spread()
 
@@ -79,6 +79,7 @@ func set_mold_cells() -> void:
 func _on_mold_spread_timer_timeout() -> void:
 	for tile in mold_tiles_cache:
 		set_cell(main_layer, tile, 0, surrounded_mold_terrain)
+	spread()
 
 
 func start_spread() -> void:
