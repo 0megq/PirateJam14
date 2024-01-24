@@ -3,15 +3,17 @@ extends TileMap
 
 const main_layer: int = 0
 
-const bread_terrain := Vector2i(0,0)
-const dark_bread_terrain := Vector2i(0,3)
-const mold_terrain := Vector2i(1,0)
-const jam_terrain := Vector2i(0,1)
-const surrounded_mold_terrain := Vector2i(1,1)
+# The values and order of keys inside the Type enum correspond to the order in which they show up in the tilesheet
+enum Type {
+	BREAD = 0,
+	MOLD,
+	SURROUNDED_MOLD,
+	JAM,
+	NONE,
+}
 
-const type_bread: Array[Vector2i] = [bread_terrain, dark_bread_terrain]
-const type_mold: Array[Vector2i] = [mold_terrain, surrounded_mold_terrain]
-
+## The size that each type of tile takes up in the tile atlas
+const atlas_tile_size: Vector2i = Vector2i(9, 3)
 
 ## If on the spreading can be started manually via the "ui_accept" action.
 @export var debug: bool = false
@@ -24,6 +26,7 @@ var mold_tiles_cache: PackedVector2Array
 var used_cells: Array
 
 @onready var spread_timer := $MoldSpreadTimer
+@onready var tile_size_scaled: Vector2i = Vector2(tile_set.tile_size) * scale
 
 
 func _ready() -> void:
@@ -40,7 +43,7 @@ func start_spread_with_delay(delay: float) -> void:
 
 
 func spread() -> void:
-	used_cells = get_used_cells_by_id(main_layer, 0, mold_terrain)
+	used_cells = get_used_cells_by_type(main_layer, Type.MOLD)
 	used_cells.shuffle()
 	var random_index = randi_range(10, 50)
 	var cells_to_change = used_cells.slice(0, random_index)
@@ -55,7 +58,7 @@ func get_adjacent_tiles(tile: Vector2i) -> void:
 	adjacent_tiles = get_surrounding_cells(tile)
 	
 	for tile_coords in adjacent_tiles:
-		if is_type_bread(tile_coords):
+		if is_type_bread(main_layer, tile_coords):
 			matching_tiles.append(tile_coords)
 
 	#Selects a random bread tile if there is one
@@ -72,15 +75,32 @@ func get_adjacent_tiles(tile: Vector2i) -> void:
 		
 func set_mold_cells() -> void:
 	for current_tile in next_mold_tiles:
-		place_mold(current_tile)
+		place_mold(main_layer, current_tile)
 	next_mold_tiles.clear()
 
 
 func _on_mold_spread_timer_timeout() -> void:
 	for tile in mold_tiles_cache:
-		set_cell(main_layer, tile, 0, surrounded_mold_terrain)
+		set_cell_by_type(main_layer, tile, Type.SURROUNDED_MOLD)
 	spread()
 
+
+func get_used_cells_by_type(layer: int, type: Type) -> Array[Vector2i]:
+	var out: Array[Vector2i] = []
+	for row in atlas_tile_size.y:
+		for col in atlas_tile_size.x:
+			var atlas_coords := Vector2i(col, row)
+			atlas_coords.y += atlas_tile_size.y * type
+			out.append_array(get_used_cells_by_id(layer, 0, atlas_coords))
+	return out
+	
+	
+func set_cell_by_type(layer: int, coords: Vector2i, type: Type) -> void:
+	var atlas_coords := get_cell_atlas_coords(layer, coords)
+	atlas_coords %= atlas_tile_size
+	atlas_coords.y += atlas_tile_size.y * type
+	set_cell(layer, coords, 0, atlas_coords)
+	
 
 func start_spread() -> void:
 	spread_timer.start()
@@ -98,56 +118,62 @@ func _input(event: InputEvent) -> void:
 
 # Converts global coordinates to tile coordinates
 func global_to_map(global_point: Vector2) -> Vector2i:
-	return local_to_map(to_local(global_point))
+	return local_to_map(to_local(global_point)) # TODO: Fix this to work with scaled tilemap
 
 	
 # Tries to place mold at given tile_coords and then returns a boolean whether or not it successfully placed a mold or not
-func place_mold(tile_coords: Vector2i) -> bool:
-	if is_type_bread(tile_coords):
-		set_cell(main_layer, tile_coords, 0, mold_terrain)
+func place_mold(layer: int, tile_coords: Vector2i) -> bool:
+	if is_type_bread(layer, tile_coords):
+		set_cell_by_type(layer, tile_coords, Type.MOLD)
 		return true
 	return false
 
 
-func clear_mold(tile_coords: Vector2i) -> bool:
-	if is_type_mold(tile_coords):
-		set_cell(main_layer, tile_coords, 0, bread_terrain)
+func clear_mold(layer: int, tile_coords: Vector2i) -> bool:
+	if is_type_mold(layer, tile_coords):
+		set_cell_by_type(layer, tile_coords, Type.BREAD)
 		return true
 	return false
 
 
 # Tries to place jam at given tile_coords and then returns a boolean whether or not it successfully placed a mold or not
-func place_jam(tile_coords: Vector2i) -> bool:
-	set_cell(main_layer, tile_coords, 0, jam_terrain)
+func place_jam(layer: int, tile_coords: Vector2i) -> bool:
+	set_cell_by_type(layer, tile_coords, Type.JAM)
 	return true
 
 
-func is_type_mold(tile_coords: Vector2i) -> bool:
-	var atlas_coords = get_cell_atlas_coords(main_layer, tile_coords)
-	return atlas_coords in type_mold
+func is_type_mold(layer: int, tile_coords: Vector2i) -> bool:
+	return get_type(layer, tile_coords) == Type.MOLD
 
 
-func is_type_bread(tile_coords: Vector2i) -> bool:
-	var atlas_coords = get_cell_atlas_coords(main_layer, tile_coords)
-	return atlas_coords in type_bread
+func is_type_bread(layer: int, tile_coords: Vector2i) -> bool:
+	return get_type(layer, tile_coords) == Type.BREAD
+
+
+func get_type(layer: int, tile_coords: Vector2i) -> Type:
+	var atlas_coords := get_cell_atlas_coords(layer, tile_coords)
+	for type in Type.values():
+		if atlas_coords.y < atlas_tile_size.y * (type + 1):
+			return type
+	return Type.NONE
 
 
 # Functions with _g suffix take in global coordinates not tile coordinates
-func place_mold_g(global_coords: Vector2) -> bool:
-	return place_mold(global_to_map(global_coords))
+func place_mold_g(layer: int, global_coords: Vector2) -> bool:
+	return place_mold(layer, global_to_map(global_coords))
 
 
-func clear_mold_g(global_coords: Vector2) -> bool:
-	return clear_mold(global_to_map(global_coords))
+func place_jam_g(layer: int, global_coords: Vector2) -> bool:
+	return place_jam(layer, global_to_map(global_coords))
 
 
-func place_jam_g(global_coords: Vector2) -> bool:
-	return place_jam(global_to_map(global_coords))
+func clear_mold_g(layer: int, global_coords: Vector2) -> bool:
+	return clear_mold(layer, global_to_map(global_coords))
 
 
-func is_type_mold_g(global_coords: Vector2) -> bool:
-	return is_type_mold(global_to_map(global_coords))
+func is_type_mold_g(layer: int, global_coords: Vector2) -> bool:
+	return is_type_mold(layer, global_to_map(global_coords))
 
 
-func is_type_bread_g(global_coords: Vector2) -> bool:
-	return is_type_bread(global_to_map(global_coords))
+func is_type_bread_g(layer: int, global_coords: Vector2) -> bool:
+	return is_type_bread(layer, global_to_map(global_coords))

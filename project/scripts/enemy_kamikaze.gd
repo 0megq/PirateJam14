@@ -154,13 +154,13 @@ func explode() -> void:
 		for i in MOLD_PER_EXPLOSION:
 			var rand_pos := get_random_position_in_circle(global_position, explosion_damage_radius)
 			var attempts = 0
-			while(Global.tile_map.is_type_mold_g(rand_pos)):
+			while(Global.tile_map.is_type_mold_g(Global.tile_map.main_layer, rand_pos)):
 				attempts += 1
 				if attempts > MAX_MOLD_PLACE_ATTEMPTS:
 					break
 				rand_pos = get_random_position_in_circle(global_position, explosion_damage_radius)
 			
-			Global.tile_map.place_mold_g(rand_pos)
+			Global.tile_map.place_mold_g(Global.tile_map.main_layer, rand_pos)
 		
 	# Player damage
 	if (player and is_player_in_radius(explosion_damage_radius)):

@@ -321,7 +321,7 @@ func _input(event: InputEvent) -> void:
 
 
 func clear_mold_tiles() -> void:
-	var tile_size := Global.tile_map.tile_set.tile_size
+	var tile_size := Global.tile_map.tile_size_scaled
 	var rotated_polygon := rotate_polygon(attack_col_polygon.polygon, attack_hitbox.rotation)
 	var col_polygon_global := polygon_to_global(rotated_polygon)
 	var tile_aligned_bounding_box: Rect2i = get_tilemap_aligned_bounding_box(col_polygon_global, tile_size)
@@ -331,7 +331,7 @@ func clear_mold_tiles() -> void:
 		for y in range(tile_aligned_bounding_box.position.y, tile_aligned_bounding_box.end.y, tile_size.y):
 			var tile_center := Vector2(x + tile_size.x / 2, y + tile_size.y / 2)
 			if Geometry2D.is_point_in_polygon(tile_center, col_polygon_global):
-				Global.tile_map.clear_mold_g(tile_center)
+				Global.tile_map.clear_mold_g(Global.tile_map.main_layer, tile_center)
 
 
 func rotate_polygon(polygon: PackedVector2Array, angle: float) -> PackedVector2Array:

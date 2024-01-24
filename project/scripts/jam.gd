@@ -125,7 +125,7 @@ func get_tilemap_aligned_bounding_box(polygon: PackedVector2Array, tile_size: Ve
 
 
 func place_jam_tiles() -> void:
-	var tile_size := Global.tile_map.tile_set.tile_size
+	var tile_size := Global.tile_map.tile_size_scaled
 	var col_polygon_global := polygon_to_global(collision_polygon.polygon)
 	var tile_aligned_bounding_box: Rect2i = get_tilemap_aligned_bounding_box(col_polygon_global, tile_size)
 	
@@ -134,7 +134,7 @@ func place_jam_tiles() -> void:
 		for y in range(tile_aligned_bounding_box.position.y, tile_aligned_bounding_box.end.y, tile_size.y):
 			var tile_center := Vector2(x + tile_size.x / 2, y + tile_size.y / 2)
 			if Geometry2D.is_point_in_polygon(tile_center, col_polygon_global):
-				Global.tile_map.place_jam_g(tile_center)
+				Global.tile_map.place_jam_g(Global.tile_map.main_layer, tile_center)
 
 # Returns a rectangle which outlines the entire collision polygon
 func get_polygon_bounding_box(polygon: PackedVector2Array) -> Rect2:
