@@ -34,6 +34,12 @@ func _ready() -> void:
 	
 	if autostart:
 		start_spread_with_delay(autostart_delay)
+
+
+func get_mold_percentage() -> float:
+	var mold_tiles: float = get_used_cells_by_type(main_layer, Type.MOLD).size() + get_used_cells_by_type(main_layer, Type.SURROUNDED_MOLD).size()
+	var tiles: float = get_used_cells(main_layer).size()
+	return mold_tiles / tiles
 	
 	
 func start_spread_with_delay(delay: float) -> void:
