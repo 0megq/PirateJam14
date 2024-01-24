@@ -13,7 +13,7 @@ enum Type {
 }
 
 ## The size that each type of tile takes up in the tile atlas
-const atlas_tile_size: Vector2i = Vector2i(9, 3)
+const atlas_tile_size: Vector2i = Vector2i(15, 3)
 
 ## If on the spreading can be started manually via the "ui_accept" action.
 @export var debug: bool = false
