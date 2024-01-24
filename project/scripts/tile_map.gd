@@ -81,7 +81,8 @@ func set_mold_cells() -> void:
 
 func _on_mold_spread_timer_timeout() -> void:
 	for tile in mold_tiles_cache:
-		set_cell_by_type(main_layer, tile, Type.SURROUNDED_MOLD)
+		if is_type_mold(main_layer, tile):
+			set_cell_by_type(main_layer, tile, Type.SURROUNDED_MOLD)
 	spread()
 
 
@@ -130,7 +131,7 @@ func place_mold(layer: int, tile_coords: Vector2i) -> bool:
 
 
 func clear_mold(layer: int, tile_coords: Vector2i) -> bool:
-	if is_type_mold(layer, tile_coords):
+	if is_type_mold(layer, tile_coords) || get_type(layer, tile_coords) == Type.SURROUNDED_MOLD:
 		set_cell_by_type(layer, tile_coords, Type.BREAD)
 		return true
 	return false
