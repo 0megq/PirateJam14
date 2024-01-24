@@ -88,6 +88,7 @@ func set_mold_cells() -> void:
 func _on_mold_spread_timer_timeout() -> void:
 	for tile in mold_tiles_cache:
 		set_cell_by_type(main_layer, tile, Type.SURROUNDED_MOLD)
+	mold_tiles_cache.clear()
 	spread()
 
 
@@ -136,8 +137,15 @@ func place_mold(layer: int, tile_coords: Vector2i) -> bool:
 
 
 func clear_mold(layer: int, tile_coords: Vector2i) -> bool:
-	if is_type_mold(layer, tile_coords):
+	if is_type_mold(layer, tile_coords) || is_type_surrounded_mold(layer, tile_coords):
 		set_cell_by_type(layer, tile_coords, Type.BREAD)
+		for cell in get_surrounding_cells(tile_coords):
+			if is_type_surrounded_mold(layer, cell):
+				set_cell_by_type(layer, cell, Type.MOLD)
+				# Remove the newly placed mold from the mold tiles cache so it isnt replaced with a surrounded mold tile
+				#var index := mold_tiles_cache.find(cell)
+				#if index > -1:
+					#mold_tiles_cache.remove_at(index)
 		return true
 	return false
 
@@ -150,6 +158,10 @@ func place_jam(layer: int, tile_coords: Vector2i) -> bool:
 
 func is_type_mold(layer: int, tile_coords: Vector2i) -> bool:
 	return get_type(layer, tile_coords) == Type.MOLD
+	
+
+func is_type_surrounded_mold(layer: int, tile_coords: Vector2i) -> bool:
+	return get_type(layer, tile_coords) == Type.SURROUNDED_MOLD
 
 
 func is_type_bread(layer: int, tile_coords: Vector2i) -> bool:
@@ -179,6 +191,10 @@ func clear_mold_g(layer: int, global_coords: Vector2) -> bool:
 
 func is_type_mold_g(layer: int, global_coords: Vector2) -> bool:
 	return is_type_mold(layer, global_to_map(global_coords))
+
+
+func is_type_surrounded_mold_g(layer: int, global_coords: Vector2i) -> bool:
+	return is_type_surrounded_mold(layer, global_to_map(global_coords))
 
 
 func is_type_bread_g(layer: int, global_coords: Vector2) -> bool:
