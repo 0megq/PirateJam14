@@ -129,6 +129,13 @@ func place_mold(layer: int, tile_coords: Vector2i) -> bool:
 	return false
 
 
+func clear_mold(layer: int, tile_coords: Vector2i) -> bool:
+	if is_type_mold(layer, tile_coords):
+		set_cell_by_type(layer, tile_coords, Type.BREAD)
+		return true
+	return false
+
+
 # Tries to place jam at given tile_coords and then returns a boolean whether or not it successfully placed a mold or not
 func place_jam(layer: int, tile_coords: Vector2i) -> bool:
 	set_cell_by_type(layer, tile_coords, Type.JAM)
@@ -158,6 +165,10 @@ func place_mold_g(layer: int, global_coords: Vector2) -> bool:
 
 func place_jam_g(layer: int, global_coords: Vector2) -> bool:
 	return place_jam(layer, global_to_map(global_coords))
+
+
+func clear_mold_g(layer: int, global_coords: Vector2) -> bool:
+	return clear_mold(layer, global_to_map(global_coords))
 
 
 func is_type_mold_g(layer: int, global_coords: Vector2) -> bool:
