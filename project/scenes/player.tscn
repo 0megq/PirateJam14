@@ -1,10 +1,14 @@
-[gd_scene load_steps=50 format=3 uid="uid://csvup43edsyfq"]
+[gd_scene load_steps=54 format=3 uid="uid://csvup43edsyfq"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_i8wxh"]
 [ext_resource type="Texture2D" uid="uid://d1ha2nhvs16v4" path="res://assets/Animations_spritesheet.png" id="2_78ivi"]
 [ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="3_4msb0"]
 [ext_resource type="Texture2D" uid="uid://hdxa7emrvjta" path="res://assets/knife.png" id="4_ea0ux"]
 [ext_resource type="AudioStream" uid="uid://vlhueovc7pqa" path="res://tests/footysteps.wav" id="4_oju2p"]
+[ext_resource type="AudioStream" uid="uid://5jm3ttbg8dkl" path="res://assets/sounds/sword_slash.wav" id="5_f34el"]
+[ext_resource type="AudioStream" uid="uid://eiyool5agbk3" path="res://assets/sounds/jam splash2.wav" id="7_8cyaw"]
+[ext_resource type="AudioStream" uid="uid://5ssn0s0xb6kq" path="res://assets/sounds/dip.wav" id="8_0n768"]
+[ext_resource type="AudioStream" uid="uid://ba0tkub141apt" path="res://assets/sounds/playerhurt.wav" id="9_u2r2l"]
 
 [sub_resource type="Animation" id="Animation_dm5uu"]
 length = 0.001
@@ -879,9 +883,6 @@ parameters/Walking/blend_position = Vector2(0.0803419, -0.280423)
 process_callback = 0
 wait_time = 0.2
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_oju2p")
-
 [node name="Footsteps" type="Timer" parent="."]
 wait_time = 0.4
 one_shot = true
@@ -959,6 +960,36 @@ scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("4_ea0ux")
 region_enabled = true
 region_rect = Rect2(288, 128, 32, 32)
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("5_f34el")
+panning_strength = 0.0
+bus = &"Sounds"
+
+[node name="Footsteps" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("4_oju2p")
+volume_db = 10.0
+panning_strength = 0.0
+bus = &"Sounds"
+
+[node name="JamSplash" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("7_8cyaw")
+volume_db = -10.0
+panning_strength = 0.0
+bus = &"Sounds"
+
+[node name="Dip" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("8_0n768")
+panning_strength = 0.0
+bus = &"Sounds"
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("9_u2r2l")
+volume_db = 8.0
+pitch_scale = 1.15
+panning_strength = 0.0
 
 [connection signal="timeout" from="AttackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ylvm0hspe11h"]
+[gd_scene load_steps=4 format=3 uid="uid://ylvm0hspe11h"]
 
 [ext_resource type="Script" path="res://scripts/enemy_base.gd" id="1_omc3k"]
 [ext_resource type="PackedScene" path="res://scenes/enemy_health_bar.tscn" id="2_v8vpn"]
+[ext_resource type="AudioStream" uid="uid://cxo1fmpqdhf3u" path="res://assets/sounds/enemyhurt.wav" id="3_th5tq"]
 
 [node name="EnemyBase" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 2
@@ -31,3 +32,7 @@ monitorable = false
 offset_right = 22.0
 offset_bottom = 10.0
 enemy = NodePath("..")
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_th5tq")
+bus = &"Sounds"

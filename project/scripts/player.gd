@@ -143,11 +143,24 @@ func animate() -> void:
 
 
 func sounds():
+	var footsteps_timer: Timer = $Footsteps
+	var footsteps: AudioStreamPlayer2D = $Sounds/Footsteps
+	var attack: AudioStreamPlayer2D = $Sounds/Attack
+	var jamsplash: AudioStreamPlayer2D = $Sounds/JamSplash
+	var dip: AudioStreamPlayer2D = $Sounds/Dip
+	var hurt: AudioStreamPlayer2D = $Sounds/Hurt
+
 	if velocity.length() > 0:
-		if $Footsteps.time_left == 0:
-			$AudioStreamPlayer2D.set_pitch_scale(randf_range(0.8, 1.2))
-			$AudioStreamPlayer2D.play()
-			$Footsteps.start()
+		if footsteps_timer.time_left == 0:
+			footsteps.set_pitch_scale(randf_range(0.8, 1.2))
+			footsteps.play()
+			footsteps_timer.start()
+	if attack_input and can_attack:
+		attack.set_pitch_scale(randf_range(0.8, 1.2))
+		attack.play()
+	if attack_input and can_attack and current_ammo > 0:
+		jamsplash.set_pitch_scale(0.8)
+		jamsplash.play()
 
 # Moves the player (duh)
 func move(delta: float) -> void:
@@ -176,6 +189,8 @@ func reload() -> void:
 		
 	# Refill ammo. "reload" animation will call increment_ammo to increase ammo
 	reload_anim_player.play("reload_start")
+	
+	#$Sounds/Dip.play()
 
 
 # Increases current_ammo by 1. Used by the reload anim player to increase ammo at a specific frame of the reload animation
@@ -192,9 +207,11 @@ func exit_reload() -> void:
 func _on_reload_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "reload_start":
 		reload_anim_player.play("reload")
+		$Sounds/Dip.play()
 	elif anim_name == "reload":
 		if current_ammo < max_ammo:
 			reload_anim_player.play("reload")
+			$Sounds/Dip.play()
 		else:
 			reload_anim_player.play("reload_finish")
 	elif anim_name == "reload_finish":
@@ -271,7 +288,7 @@ func take_damage(damage: int) -> void:
 	if is_hurt:
 		return
 	current_health -= damage
-	
+	$Sounds/Hurt.play()
 	modulate = Color.RED
 	is_hurt = true
 	

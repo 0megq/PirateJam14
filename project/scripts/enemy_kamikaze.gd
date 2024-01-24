@@ -135,6 +135,7 @@ func change_state(new_state: State) -> void:
 			anim_player.play("charge")
 		State.EXPLODE:
 			anim_player.play("explode")
+			$Explosion.play()
 		State.IDLE:
 			idle_timer.start(randf_range(MIN_IDLE_TIME, MAX_IDLE_TIME))
 			anim_player.play("idle")
@@ -167,6 +168,8 @@ func explode() -> void:
 		player.take_damage(base_damage)
 	
 	# Removing self
+	set_modulate(Color(0,0,0,0))
+	await $Explosion.finished
 	queue_free()
 
 
@@ -204,6 +207,8 @@ func get_random_position_in_circle(center: Vector2, radius: float) -> Vector2:
 func die() -> void:
 	# Placeholder
 	print("%s died" % self)
+	set_modulate(Color(0,0,0,0))
+	await $Hurt.finished
 	queue_free()
 
 
