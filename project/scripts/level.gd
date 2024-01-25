@@ -5,11 +5,15 @@ signal quit_clicked
 # How much does a single player life count in game score
 const score_per_player_life: int = 7
 
+# Bronze -> Gold
+const score_per_medal: Array[int] = [50, 80, 100]
+
 var enemies_left: int = 0
 
 @onready var enemy_container: Node2D = $EnemyContainer
 @onready var player: Player = $Player
 @onready var tilemap: Map = $TileMap
+@onready var ui: CanvasLayer = $UI
 
 
 func _ready() -> void:
@@ -59,7 +63,6 @@ func _on_enemy_added(_node: Node) -> void:
 
 func _on_enemy_removed(_node: Node) -> void:
 	enemies_left -= 1
-	print(enemies_left)
 	if enemies_left <= 0:
 		end_game()
 
@@ -73,8 +76,7 @@ func lose_game() -> void:
 
 	
 func end_game() -> void:
-	print("game ending all enemies died")
-	print("you got %s score" % get_score())
+	ui.game_over(get_score(), score_per_medal, player.current_lives, player.max_lives, score_per_player_life, tilemap.get_mold_percentage())
 	
 
 # Returns a score out of 100

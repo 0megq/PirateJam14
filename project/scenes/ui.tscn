@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://c0r4avjgxpuld"]
+[gd_scene load_steps=9 format=3 uid="uid://c0r4avjgxpuld"]
 
 [ext_resource type="Script" path="res://scripts/UI.gd" id="1_blc8q"]
 [ext_resource type="PackedScene" uid="uid://c4thh8utbayxe" path="res://scenes/player_health_bar.tscn" id="2_shmos"]
 [ext_resource type="PackedScene" uid="uid://qx6k5ivmf32w" path="res://scenes/ammo_bar.tscn" id="5_8x32h"]
-[ext_resource type="PackedScene" path="res://scenes/bread_health_bar.tscn" id="6_4xupc"]
+[ext_resource type="PackedScene" uid="uid://mdww2i5k8jub" path="res://scenes/bread_health_bar.tscn" id="6_4xupc"]
 [ext_resource type="PackedScene" uid="uid://ciok0vj6ut33y" path="res://scenes/life_bar.tscn" id="6_ll5ik"]
 [ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="7_i33ht"]
 [ext_resource type="Script" path="res://scripts/enemy_cursor.gd" id="8_qfhds"]
+[ext_resource type="PackedScene" uid="uid://ct8gig3s6mkxc" path="res://scenes/game_over_screen.tscn" id="8_vp242"]
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_blc8q")
@@ -35,3 +36,5 @@ texture_filter = 1
 texture = ExtResource("7_i33ht")
 offset = Vector2(-8, 0.5)
 script = ExtResource("8_qfhds")
+
+[node name="GameOver" parent="." instance=ExtResource("8_vp242")]
