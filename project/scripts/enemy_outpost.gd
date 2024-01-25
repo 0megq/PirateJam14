@@ -1,4 +1,4 @@
-extends Area2D
+class_name EnemyOutpost extends Area2D
 
 signal health_changed(current_health: float, max_health: int)
 

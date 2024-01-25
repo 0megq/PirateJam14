@@ -4,6 +4,7 @@ extends CharacterBody2D
 signal health_changed(current_health: float, max_health: int)
 signal ammo_changed(current_ammo: int, max_ammo: int)
 signal lives_changed(current_lives: int, max_lives: int)
+signal died
 
 
 # Exports
@@ -83,6 +84,7 @@ var current_max_speed: float
 @onready var reload_anim_player: AnimationPlayer = $ReloadAnimationPlayer
 @onready var cursor: Sprite2D = $Cursor
 @onready var attack_look_timer: Timer = $AttackLookTimer
+@onready var camera: Camera2D = $Camera2D
 
 func _ready() -> void:
 	Global.player = self
@@ -309,8 +311,8 @@ func new_life_effects() -> void:
 
 
 func die() -> void:
-	print("player is dead")
-	queue_free()
+	died.emit()
+	process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _input(event: InputEvent) -> void:

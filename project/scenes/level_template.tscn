@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://du4k65up0irb6"]
+
+[ext_resource type="PackedScene" uid="uid://csvup43edsyfq" path="res://scenes/player.tscn" id="1_hmb23"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_ynbc6"]
+[ext_resource type="PackedScene" uid="uid://5m0a4wdyii8h" path="res://scenes/ui.tscn" id="2_f2fio"]
+[ext_resource type="PackedScene" uid="uid://vlc4tca1q8dq" path="res://scenes/tile_map.tscn" id="3_nd1wt"]
+
+[node name="LevelTemplate" type="Node2D"]
+script = ExtResource("1_ynbc6")
+
+[node name="Player" parent="." node_paths=PackedStringArray("jam_container") instance=ExtResource("1_hmb23")]
+jam_container = NodePath("../JamContainer")
+
+[node name="UI" parent="." instance=ExtResource("2_f2fio")]
+
+[node name="JamContainer" type="Node" parent="."]
+
+[node name="TileMap" parent="." instance=ExtResource("3_nd1wt")]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+
+[node name="EnemyContainer" type="Node2D" parent="."]
