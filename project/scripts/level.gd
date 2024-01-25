@@ -1,6 +1,8 @@
 class_name Level extends Node2D
 
-signal quit_clicked
+signal quit_level
+signal retry_level
+signal next_level
 
 # How much does a single player life count in game score
 const score_per_player_life: int = 7
@@ -82,3 +84,15 @@ func end_game() -> void:
 # Returns a score out of 100
 func get_score() -> int:
 	return player.current_lives * score_per_player_life + (1 - tilemap.get_mold_percentage()) * 100
+
+
+func _on_ui_next_level() -> void:
+	next_level.emit()
+
+
+func _on_ui_quit_level() -> void:
+	quit_level.emit()
+
+
+func _on_ui_retry_level() -> void:
+	retry_level.emit()

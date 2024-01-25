@@ -1,5 +1,9 @@
 extends CanvasLayer
 
+signal retry_level
+signal next_level
+signal quit_level
+
 
 func _ready() -> void:
 	$GameOver.hide()
@@ -22,3 +26,15 @@ func lose() -> void:
 
 func game_over(score: int, score_per_medal: Array[int], current_lives: int, max_lives: int, score_per_life: int, mold_percent: float) -> void:
 	$GameOver.display_score(score, score_per_medal, current_lives, max_lives, score_per_life, mold_percent)
+
+
+func _on_game_over_next_pressed() -> void:
+	next_level.emit()
+
+
+func _on_game_over_quit_pressed() -> void:
+	quit_level.emit()
+
+
+func _on_game_over_retry_pressed() -> void:
+	retry_level.emit()

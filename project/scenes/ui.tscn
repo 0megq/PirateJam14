@@ -38,3 +38,7 @@ offset = Vector2(-8, 0.5)
 script = ExtResource("8_qfhds")
 
 [node name="GameOver" parent="." instance=ExtResource("8_vp242")]
+
+[connection signal="next_pressed" from="GameOver" to="." method="_on_game_over_next_pressed"]
+[connection signal="quit_pressed" from="GameOver" to="." method="_on_game_over_quit_pressed"]
+[connection signal="retry_pressed" from="GameOver" to="." method="_on_game_over_retry_pressed"]
