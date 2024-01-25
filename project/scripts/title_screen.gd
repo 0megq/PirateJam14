@@ -1,8 +1,10 @@
 extends Control
 
+signal play_pressed
+
 @onready var controls_panel = $MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Image
 @onready var options_panel = $MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel
-@onready var options_sliders = $MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders
+
 @onready var background = $Background
 @onready var panel = $MarginContainer/VBoxContainer/HBoxContainer/Controls/Background
 # Called when the node enters the scene tree for the first time.
@@ -12,9 +14,9 @@ func _ready() -> void:
 
 
 func _on_controls_pressed() -> void:
-	options_sliders.hide()
-	controls_panel.show()
+	controls_panel.visible = !controls_panel.visible
 	background.modulate = Color(0.5,0.5,0.5)
+	options_panel.hide()
 
 
 func _on_controls_focus_exited() -> void:
@@ -22,13 +24,15 @@ func _on_controls_focus_exited() -> void:
 	background.modulate = Color(0.9,0.9,0.9)
 
 func _on_play_pressed() -> void:
-	get_tree().change_scene_to_file("res://tests/testing_scene.tscn")
+	play_pressed.emit()
 
 
 func _on_options_pressed() -> void:
-	options_panel.show()
-	options_sliders.show()
+	options_panel.visible = !options_panel.visible
 	background.modulate = Color(0.5,0.5,0.5)
+	controls_panel.hide()
+	
+	
 
 func _on_options_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_up"):
@@ -41,6 +45,7 @@ func _on_options_gui_input(event: InputEvent) -> void:
 
 func _on_play_focus_entered() -> void:
 	if options_panel:
+		controls_panel.hide()
 		options_panel.hide()
 	$Background.modulate = Color(0.9,0.9,0.9)
 
@@ -50,3 +55,8 @@ func _on_quit_pressed() -> void:
 #func _input(event: InputEvent) -> void:
 	#if event.is_action_pressed("ui_focus_next"):
 		#$Background2/AnimationPlayer.play("parallax_fade_in")
+
+
+func _on_options_focus_exited() -> void:
+	options_panel.hide()
+	background.modulate = Color(0.9,0.9,0.9)
