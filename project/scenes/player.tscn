@@ -990,6 +990,7 @@ stream = ExtResource("9_u2r2l")
 volume_db = 8.0
 pitch_scale = 1.15
 panning_strength = 0.0
+bus = &"Sounds"
 
 [connection signal="timeout" from="AttackIntervalTimer" to="." method="_on_attack_interval_timer_timeout"]
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
