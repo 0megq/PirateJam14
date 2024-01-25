@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://5m0a4wdyii8h"]
+[gd_scene load_steps=8 format=3 uid="uid://c0r4avjgxpuld"]
 
 [ext_resource type="Script" path="res://scripts/UI.gd" id="1_blc8q"]
 [ext_resource type="PackedScene" uid="uid://c4thh8utbayxe" path="res://scenes/player_health_bar.tscn" id="2_shmos"]
-[ext_resource type="PackedScene" uid="uid://cuhdcu3glcrkg" path="res://scenes/pause_menu.tscn" id="4_2ce2r"]
 [ext_resource type="PackedScene" uid="uid://qx6k5ivmf32w" path="res://scenes/ammo_bar.tscn" id="5_8x32h"]
-[ext_resource type="PackedScene" uid="uid://mdww2i5k8jub" path="res://scenes/bread_health_bar.tscn" id="6_4xupc"]
+[ext_resource type="PackedScene" path="res://scenes/bread_health_bar.tscn" id="6_4xupc"]
 [ext_resource type="PackedScene" uid="uid://ciok0vj6ut33y" path="res://scenes/life_bar.tscn" id="6_ll5ik"]
 [ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="7_i33ht"]
 [ext_resource type="Script" path="res://scripts/enemy_cursor.gd" id="8_qfhds"]
@@ -27,8 +26,6 @@ offset_left = 309.0
 offset_top = 41.0
 offset_right = 349.0
 offset_bottom = 41.0
-
-[node name="PauseMenu" parent="." instance=ExtResource("4_2ce2r")]
 
 [node name="BreadHealthBar" parent="." instance=ExtResource("6_4xupc")]
 

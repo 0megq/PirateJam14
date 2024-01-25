@@ -15,13 +15,12 @@ func _ready() -> void:
 
 func _on_controls_pressed() -> void:
 	controls_panel.visible = !controls_panel.visible
-	background.modulate = Color(0.5,0.5,0.5)
+	if controls_panel.visible:
+		background.modulate = Color(0.9,0.9,0.9)
+	else:
+		background.modulate = Color(0.5,0.5,0.5)
 	options_panel.hide()
 
-
-func _on_controls_focus_exited() -> void:
-	controls_panel.hide()
-	background.modulate = Color(0.9,0.9,0.9)
 
 func _on_play_pressed() -> void:
 	play_pressed.emit()
@@ -29,7 +28,10 @@ func _on_play_pressed() -> void:
 
 func _on_options_pressed() -> void:
 	options_panel.visible = !options_panel.visible
-	background.modulate = Color(0.5,0.5,0.5)
+	if options_panel.visible:
+		background.modulate = Color(0.9,0.9,0.9)
+	else:
+		background.modulate = Color(0.5,0.5,0.5)
 	controls_panel.hide()
 	
 	
@@ -55,8 +57,3 @@ func _on_quit_pressed() -> void:
 #func _input(event: InputEvent) -> void:
 	#if event.is_action_pressed("ui_focus_next"):
 		#$Background2/AnimationPlayer.play("parallax_fade_in")
-
-
-func _on_options_focus_exited() -> void:
-	options_panel.hide()
-	background.modulate = Color(0.9,0.9,0.9)

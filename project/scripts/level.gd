@@ -1,5 +1,7 @@
 class_name Level extends Node2D
 
+signal quit_clicked
+
 # How much does a single player life count in game score
 const score_per_player_life: int = 7
 
