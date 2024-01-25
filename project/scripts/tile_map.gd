@@ -18,7 +18,8 @@ const atlas_tile_size: Vector2i = Vector2i(15, 3)
 ## If on the spreading can be started manually via the "ui_accept" action.
 @export var debug: bool = false
 @export var autostart: bool = false
-@export var autostart_delay: float 
+@export var autostart_delay: float
+@export var spread_interval: float = 1
 
 var next_mold_tiles: PackedVector2Array
 var mold_tiles_cache: PackedVector2Array
@@ -40,6 +41,12 @@ func get_mold_percentage() -> float:
 	var mold_tiles: float = get_used_cells_by_type(main_layer, Type.MOLD).size() + get_used_cells_by_type(main_layer, Type.SURROUNDED_MOLD).size()
 	var tiles: float = get_used_cells(main_layer).size()
 	return mold_tiles / tiles
+	
+	
+func get_jam_percentage() -> float:
+	var jam_tiles: float = get_used_cells_by_type(main_layer, Type.JAM).size()
+	var tiles: float = get_used_cells(main_layer).size()
+	return jam_tiles / tiles
 	
 	
 func start_spread_with_delay(delay: float) -> void:
@@ -110,7 +117,7 @@ func set_cell_by_type(layer: int, coords: Vector2i, type: Type) -> void:
 	
 
 func start_spread() -> void:
-	spread_timer.start()
+	spread_timer.start(spread_interval)
 	
 
 func stop_spread() -> void:
