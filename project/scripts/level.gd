@@ -17,6 +17,40 @@ func _ready() -> void:
 	player.died.connect(_on_player_died)
 
 
+func _process(delta: float) -> void:
+	update_enemy_cursor()
+
+
+func update_enemy_cursor() -> void:
+	var enemy_pos := get_closest_enemy_position()
+	if enemy_pos < Vector2.INF:
+		var screen_center := player.camera.get_screen_center_position()
+		var enemy_screen_pos := enemy_pos - screen_center
+		$UI.update_enemy_cursor(enemy_screen_pos)
+
+
+# Get cloest enemy position to player. If there is outpost, outpost takes precedence even if outpost is farther than an enemy.
+func get_closest_enemy_position() -> Vector2:
+	if enemies_left <= 0:
+		return Vector2.INF
+	var is_outpost: bool = false
+	var closest_position: Vector2
+	var closest_distance_squared: float = INF
+	for enemy in enemy_container.get_children():
+		var distance_squared := player.position.distance_squared_to(enemy.position)
+		if !is_outpost && enemy is EnemyOutpost: # Checks for the first outpost and stops once found
+			is_outpost = true
+			closest_distance_squared = distance_squared
+			closest_position = enemy.position
+		elif is_outpost && !(enemy is EnemyOutpost): # If outpost is already found and the enemy is not outpost skip
+			continue
+		elif distance_squared < closest_distance_squared:
+			closest_distance_squared = distance_squared
+			closest_position = enemy.position
+		
+	return closest_position
+
+
 func _on_enemy_added(_node: Node) -> void:
 	enemies_left += 1
 

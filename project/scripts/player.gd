@@ -84,6 +84,7 @@ var current_max_speed: float
 @onready var reload_anim_player: AnimationPlayer = $ReloadAnimationPlayer
 @onready var cursor: Sprite2D = $Cursor
 @onready var attack_look_timer: Timer = $AttackLookTimer
+@onready var camera: Camera2D = $Camera2D
 
 func _ready() -> void:
 	Global.player = self
