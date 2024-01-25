@@ -57,7 +57,6 @@ func _on_enemy_added(_node: Node) -> void:
 
 func _on_enemy_removed(_node: Node) -> void:
 	enemies_left -= 1
-	print(enemies_left)
 	if enemies_left <= 0:
 		end_game()
 
