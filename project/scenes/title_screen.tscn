@@ -398,6 +398,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Jam Samurai" type="Label" parent="MarginContainer/VBoxContainer/Title"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_3x2ct")
 theme_override_font_sizes/font_size = 40
@@ -448,6 +449,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="Play" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_84h43")
 theme_override_font_sizes/font_size = 20
@@ -455,18 +457,21 @@ text = "Play"
 script = ExtResource("4_7jap4")
 
 [node name="Controls" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_84h43")
 theme_override_font_sizes/font_size = 20
 text = "Controls"
 
 [node name="Options" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_84h43")
 theme_override_font_sizes/font_size = 20
 text = "Options"
 
 [node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_84h43")
 theme_override_font_sizes/font_size = 20
@@ -478,8 +483,8 @@ autoplay = true
 bus = &"Music"
 
 [connection signal="animation_finished" from="Background2/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders" to="." method="_on_sliders_gui_input"]
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders" to="." method="_on_options_gui_input"]
+[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders" to="." method="_on_sliders_gui_input"]
 [connection signal="focus_entered" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Play" to="." method="_on_play_focus_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="focus_exited" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Controls" to="." method="_on_controls_focus_exited"]
