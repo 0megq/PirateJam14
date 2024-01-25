@@ -1,10 +1,13 @@
 class_name Level extends Node2D
 
+# How much does a single player life count in game score
+const score_per_player_life: int = 7
 
 var enemies_left: int = 0
 
 @onready var enemy_container: Node2D = $EnemyContainer
 @onready var player: Player = $Player
+@onready var tilemap: Map = $TileMap
 
 
 func _ready() -> void:
@@ -35,3 +38,9 @@ func lose_game() -> void:
 	
 func end_game() -> void:
 	print("game ending all enemies died")
+	print("you got %s score" % get_score())
+	
+
+# Returns a score out of 100
+func get_score() -> int:
+	return player.current_lives * score_per_player_life + (1 - tilemap.get_mold_percentage()) * 100
