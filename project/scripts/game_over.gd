@@ -11,14 +11,32 @@ const heart_scene: PackedScene = preload("res://scenes/game_over_heart.tscn")
 @onready var score_label: Label = $PanelContainer/VBoxContainer/Score
 @onready var medal_label: Label = $PanelContainer/VBoxContainer/Medal
 @onready var bread_health_label: Label = $PanelContainer/VBoxContainer/BreadHealth
+@onready var lose_label: Label = $PanelContainer/VBoxContainer/Lose
 
 
 #func _ready() -> void:
 	#display(14 + 24, [50, 70, 100], 2, 3, 7, 0.76)
 
 
-func display(score: int, score_per_medal: Array[int], current_lives: int, max_lives: int, score_per_life: int, mold_percent: float) -> void:
+func lose() -> void:
+	# Hide all UI Nodes except lose label
 	show()
+	lose_label.show()
+	medal_label.hide()
+	score_label.hide()
+	bread_health_label.hide()
+	heart_container.hide()
+
+
+func display_score(score: int, score_per_medal: Array[int], current_lives: int, max_lives: int, score_per_life: int, mold_percent: float) -> void:
+	show()
+	# Show Proper UI Nodes
+	lose_label.hide()
+	medal_label.show()
+	score_label.show()
+	bread_health_label.show()
+	heart_container.show()
+	
 	score_label.text = "Score: %s" % score
 	
 	if score >= score_per_medal[2]:
@@ -48,7 +66,7 @@ func display(score: int, score_per_medal: Array[int], current_lives: int, max_li
 		heart.set_score(score_per_life)
 		
 	# Bread Health
-	bread_health_label.text = "Bread Health: +%.0f" % ((1 - mold_percent) * 100)
+	bread_health_label.text = "Bread Health: +%.0f" % int((1 - mold_percent) * 100)
 	
 	
 func _on_quit_pressed() -> void:
