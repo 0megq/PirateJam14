@@ -36,16 +36,14 @@ func quit_level() -> void:
 
 func retry_current_level() -> void:
 	current_level.queue_free()
-	current_level = levels[current_level_number].instantiate()
-	add_child(current_level)
+	play()
 
 
 func next_level() -> void:
 	current_level.queue_free()
 	if current_level_number + 1 < levels.size():
 		current_level_number += 1
-		current_level = levels[current_level_number].instantiate()
-		add_child(current_level)
+		play()
 	else:
 		current_level = null
 		$TitleLayer.show()
