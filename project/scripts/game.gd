@@ -8,7 +8,6 @@ var current_level: Level
 
 
 func _on_title_screen_play_pressed() -> void:
-	current_level_number = 0
 	current_level = levels[current_level_number].instantiate()
 	add_child(current_level)
 	current_level.retry_level.connect(retry_current_level)
@@ -19,7 +18,6 @@ func _on_title_screen_play_pressed() -> void:
 
 func quit_level() -> void:
 	current_level.queue_free()
-	current_level_number = 0
 	$TitleLayer.show()
 	
 
@@ -30,9 +28,11 @@ func retry_current_level() -> void:
 
 
 func next_level() -> void:
-	if current_level_number < levels.size():
+	current_level.queue_free()
+	if current_level_number + 1 < levels.size():
 		current_level_number += 1
 		current_level = levels[current_level_number].instantiate()
 		add_child(current_level)
 	else:
-		print("last level reached")
+		$TitleLayer.show()
+		print("last level reached play credits here")
