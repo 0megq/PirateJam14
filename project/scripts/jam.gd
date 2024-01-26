@@ -78,11 +78,15 @@ func _on_particle_splat_timer_timeout() -> void:
 func _on_particle_decay_timer_timeout() -> void:
 	var tween = create_tween()
 	tween.tween_property(particles, "modulate", Color.TRANSPARENT, 1)
-	place_jam_tiles()
 	await tween.finished
 	queue_free()
 
 
+func _on_place_jam_timer_timeout() -> void:
+	place_jam_tiles()
+	$PlaceJamTimer.start()
+	
+	
 func _on_particle_stop_timer_timeout() -> void:
 	particles.process_mode = PROCESS_MODE_DISABLED
 
@@ -175,5 +179,8 @@ func polygon_to_global(polygon: PackedVector2Array) -> PackedVector2Array:
 	#var new_polygon: Polygon2D = Polygon2D.new()
 	#new_polygon.polygon = polygon
 	#get_parent().add_child(new_polygon)
+
+
+
 
 
