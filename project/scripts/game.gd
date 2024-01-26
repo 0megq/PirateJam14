@@ -8,6 +8,10 @@ var current_level: Level
 
 
 func _on_title_screen_play_pressed() -> void:
+	play()
+
+
+func play() -> void:
 	current_level = levels[current_level_number].instantiate()
 	add_child(current_level)
 	current_level.retry_level.connect(retry_current_level)
