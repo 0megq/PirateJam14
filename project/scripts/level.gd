@@ -78,6 +78,7 @@ func lose_game() -> void:
 
 
 func end_game() -> void:
+	tilemap.stop_spread()
 	ui.game_over(get_score(), score_per_medal, player.current_lives, player.max_lives, score_per_player_life, tilemap.get_mold_percentage())
 	
 
