@@ -1,13 +1,21 @@
 class_name Level extends Node2D
 
+signal quit_level
+signal retry_level
+signal next_level
+
 # How much does a single player life count in game score
 const score_per_player_life: int = 7
+
+# Bronze -> Gold
+const score_per_medal: Array[int] = [50, 80, 100]
 
 var enemies_left: int = 0
 
 @onready var enemy_container: Node2D = $EnemyContainer
 @onready var player: Player = $Player
 @onready var tilemap: Map = $TileMap
+@onready var ui: CanvasLayer = $UI
 
 
 func _ready() -> void:
@@ -66,14 +74,26 @@ func _on_player_died() -> void:
 
 
 func lose_game() -> void:
-	print("player lost all lives and died")
+	ui.lose()
 
-	
+
 func end_game() -> void:
-	print("game ending all enemies died")
-	print("you got %s score" % get_score())
+	tilemap.stop_spread()
+	ui.game_over(get_score(), score_per_medal, player.current_lives, player.max_lives, score_per_player_life, tilemap.get_mold_percentage())
 	
 
 # Returns a score out of 100
 func get_score() -> int:
 	return player.current_lives * score_per_player_life + (1 - tilemap.get_mold_percentage()) * 100
+
+
+func _on_ui_next_level() -> void:
+	next_level.emit()
+
+
+func _on_ui_quit_level() -> void:
+	quit_level.emit()
+
+
+func _on_ui_retry_level() -> void:
+	retry_level.emit()

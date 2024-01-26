@@ -254,7 +254,7 @@ _data = {
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ch0rc"]
 
-[node name="Container" type="Control"]
+[node name="TitleScreen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -398,6 +398,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Jam Samurai" type="Label" parent="MarginContainer/VBoxContainer/Title"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_3x2ct")
 theme_override_font_sizes/font_size = 40
@@ -435,7 +436,6 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ch0rc")
 
 [node name="Sliders" parent="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel" instance=ExtResource("5_58vub")]
-visible = false
 layout_mode = 1
 size_flags_vertical = 4
 
@@ -449,6 +449,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="Play" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_84h43")
 theme_override_font_sizes/font_size = 20
@@ -456,18 +457,21 @@ text = "Play"
 script = ExtResource("4_7jap4")
 
 [node name="Controls" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_84h43")
 theme_override_font_sizes/font_size = 20
 text = "Controls"
 
 [node name="Options" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_84h43")
 theme_override_font_sizes/font_size = 20
 text = "Options"
 
 [node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer"]
+texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_84h43")
 theme_override_font_sizes/font_size = 20

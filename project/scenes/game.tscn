@@ -1,16 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://br5gcgc5jpv4w"]
+[gd_scene load_steps=3 format=3 uid="uid://v1774nlc66e"]
 
-[ext_resource type="PackedScene" uid="uid://p7ukgd27bdnn" path="res://scenes/level_1.tscn" id="1_kyyiw"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_1msm2"]
 [ext_resource type="PackedScene" uid="uid://cutak7tx55oc3" path="res://scenes/title_screen.tscn" id="3_vagdt"]
 
 [node name="Game" type="Node"]
+script = ExtResource("1_1msm2")
 
-[node name="Level1" parent="." instance=ExtResource("1_kyyiw")]
-script = null
+[node name="TitleLayer" type="CanvasLayer" parent="."]
 
-[node name="Container" parent="." instance=ExtResource("3_vagdt")]
-visible = false
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
+[node name="TitleScreen" parent="TitleLayer" instance=ExtResource("3_vagdt")]
+
+[connection signal="play_pressed" from="TitleLayer/TitleScreen" to="." method="_on_title_screen_play_pressed"]

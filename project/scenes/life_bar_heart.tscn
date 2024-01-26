@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://xhpbvoq5yw1d"]
 
-[ext_resource type="Texture2D" uid="uid://chnsv510q8bab" path="res://assets/jam/jam_jar_empty.png" id="1_36s73"]
+[ext_resource type="Texture2D" uid="uid://bie6w4qg23pil" path="res://assets/player_life_icon.png" id="1_rcre4"]
 
 [node name="LifeBarHeart" type="TextureRect"]
 custom_minimum_size = Vector2(25, 20)
@@ -8,6 +8,6 @@ offset_right = 25.0
 offset_bottom = 20.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
-texture = ExtResource("1_36s73")
+texture = ExtResource("1_rcre4")
 expand_mode = 1
 stretch_mode = 5

@@ -1,15 +1,13 @@
 extends CanvasLayer
 
-@onready var pause_menu: Node = $PauseMenu
+signal retry_level
+signal next_level
+signal quit_level
 
-var is_paused: bool = false
 
 func _ready() -> void:
-	pause_menu.hide()
- 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause"):
-		pause_menu.popup()
+	$GameOver.hide()
+	
 
 
 func _on_pause_menu_about_to_popup() -> void:
@@ -20,3 +18,23 @@ func _on_pause_menu_popup_hide() -> void:
 
 func update_enemy_cursor(screen_pos: Vector2) -> void:
 	$EnemyCursor.update(screen_pos)
+
+
+func lose() -> void:
+	$GameOver.lose()
+
+
+func game_over(score: int, score_per_medal: Array[int], current_lives: int, max_lives: int, score_per_life: int, mold_percent: float) -> void:
+	$GameOver.display_score(score, score_per_medal, current_lives, max_lives, score_per_life, mold_percent)
+
+
+func _on_game_over_next_pressed() -> void:
+	next_level.emit()
+
+
+func _on_game_over_quit_pressed() -> void:
+	quit_level.emit()
+
+
+func _on_game_over_retry_pressed() -> void:
+	retry_level.emit()

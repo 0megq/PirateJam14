@@ -18,3 +18,7 @@ layer_0/tile_data = PackedInt32Array(-1376302, 65536, 1, -1310766, 65536, 1, -12
 navigation_polygon = SubResource("NavigationPolygon_dw04q")
 
 [node name="EnemyOutpost" parent="EnemyContainer" index="0" instance=ExtResource("2_2eu3y")]
+
+[connection signal="next_level" from="UI" to="." method="_on_ui_next_level"]
+[connection signal="quit_level" from="UI" to="." method="_on_ui_quit_level"]
+[connection signal="retry_level" from="UI" to="." method="_on_ui_retry_level"]
