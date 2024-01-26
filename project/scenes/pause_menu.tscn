@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cwo022lpg0jc" path="res://scenes/options.tscn" id="6_05rjj"]
 
 [node name="PauseMenu" type="ColorRect"]
-process_mode = 2
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,7 +54,6 @@ theme_override_fonts/font = ExtResource("2_677lm")
 text = "quit"
 
 [node name="OptionsMenu" type="HBoxContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -68,17 +66,19 @@ offset_right = 90.0
 offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 30
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="Close" type="Button" parent="OptionsMenu"]
 layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_677lm")
+text = "Close"
 
 [node name="Options" parent="OptionsMenu" instance=ExtResource("6_05rjj")]
 layout_mode = 2
 
 [node name="QuitMenu" type="ColorRect" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

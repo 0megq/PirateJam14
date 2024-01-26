@@ -8,10 +8,12 @@
 script = ExtResource("1_1msm2")
 
 [node name="TitleLayer" type="CanvasLayer" parent="."]
+layer = 3
 
 [node name="TitleScreen" parent="TitleLayer" instance=ExtResource("3_vagdt")]
 
 [node name="PauseLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="PauseMenu" parent="PauseLayer" instance=ExtResource("3_20811")]
 visible = false
