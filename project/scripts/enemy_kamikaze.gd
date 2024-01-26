@@ -173,7 +173,7 @@ func explode() -> void:
 func animation_reset() -> void:
 	$Sprite2D.modulate = Color.WHITE
 	$Sprite2D.rotation = 0
-	$Sprite2D.scale = Vector2.ONE * 0.2
+	$Sprite2D.scale = Vector2.ONE
 
 
 func get_random_wander_point() -> Vector2:
