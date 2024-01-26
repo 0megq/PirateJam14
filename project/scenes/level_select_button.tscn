@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2oy2w8uvor33"]
+
+[ext_resource type="FontFile" uid="uid://cy2mr8pwdog77" path="res://assets/fonts/Beanstalk.ttf" id="1_nop1i"]
+
+[node name="LevelSelectButton" type="Button"]
+texture_filter = 1
+custom_minimum_size = Vector2(80, 80)
+anchors_preset = -1
+anchor_right = 0.2
+anchor_bottom = 0.355333
+offset_right = -32.0
+offset_bottom = -31.92
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_nop1i")
+theme_override_font_sizes/font_size = 48
+text = "10"
+metadata/_edit_use_anchors_ = true

@@ -8,13 +8,20 @@ var current_level: Level
 
 
 @onready var pause_menu := $PauseLayer/PauseMenu
+@onready var title_screen := $TitleLayer/TitleScreen
 
 func _ready() -> void:
 	pause_menu.quit.connect(quit_level)
 	pause_menu.resume.connect(resume_level)
+	title_screen.total_levels = levels.size()
 
 
 func _on_title_screen_play_pressed() -> void:
+	play()
+
+
+func _on_title_screen_play_level(level: int) -> void:
+	current_level_number = level
 	play()
 
 
@@ -24,14 +31,14 @@ func play() -> void:
 	current_level.retry_level.connect(retry_current_level)
 	current_level.quit_level.connect(quit_level)
 	current_level.next_level.connect(next_level)
-	$TitleLayer.hide()
+	title_screen.hide()
 
 
 func quit_level() -> void:
 	pause_menu.hide()
 	current_level.queue_free()
 	current_level = null
-	$TitleLayer.show()
+	title_screen.show()
 	
 
 func retry_current_level() -> void:
@@ -46,7 +53,8 @@ func next_level() -> void:
 		play()
 	else:
 		current_level = null
-		$TitleLayer.show()
+		# PLACEHOLDER CODE
+		title_screen.show()
 		print("last level reached play credits here")
 
 
