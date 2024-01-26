@@ -751,6 +751,7 @@ sources/0 = SubResource("TileSetAtlasSource_cv13u")
 
 [node name="TileMap" type="TileMap"]
 z_index = -4
+texture_filter = 2
 scale = Vector2(0.125, 0.125)
 tile_set = SubResource("TileSet_l2fie")
 format = 2

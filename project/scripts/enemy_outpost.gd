@@ -3,7 +3,8 @@ class_name EnemyOutpost extends Area2D
 signal health_changed(current_health: float, max_health: int)
 
 var enemy_scenes: Dictionary = {
-	EnemyBase.Type.KAMIKAZE : preload("res://scenes/enemy_kamikaze.tscn")
+	EnemyBase.Type.KAMIKAZE : preload("res://scenes/enemy_kamikaze.tscn"),
+	EnemyBase.Type.MELEE : preload("res://scenes/enemy_melee.tscn"),
 }
 
 @export var spawn_interval: float

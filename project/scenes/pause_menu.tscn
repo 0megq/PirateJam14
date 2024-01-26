@@ -1,128 +1,132 @@
-[gd_scene load_steps=8 format=3 uid="uid://cuhdcu3glcrkg"]
+[gd_scene load_steps=5 format=3 uid="uid://cuhdcu3glcrkg"]
 
 [ext_resource type="FontFile" uid="uid://cy2mr8pwdog77" path="res://assets/fonts/Beanstalk.ttf" id="1_jhko7"]
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_mlke6"]
 [ext_resource type="FontFile" uid="uid://bjtxep2m1e6vr" path="res://assets/fonts/CelticTime.ttf" id="2_677lm"]
-[ext_resource type="Script" path="res://scripts/Button.gd" id="3_qf7kl"]
-[ext_resource type="Script" path="res://scripts/no.gd" id="5_7aue0"]
 [ext_resource type="PackedScene" uid="uid://cwo022lpg0jc" path="res://scenes/options.tscn" id="6_05rjj"]
-[ext_resource type="Script" path="res://scripts/savesettings.gd" id="6_qu4q3"]
 
-[node name="PauseMenu" type="PopupPanel"]
-process_mode = 2
-transparent_bg = true
-title = "Pause"
-initial_position = 2
-size = Vector2i(109, 101)
-visible = true
-always_on_top = true
-transparent = true
+[node name="PauseMenu" type="ColorRect"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.141176)
 script = ExtResource("1_mlke6")
 
-[node name="Pausing" type="VBoxContainer" parent="."]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 105.0
-offset_bottom = 97.0
+[node name="PauseMenu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -60.0
+offset_right = 90.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Paused" type="Label" parent="Pausing"]
+[node name="Paused" type="Label" parent="PauseMenu"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_jhko7")
 theme_override_font_sizes/font_size = 16
 text = "Paused"
 horizontal_alignment = 1
 
-[node name="resume" type="Button" parent="Pausing"]
-texture_filter = 2
+[node name="resume" type="Button" parent="PauseMenu"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_677lm")
 theme_override_font_sizes/font_size = 16
 text = "resume"
-script = ExtResource("3_qf7kl")
 
-[node name="options" type="Button" parent="Pausing"]
+[node name="options" type="Button" parent="PauseMenu"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_677lm")
 text = "options"
 
-[node name="quit" type="Button" parent="Pausing"]
+[node name="quit" type="Button" parent="PauseMenu"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_677lm")
 text = "quit"
 
-[node name="Quitting" type="PopupPanel" parent="Pausing"]
-title = "Quitting"
-initial_position = 2
-size = Vector2i(73, 75)
-always_on_top = true
+[node name="OptionsMenu" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -60.0
+offset_right = 90.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Pausing/Quitting"]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 69.0
-offset_bottom = 71.0
+[node name="Close" type="Button" parent="OptionsMenu"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_677lm")
+text = "Close"
 
-[node name="Are You Sure" type="Label" parent="Pausing/Quitting/VBoxContainer"]
+[node name="Options" parent="OptionsMenu" instance=ExtResource("6_05rjj")]
+layout_mode = 2
+
+[node name="QuitMenu" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -47.5
+offset_right = 90.0
+offset_bottom = 47.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.537255)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuitMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.5
+offset_top = -33.5
+offset_right = 32.5
+offset_bottom = 33.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Are You Sure" type="Label" parent="QuitMenu/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_jhko7")
 text = "Are you sure?"
 horizontal_alignment = 1
 
-[node name="yes" type="Button" parent="Pausing/Quitting/VBoxContainer"]
-texture_filter = 1
+[node name="yes" type="Button" parent="QuitMenu/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_677lm")
 text = "yes"
 
-[node name="no" type="Button" parent="Pausing/Quitting/VBoxContainer"]
-texture_filter = 1
+[node name="no" type="Button" parent="QuitMenu/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_677lm")
 text = "no"
-script = ExtResource("5_7aue0")
 
-[node name="OptionsMenu" type="PopupPanel" parent="."]
-initial_position = 2
-size = Vector2i(199, 128)
-always_on_top = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="OptionsMenu"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 195.0
-offset_bottom = 124.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="savesettings" type="Button" parent="OptionsMenu/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_677lm")
-text = "save"
-script = ExtResource("6_qu4q3")
-
-[node name="Options" parent="OptionsMenu/HBoxContainer" instance=ExtResource("6_05rjj")]
-layout_mode = 2
-
-[connection signal="about_to_popup" from="." to="." method="_on_about_to_popup"]
-[connection signal="about_to_popup" from="." to="Pausing/resume" method="_on_pause_menu_about_to_popup"]
-[connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
-[connection signal="pressed" from="Pausing/resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Pausing/options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Pausing/quit" to="." method="_on_quit_pressed"]
-[connection signal="about_to_popup" from="Pausing/Quitting" to="." method="_on_quitting_about_to_popup"]
-[connection signal="about_to_popup" from="Pausing/Quitting" to="Pausing/resume" method="_on_quitting_about_to_popup"]
-[connection signal="about_to_popup" from="Pausing/Quitting" to="Pausing/Quitting/VBoxContainer/no" method="_on_quitting_about_to_popup"]
-[connection signal="pressed" from="Pausing/Quitting/VBoxContainer/yes" to="." method="_on_yes_pressed"]
-[connection signal="pressed" from="Pausing/Quitting/VBoxContainer/no" to="." method="_on_no_pressed"]
-[connection signal="about_to_popup" from="OptionsMenu" to="OptionsMenu/HBoxContainer/savesettings" method="_on_options_menu_about_to_popup"]
-[connection signal="pressed" from="OptionsMenu/HBoxContainer/savesettings" to="." method="_on_savesettings_pressed"]
+[connection signal="pressed" from="PauseMenu/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="PauseMenu/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="OptionsMenu/Close" to="." method="_on_options_close_pressed"]
+[connection signal="pressed" from="QuitMenu/VBoxContainer/yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="QuitMenu/VBoxContainer/no" to="." method="_on_no_pressed"]

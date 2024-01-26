@@ -1,11 +1,10 @@
-class_name EnemyKamikaze extends EnemyBase
+class_name EnemyMelee extends EnemyBase
 
 
 enum State {
 	SPAWN,
 	CHASE,
-	CHARGE,
-	EXPLODE,
+	ATTACK,
 	IDLE,
 	WANDER,
 	NONE,
@@ -19,24 +18,20 @@ const MAX_IDLE_TIME: float = 6.0
 
 const MAX_WANDER_TIME: float = 10.0
 
-const MAX_MOLD_PLACE_ATTEMPTS: int = 10
-const MOLD_PER_EXPLOSION: int = 15
-
 @export var start_state: State
 
 var current_state: State = State.NONE
 var wander_point: Vector2
 
-@onready var explosion_damage_radius: float = $ExplosionDamageRadius.shape.radius
-@onready var explosion_confirm_radius: float = $ExplosionConfirmRadius.shape.radius
-@onready var charge_radius: float = $ChargeRadius.shape.radius
+@onready var attack_radius: float = $AttackRadius.shape.radius
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var idle_timer: Timer = $IdleTimer
 @onready var wander_timer: Timer = $WanderTimer
+@onready var attack_hitbox_x: int = abs($AttackHitbox/CollisionShape2D.position.x)
 
 func _ready() -> void:
 	super()
-	type = Type.KAMIKAZE
+	type = Type.MELEE
 	idle_timer.timeout.connect(_on_idle_timeout)
 	wander_timer.timeout.connect(_on_wander_timeout)
 	anim_player.animation_finished.connect(_on_animation_finished)
@@ -59,13 +54,11 @@ func _on_animation_finished(anim_name: StringName) -> void:
 				change_state(State.WANDER)
 		State.CHASE:
 			pass
-		State.CHARGE:
-			if is_player_in_radius(explosion_confirm_radius):
-				change_state(State.EXPLODE)
-			else:
+		State.ATTACK:
+			if player:
 				change_state(State.CHASE)
-		State.EXPLODE:
-			explode()
+			else:
+				change_state(State.IDLE)
 		State.IDLE:
 			pass
 		State.WANDER:
@@ -80,17 +73,14 @@ func update_state(state: State) -> State:
 		State.CHASE:
 			if !player:
 				return State.IDLE
-			elif is_player_in_radius(charge_radius):
-				return State.CHARGE
+			elif is_player_in_radius(attack_radius):
+				return State.ATTACK
 			else:
 				follow_point(player.global_position)
 			look_player()
-		State.CHARGE:
+		State.ATTACK:
 			if !player:
 				return State.IDLE
-			look_player()
-		State.EXPLODE:
-			pass
 		State.IDLE:
 			if player:
 				return State.CHASE
@@ -102,14 +92,21 @@ func update_state(state: State) -> State:
 	return state
 
 
-
 func look_player() -> void:
 	if player:
 		var direction := global_position.direction_to(player.global_position)
 		$Sprite2D.flip_h = direction.x > 0
+		if $Sprite2D.flip_h:
+			$AttackHitbox/CollisionShape2D.position.x = attack_hitbox_x
+		else:
+			$AttackHitbox/CollisionShape2D.position.x = -attack_hitbox_x
 		
 func look_velocity() -> void:
 	$Sprite2D.flip_h = velocity.x > 0
+	if $Sprite2D.flip_h:
+		$AttackHitbox/CollisionShape2D.position.x = attack_hitbox_x
+	else:
+		$AttackHitbox/CollisionShape2D.position.x = -attack_hitbox_x
 
 
 # Takes in an old and new state and performs the exit and enter for the old and new state respectively. Returns new_state
@@ -124,10 +121,8 @@ func change_state(new_state: State) -> void:
 		State.CHASE:
 			navigation_agent.avoidance_enabled = false
 			animation_reset()
-		State.CHARGE:
+		State.ATTACK:
 			pass
-		State.EXPLODE:
-			animation_reset()
 		State.IDLE:
 			idle_timer.stop()
 			animation_reset()
@@ -144,10 +139,8 @@ func change_state(new_state: State) -> void:
 		State.CHASE:
 			navigation_agent.avoidance_enabled = true
 			anim_player.play("chase")
-		State.CHARGE:
-			anim_player.play("charge")
-		State.EXPLODE:
-			anim_player.play("explode")
+		State.ATTACK:
+			anim_player.play("attack")
 		State.IDLE:
 			idle_timer.start(randf_range(MIN_IDLE_TIME, MAX_IDLE_TIME))
 			anim_player.play("idle")
@@ -160,33 +153,15 @@ func change_state(new_state: State) -> void:
 	current_state = new_state
 
 
-# Explode and then delete enemy
-func explode() -> void:
-	# Mold splatting
-	if Global.tile_map:
-		for i in MOLD_PER_EXPLOSION:
-			var rand_pos := get_random_position_in_circle(global_position, explosion_damage_radius)
-			var attempts = 0
-			while(Global.tile_map.is_type_mold_g(Global.tile_map.main_layer, rand_pos)):
-				attempts += 1
-				if attempts > MAX_MOLD_PLACE_ATTEMPTS:
-					break
-				rand_pos = get_random_position_in_circle(global_position, explosion_damage_radius)
-			
-			Global.tile_map.place_mold_g(Global.tile_map.main_layer, rand_pos)
-		
-	# Player damage
-	if (player and is_player_in_radius(explosion_damage_radius)):
-		player.take_damage(base_damage)
-	
-	# Removing self
-	queue_free()
-
-
 func animation_reset() -> void:
 	$Sprite2D.modulate = Color.WHITE
 	$Sprite2D.rotation = 0
 	$Sprite2D.scale = Vector2.ONE
+
+
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	if player == body:
+		player.take_damage(base_damage)
 
 
 func get_random_wander_point() -> Vector2:
@@ -204,14 +179,6 @@ func _on_idle_timeout() -> void:
 func _on_wander_timeout() -> void:
 	if (current_state == State.WANDER):
 		change_state(State.IDLE)
-
-
-func get_random_position_in_circle(center: Vector2, radius: float) -> Vector2:
-	var angle := randf_range(-PI, PI)
-	var direction := Vector2(cos(angle), sin(angle))
-	var distance := radius * randf() # This will cause points to be closer to center generally
-	
-	return center + distance * direction
 
 
 func die() -> void:
