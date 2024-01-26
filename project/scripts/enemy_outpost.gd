@@ -31,6 +31,7 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	_on_spawn_timer_timeout.call_deferred()
 	start_spawner()
+	$AnimationPlayer.play("idle")
 
 
 func start_spawner() -> void:
