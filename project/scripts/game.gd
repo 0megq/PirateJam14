@@ -7,6 +7,13 @@ var current_level_number: int = 0
 var current_level: Level
 
 
+@onready var pause_menu := $PauseLayer/PauseMenu
+
+func _ready() -> void:
+	pause_menu.quit.connect(quit_level)
+	pause_menu.resume.connect(resume_level)
+
+
 func _on_title_screen_play_pressed() -> void:
 	play()
 
@@ -21,7 +28,9 @@ func play() -> void:
 
 
 func quit_level() -> void:
+	pause_menu.hide()
 	current_level.queue_free()
+	current_level = null
 	$TitleLayer.show()
 	
 
@@ -38,5 +47,26 @@ func next_level() -> void:
 		current_level = levels[current_level_number].instantiate()
 		add_child(current_level)
 	else:
+		current_level = null
 		$TitleLayer.show()
 		print("last level reached play credits here")
+
+
+func resume_level() -> void:
+	pause_menu.hide()
+	current_level.process_mode = Node.PROCESS_MODE_INHERIT
+
+
+func pause_level() -> void:
+	# If already paused then unpause
+	if pause_menu.visible:
+		resume_level()
+		return
+	pause_menu.show()
+	pause_menu.open()
+	current_level.process_mode = Node.PROCESS_MODE_DISABLED
+	
+
+func _input(event: InputEvent) -> void:
+	if current_level && event.is_action_pressed("pause"):
+		pause_level()
