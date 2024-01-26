@@ -511,12 +511,11 @@ text = "Quit"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_1ce8i")
-autoplay = true
 bus = &"Music"
 
 [connection signal="animation_finished" from="Background2/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders" to="." method="_on_options_gui_input"]
 [connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders" to="." method="_on_sliders_gui_input"]
+[connection signal="gui_input" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/Panel/Sliders" to="." method="_on_options_gui_input"]
 [connection signal="level_selected" from="MarginContainer/VBoxContainer/HBoxContainer/Controls/Background/LevelSelectPanel" to="." method="_on_level_select_panel_level_selected"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Buttons/VBoxContainer/LevelSelect" to="." method="_on_level_select_pressed"]

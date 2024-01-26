@@ -14,6 +14,7 @@ func _ready() -> void:
 	pause_menu.quit.connect(quit_level)
 	pause_menu.resume.connect(resume_level)
 	title_screen.total_levels = levels.size()
+	title_screen.start_music()
 
 
 func _on_title_screen_play_pressed() -> void:
@@ -32,6 +33,7 @@ func play() -> void:
 	current_level.quit_level.connect(quit_level)
 	current_level.next_level.connect(next_level)
 	title_screen.hide()
+	title_screen.stop_music()
 
 
 func quit_level() -> void:
@@ -39,6 +41,7 @@ func quit_level() -> void:
 	current_level.queue_free()
 	current_level = null
 	title_screen.show()
+	title_screen.start_music()
 	
 
 func retry_current_level() -> void:
@@ -55,6 +58,7 @@ func next_level() -> void:
 		current_level = null
 		# PLACEHOLDER CODE
 		title_screen.show()
+		title_screen.start_music()
 		print("last level reached play credits here")
 
 
