@@ -4,6 +4,7 @@ signal health_changed(current_health: float, max_health: int)
 
 enum Type {
 	KAMIKAZE,
+	MELEE
 }
 
 @export var speed: float = 100.0
