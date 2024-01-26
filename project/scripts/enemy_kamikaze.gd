@@ -84,20 +84,33 @@ func update_state(state: State) -> State:
 				return State.CHARGE
 			else:
 				follow_point(player.global_position)
+			look_player()
 		State.CHARGE:
 			if !player:
 				return State.IDLE
-			pass
+			look_player()
 		State.EXPLODE:
 			pass
 		State.IDLE:
 			if player:
 				return State.CHASE
 		State.WANDER:
+			look_velocity()
 			if (follow_point(wander_point)):
 				return State.IDLE
 			
 	return state
+
+
+
+func look_player() -> void:
+	if player:
+		var direction := global_position.direction_to(player.global_position)
+		$Sprite2D.flip_h = direction.x > 0
+		
+func look_velocity() -> void:
+	$Sprite2D.flip_h = velocity.x > 0
+
 
 # Takes in an old and new state and performs the exit and enter for the old and new state respectively. Returns new_state
 func change_state(new_state: State) -> void:
