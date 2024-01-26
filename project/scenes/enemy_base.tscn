@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ylvm0hspe11h"]
 
 [ext_resource type="Script" path="res://scripts/enemy_base.gd" id="1_omc3k"]
-[ext_resource type="PackedScene" path="res://scenes/enemy_health_bar.tscn" id="2_v8vpn"]
+[ext_resource type="PackedScene" uid="uid://dygdx3ytitk4g" path="res://scenes/enemy_health_bar.tscn" id="2_v8vpn"]
 
 [node name="EnemyBase" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 2
