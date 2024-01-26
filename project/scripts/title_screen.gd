@@ -61,3 +61,11 @@ func _on_quit_pressed() -> void:
 
 func _on_level_select_panel_level_selected(level: int) -> void:
 	play_level.emit(level)
+
+
+func start_music() -> void:
+	$AudioStreamPlayer.playing = true
+	
+	
+func stop_music() -> void:
+	$AudioStreamPlayer.playing = false
