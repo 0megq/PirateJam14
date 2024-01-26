@@ -18,4 +18,5 @@ layer = 2
 [node name="PauseMenu" parent="PauseLayer" instance=ExtResource("3_20811")]
 visible = false
 
+[connection signal="play_level" from="TitleLayer/TitleScreen" to="." method="_on_title_screen_play_level"]
 [connection signal="play_pressed" from="TitleLayer/TitleScreen" to="." method="_on_title_screen_play_pressed"]
