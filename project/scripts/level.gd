@@ -88,6 +88,7 @@ func get_score() -> int:
 
 
 func _on_ui_next_level() -> void:
+	
 	next_level.emit()
 
 
