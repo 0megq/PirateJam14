@@ -13,8 +13,8 @@
 script = ExtResource("1_blc8q")
 
 [node name="PlayerHealthBar" parent="." instance=ExtResource("2_shmos")]
+texture_filter = 1
 offset_right = 211.0
-metadata/_edit_use_anchors_ = true
 
 [node name="AmmoBar" parent="." instance=ExtResource("5_8x32h")]
 offset_left = 6.0
@@ -29,6 +29,7 @@ offset_right = 349.0
 offset_bottom = 41.0
 
 [node name="BreadHealthBar" parent="." instance=ExtResource("6_4xupc")]
+texture_filter = 1
 
 [node name="EnemyCursor" type="Sprite2D" parent="."]
 z_index = 2
@@ -38,6 +39,7 @@ offset = Vector2(-8, 0.5)
 script = ExtResource("8_qfhds")
 
 [node name="GameOver" parent="." instance=ExtResource("8_vp242")]
+texture_filter = 1
 
 [connection signal="next_pressed" from="GameOver" to="." method="_on_game_over_next_pressed"]
 [connection signal="quit_pressed" from="GameOver" to="." method="_on_game_over_quit_pressed"]

@@ -1,7 +1,8 @@
 extends Node
 
 
-const levels: Array[PackedScene] = [preload("res://scenes/level_1.tscn")]
+const levels: Array[PackedScene] = [preload("res://levels/level_1.tscn"), preload("res://levels/level_2.tscn"), preload("res://levels/level_3.tscn")]
+
 
 var current_level_number: int = 0
 var current_level: Level

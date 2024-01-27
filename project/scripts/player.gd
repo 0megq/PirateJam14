@@ -92,6 +92,7 @@ func _ready() -> void:
 	set_deferred("current_ammo", max_ammo)
 	set_deferred("current_lives", max_lives)
 	set_deferred("current_health", max_health)
+	$AttackHitbox/SwordSprite.hide()
 
 
 func _physics_process(delta: float) -> void:
