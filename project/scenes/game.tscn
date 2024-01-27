@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://v1774nlc66e"]
+[gd_scene load_steps=5 format=3 uid="uid://v1774nlc66e"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_1msm2"]
 [ext_resource type="PackedScene" uid="uid://cuhdcu3glcrkg" path="res://scenes/pause_menu.tscn" id="3_20811"]
 [ext_resource type="PackedScene" uid="uid://cutak7tx55oc3" path="res://scenes/title_screen.tscn" id="3_vagdt"]
+[ext_resource type="FontFile" uid="uid://cy2mr8pwdog77" path="res://assets/fonts/Beanstalk.ttf" id="4_kc1d3"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_1msm2")
@@ -17,6 +18,31 @@ layer = 2
 
 [node name="PauseMenu" parent="PauseLayer" instance=ExtResource("3_20811")]
 visible = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 4
+visible = false
+
+[node name="TextureRect" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kc1d3")
+theme_override_font_sizes/font_size = 32
+text = "That's it. Hope you enjoyed!
+- NEEM"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="play_level" from="TitleLayer/TitleScreen" to="." method="_on_title_screen_play_level"]
 [connection signal="play_pressed" from="TitleLayer/TitleScreen" to="." method="_on_title_screen_play_pressed"]

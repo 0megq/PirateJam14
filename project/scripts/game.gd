@@ -34,7 +34,6 @@ func play() -> void:
 	current_level.quit_level.connect(quit_level)
 	current_level.next_level.connect(next_level)
 	title_screen.hide()
-	title_screen.stop_music()
 
 
 func quit_level() -> void:
@@ -42,7 +41,6 @@ func quit_level() -> void:
 	current_level.queue_free()
 	current_level = null
 	title_screen.show()
-	title_screen.start_music()
 	
 
 func retry_current_level() -> void:
@@ -59,8 +57,9 @@ func next_level() -> void:
 		current_level = null
 		# PLACEHOLDER CODE
 		title_screen.show()
-		title_screen.start_music()
-		print("last level reached play credits here")
+		$CanvasLayer.show()
+		await get_tree().create_timer(5)
+		$CanvasLayer.hide()
 
 
 func resume_level() -> void:
