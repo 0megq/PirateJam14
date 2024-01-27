@@ -53,3 +53,6 @@ position = Vector2(1516, 233)
 spawn_interval = 25.0
 enemy_types = Array[int]([1])
 max_health = 90
+
+[node name="Background" parent="BackgroundLayer" index="0"]
+modulate = Color(1, 0.231373, 0.333333, 1)
