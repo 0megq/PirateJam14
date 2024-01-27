@@ -29,12 +29,12 @@ func game_over(score: int, score_per_medal: Array[int], current_lives: int, max_
 
 
 func _on_game_over_next_pressed() -> void:
-	next_level.emit()
+	Global.game.next_level()
 
 
 func _on_game_over_quit_pressed() -> void:
-	quit_level.emit()
+	Global.game.quit_level()
 
 
 func _on_game_over_retry_pressed() -> void:
-	retry_level.emit()
+	Global.game.retry_current_level()

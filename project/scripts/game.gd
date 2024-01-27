@@ -16,6 +16,7 @@ func _ready() -> void:
 	pause_menu.resume.connect(resume_level)
 	title_screen.total_levels = levels.size()
 	title_screen.start_music()
+	Global.game = self
 
 
 func _on_title_screen_play_pressed() -> void:
