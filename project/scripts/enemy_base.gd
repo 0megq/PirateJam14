@@ -101,7 +101,8 @@ func take_damage(damage: float, damage_position: Vector2, is_jam: bool = false) 
 		var pos_tween: Tween = create_tween()
 		pos_tween.tween_property(self, "global_position", global_position + knockback_dir * knockback_distance, knockback_time)
 	is_hurt = true
-	
+	$Hurt.set_pitch_scale(randf_range(1.0, 1.2))
+	$Hurt.play()
 	current_health -= damage
 	if current_health <= 0:
 		die()

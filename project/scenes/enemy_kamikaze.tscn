@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://celv8gbqce6mj"]
+[gd_scene load_steps=20 format=3 uid="uid://celv8gbqce6mj"]
 
 [ext_resource type="PackedScene" uid="uid://ylvm0hspe11h" path="res://scenes/enemy_base.tscn" id="1_4i6aw"]
 [ext_resource type="Script" path="res://scripts/enemy_kamikaze.gd" id="2_4giyb"]
-[ext_resource type="Texture2D" uid="uid://c0l5io3fkd8wh" path="res://assets/mushboom_sheet.png" id="3_pq4gr"]
+[ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="3_4sgi2"]
+[ext_resource type="AudioStream" uid="uid://deokjybxmqaq0" path="res://assets/sounds/explosiontest.wav" id="4_nof2g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3jbgi"]
 size = Vector2(26, 23)
@@ -329,3 +330,6 @@ offset_left = -14.0
 offset_top = -21.0
 offset_right = 14.0
 offset_bottom = -15.0
+
+[node name="Explosion" type="AudioStreamPlayer2D" parent="." index="15"]
+stream = ExtResource("4_nof2g")
