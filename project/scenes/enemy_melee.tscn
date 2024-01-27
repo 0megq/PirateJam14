@@ -213,7 +213,6 @@ hframes = 4
 vframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
-visible = false
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_3jbgi")
 
