@@ -17,7 +17,7 @@ const MAX_WANDER_DIST: float = 100.0
 const MIN_IDLE_TIME: float = 1.0
 const MAX_IDLE_TIME: float = 6.0
 
-const MAX_WANDER_TIME: float = 10.0
+const MAX_WANDER_TIME: float = 5.0
 
 const MAX_MOLD_PLACE_ATTEMPTS: int = 10
 const MOLD_PER_EXPLOSION: int = 15
