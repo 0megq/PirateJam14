@@ -152,6 +152,7 @@ navigation_polygon = SubResource("NavigationPolygon_kel0q")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("10_rlx25")
+bus = &"Music"
 
 [connection signal="about_to_popup" from="UI/PauseMenu" to="UI" method="_on_pause_menu_about_to_popup"]
 [connection signal="popup_hide" from="UI/PauseMenu" to="UI" method="_on_pause_menu_popup_hide"]
