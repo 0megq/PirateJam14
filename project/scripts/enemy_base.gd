@@ -4,6 +4,7 @@ signal health_changed(current_health: float, max_health: int)
 
 enum Type {
 	KAMIKAZE,
+	MELEE
 }
 
 @export var speed: float = 100.0
@@ -72,7 +73,7 @@ func follow_point(point_position: Vector2) -> bool:
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
-	Global.tile_map.place_mold_g(global_position)
+	Global.tile_map.place_mold_g(Global.tile_map.main_layer, global_position)
 	move_and_slide()
 	
 

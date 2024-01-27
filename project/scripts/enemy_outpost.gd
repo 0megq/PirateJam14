@@ -1,9 +1,10 @@
-extends Area2D
+class_name EnemyOutpost extends Area2D
 
 signal health_changed(current_health: float, max_health: int)
 
 var enemy_scenes: Dictionary = {
-	EnemyBase.Type.KAMIKAZE : preload("res://scenes/enemy_kamikaze.tscn")
+	EnemyBase.Type.KAMIKAZE : preload("res://scenes/enemy_kamikaze.tscn"),
+	EnemyBase.Type.MELEE : preload("res://scenes/enemy_melee.tscn"),
 }
 
 @export var spawn_interval: float
@@ -31,6 +32,7 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	_on_spawn_timer_timeout.call_deferred()
 	start_spawner()
+	$AnimationPlayer.play("idle")
 
 
 func start_spawner() -> void:

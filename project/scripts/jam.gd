@@ -78,11 +78,15 @@ func _on_particle_splat_timer_timeout() -> void:
 func _on_particle_decay_timer_timeout() -> void:
 	var tween = create_tween()
 	tween.tween_property(particles, "modulate", Color.TRANSPARENT, 1)
-	place_jam_tiles()
 	await tween.finished
 	queue_free()
 
 
+func _on_place_jam_timer_timeout() -> void:
+	place_jam_tiles()
+	$PlaceJamTimer.start()
+	
+	
 func _on_particle_stop_timer_timeout() -> void:
 	particles.process_mode = PROCESS_MODE_DISABLED
 
@@ -125,7 +129,7 @@ func get_tilemap_aligned_bounding_box(polygon: PackedVector2Array, tile_size: Ve
 
 
 func place_jam_tiles() -> void:
-	var tile_size := Global.tile_map.tile_set.tile_size
+	var tile_size := Global.tile_map.tile_size_scaled
 	var col_polygon_global := polygon_to_global(collision_polygon.polygon)
 	var tile_aligned_bounding_box: Rect2i = get_tilemap_aligned_bounding_box(col_polygon_global, tile_size)
 	
@@ -134,7 +138,7 @@ func place_jam_tiles() -> void:
 		for y in range(tile_aligned_bounding_box.position.y, tile_aligned_bounding_box.end.y, tile_size.y):
 			var tile_center := Vector2(x + tile_size.x / 2, y + tile_size.y / 2)
 			if Geometry2D.is_point_in_polygon(tile_center, col_polygon_global):
-				Global.tile_map.place_jam_g(tile_center)
+				Global.tile_map.place_jam_g(Global.tile_map.main_layer, tile_center)
 
 # Returns a rectangle which outlines the entire collision polygon
 func get_polygon_bounding_box(polygon: PackedVector2Array) -> Rect2:
@@ -175,5 +179,8 @@ func polygon_to_global(polygon: PackedVector2Array) -> PackedVector2Array:
 	#var new_polygon: Polygon2D = Polygon2D.new()
 	#new_polygon.polygon = polygon
 	#get_parent().add_child(new_polygon)
+
+
+
 
 

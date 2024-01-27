@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://du4k65up0irb6"]
+
+[ext_resource type="PackedScene" uid="uid://csvup43edsyfq" path="res://scenes/player.tscn" id="1_hmb23"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_ynbc6"]
+[ext_resource type="PackedScene" uid="uid://c0r4avjgxpuld" path="res://scenes/ui.tscn" id="2_f2fio"]
+[ext_resource type="PackedScene" uid="uid://vlc4tca1q8dq" path="res://scenes/tile_map.tscn" id="3_nd1wt"]
+[ext_resource type="Texture2D" uid="uid://jcplchmoinh6" path="res://assets/wood_texture_1920x1080.png" id="5_8smai"]
+
+[node name="LevelTemplate" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_ynbc6")
+
+[node name="Player" parent="." node_paths=PackedStringArray("jam_container") instance=ExtResource("1_hmb23")]
+jam_container = NodePath("../JamContainer")
+
+[node name="UI" parent="." instance=ExtResource("2_f2fio")]
+
+[node name="JamContainer" type="Node" parent="."]
+
+[node name="TileMap" parent="." instance=ExtResource("3_nd1wt")]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+
+[node name="EnemyContainer" type="Node2D" parent="."]
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="Sprite2D" parent="BackgroundLayer"]
+z_index = -10
+position = Vector2(320, 180)
+scale = Vector2(0.333, 0.333)
+texture = ExtResource("5_8smai")

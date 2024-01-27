@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://v1774nlc66e"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_1msm2"]
+[ext_resource type="PackedScene" uid="uid://cuhdcu3glcrkg" path="res://scenes/pause_menu.tscn" id="3_20811"]
+[ext_resource type="PackedScene" uid="uid://cutak7tx55oc3" path="res://scenes/title_screen.tscn" id="3_vagdt"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_1msm2")
+
+[node name="TitleLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="TitleScreen" parent="TitleLayer" instance=ExtResource("3_vagdt")]
+
+[node name="PauseLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="PauseMenu" parent="PauseLayer" instance=ExtResource("3_20811")]
+visible = false
+
+[connection signal="play_level" from="TitleLayer/TitleScreen" to="." method="_on_title_screen_play_level"]
+[connection signal="play_pressed" from="TitleLayer/TitleScreen" to="." method="_on_title_screen_play_pressed"]

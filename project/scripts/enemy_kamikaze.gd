@@ -17,7 +17,7 @@ const MAX_WANDER_DIST: float = 100.0
 const MIN_IDLE_TIME: float = 1.0
 const MAX_IDLE_TIME: float = 6.0
 
-const MAX_WANDER_TIME: float = 10.0
+const MAX_WANDER_TIME: float = 5.0
 
 const MAX_MOLD_PLACE_ATTEMPTS: int = 10
 const MOLD_PER_EXPLOSION: int = 15
@@ -84,20 +84,33 @@ func update_state(state: State) -> State:
 				return State.CHARGE
 			else:
 				follow_point(player.global_position)
+			look_player()
 		State.CHARGE:
 			if !player:
 				return State.IDLE
-			pass
+			look_player()
 		State.EXPLODE:
 			pass
 		State.IDLE:
 			if player:
 				return State.CHASE
 		State.WANDER:
+			look_velocity()
 			if (follow_point(wander_point)):
 				return State.IDLE
 			
 	return state
+
+
+
+func look_player() -> void:
+	if player:
+		var direction := global_position.direction_to(player.global_position)
+		$Sprite2D.flip_h = direction.x > 0
+		
+func look_velocity() -> void:
+	$Sprite2D.flip_h = velocity.x > 0
+
 
 # Takes in an old and new state and performs the exit and enter for the old and new state respectively. Returns new_state
 func change_state(new_state: State) -> void:
@@ -155,13 +168,13 @@ func explode() -> void:
 		for i in MOLD_PER_EXPLOSION:
 			var rand_pos := get_random_position_in_circle(global_position, explosion_damage_radius)
 			var attempts = 0
-			while(Global.tile_map.is_type_mold_g(rand_pos)):
+			while(Global.tile_map.is_type_mold_g(Global.tile_map.main_layer, rand_pos)):
 				attempts += 1
 				if attempts > MAX_MOLD_PLACE_ATTEMPTS:
 					break
 				rand_pos = get_random_position_in_circle(global_position, explosion_damage_radius)
 			
-			Global.tile_map.place_mold_g(rand_pos)
+			Global.tile_map.place_mold_g(Global.tile_map.main_layer, rand_pos)
 		
 	# Player damage
 	if (player and is_player_in_radius(explosion_damage_radius)):
@@ -176,7 +189,7 @@ func explode() -> void:
 func animation_reset() -> void:
 	$Sprite2D.modulate = Color.WHITE
 	$Sprite2D.rotation = 0
-	$Sprite2D.scale = Vector2.ONE * 0.2
+	$Sprite2D.scale = Vector2.ONE
 
 
 func get_random_wander_point() -> Vector2:

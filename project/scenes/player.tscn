@@ -46,7 +46,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [PackedVector2Array(16, -21, 26, -24, 39, -8, 41, 16, 24, 41, 5, 26)]
+"values": [PackedVector2Array(15.8116, -20.5668, 32, -26, 43, -8, 44, 19, 30, 45, 6, 18, -8, 11, -8, -6)]
 }
 
 [sub_resource type="Animation" id="Animation_nfjny"]
@@ -74,7 +74,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [PackedVector2Array(16, -21, 32, -26, 43, -8, 44, 19, 30, 45, 5, 26), PackedVector2Array(17, -11, 27, -14, 36, -2, 41, 16, 28, 41, 6, 28), PackedVector2Array(12, 8, 18, 13, 24, 26, 21, 37, 11, 41, 0, 22)]
+"values": [PackedVector2Array(15.8116, -20.5668, 32, -26, 43, -8, 44, 19, 30, 45, 6, 18, -8, 11, -8, -6), PackedVector2Array(17, -11, 27, -14, 36, -2, 41, 16, 28, 41, 6, 28, -7, 10, -5, -10), PackedVector2Array(12, 8, 18, 13, 24, 26, 21, 37, 11, 41, 0, 22, -11, -1, 5, -13)]
 }
 tracks/2/type = "method"
 tracks/2/imported = false
@@ -218,7 +218,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [PackedVector2Array(16, -21, 32, -26, 43, -8, 44, 19, 30, 45, 5, 26), PackedVector2Array(17, -11, 27, -14, 36, -2, 41, 16, 28, 41, 6, 28), PackedVector2Array(12, 8, 18, 13, 24, 26, 21, 37, 11, 41, 0, 22)]
+"values": [PackedVector2Array(15.8116, -20.5668, 32, -26, 43, -8, 44, 19, 30, 45, 6, 18, -8, 11, -8, -6), PackedVector2Array(17, -11, 27, -14, 36, -2, 41, 16, 28, 41, 6, 28, -7, 10, -5, -10), PackedVector2Array(12, 8, 18, 13, 24, 26, 21, 37, 11, 41, 0, 22, -11, -1, 5, -13)]
 }
 tracks/2/type = "method"
 tracks/2/imported = false
@@ -832,9 +832,11 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 y_sort_enabled = true
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_i8wxh")
 total_jam_damage = 20
+max_health = 10
 metadata/_edit_vertical_guides_ = [-79.0]
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
@@ -889,14 +891,13 @@ one_shot = true
 
 [node name="AttackHitbox" type="Area2D" parent="."]
 y_sort_enabled = true
-rotation = -0.174533
 collision_layer = 0
 collision_mask = 2
 monitoring = false
 monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AttackHitbox"]
-polygon = PackedVector2Array(16, -21, 26, -24, 39, -8, 41, 16, 24, 41, 5, 26)
+polygon = PackedVector2Array(15.8116, -20.5668, 32, -26, 43, -8, 44, 19, 30, 45, 6, 18, -8, 11, -8, -6)
 
 [node name="AttackDisplay" type="Polygon2D" parent="AttackHitbox"]
 visible = false
@@ -904,7 +905,6 @@ color = Color(1, 1, 1, 0.560784)
 polygon = PackedVector2Array(10, -20, 24, -13, 30, 0, 24, 13, 10, 20)
 
 [node name="SwordSprite" type="Sprite2D" parent="AttackHitbox"]
-visible = false
 texture_filter = 1
 position = Vector2(18.538, 5)
 rotation = 1.52791

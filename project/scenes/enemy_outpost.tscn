@@ -1,14 +1,52 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8qav8rokomtn"]
+[gd_scene load_steps=9 format=3 uid="uid://c8qav8rokomtn"]
 
-[ext_resource type="Texture2D" uid="uid://3bmuqpyf71nj" path="res://assets/icon.svg" id="1_gay8f"]
 [ext_resource type="Script" path="res://scripts/enemy_outpost.gd" id="1_jvp6a"]
+[ext_resource type="Texture2D" uid="uid://8v5u6efl6xy" path="res://assets/Fungal Mass.png" id="2_ihdqr"]
 [ext_resource type="PackedScene" uid="uid://dygdx3ytitk4g" path="res://scenes/enemy_health_bar.tscn" id="3_gj1y3"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_epaar"]
-size = Vector2(128, 128)
+[sub_resource type="CircleShape2D" id="CircleShape2D_312f1"]
+radius = 32.0
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sql12"]
-polygon = PackedVector2Array(-64, -64, -64, 64, 64, 64, 64, -64)
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sah5h"]
+polygon = PackedVector2Array(0, -32, -32, 0, -22, 23, 0, 32, 21, 24, 32, 0)
+
+[sub_resource type="Animation" id="Animation_mvwx7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_hge17"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ilhif"]
+_data = {
+"RESET": SubResource("Animation_mvwx7"),
+"idle": SubResource("Animation_hge17")
+}
 
 [node name="EnemyOutpost" type="Area2D" groups=["enemy"]]
 collision_layer = 2
@@ -20,17 +58,17 @@ enemy_types = Array[int]([0])
 max_health = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0.2, 1, 1)
 z_index = -1
-texture = ExtResource("1_gay8f")
+texture = ExtResource("2_ihdqr")
+hframes = 4
 
 [node name="SpawnTimer" type="Timer" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_epaar")
+shape = SubResource("CircleShape2D_312f1")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-occluder = SubResource("OccluderPolygon2D_sql12")
+occluder = SubResource("OccluderPolygon2D_sah5h")
 
 [node name="HurtTimer" type="Timer" parent="."]
 wait_time = 0.4
@@ -42,3 +80,8 @@ offset_right = 18.0
 offset_bottom = -40.0
 display_time = 7.0
 enemy = NodePath("..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ilhif")
+}

@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://c0r4avjgxpuld"]
+
+[ext_resource type="Script" path="res://scripts/UI.gd" id="1_blc8q"]
+[ext_resource type="PackedScene" uid="uid://c4thh8utbayxe" path="res://scenes/player_health_bar.tscn" id="2_shmos"]
+[ext_resource type="PackedScene" uid="uid://qx6k5ivmf32w" path="res://scenes/ammo_bar.tscn" id="5_8x32h"]
+[ext_resource type="PackedScene" uid="uid://mdww2i5k8jub" path="res://scenes/bread_health_bar.tscn" id="6_4xupc"]
+[ext_resource type="PackedScene" uid="uid://ciok0vj6ut33y" path="res://scenes/life_bar.tscn" id="6_ll5ik"]
+[ext_resource type="Texture2D" uid="uid://bq0eeibi6av82" path="res://assets/cursor.png" id="7_i33ht"]
+[ext_resource type="Script" path="res://scripts/enemy_cursor.gd" id="8_qfhds"]
+[ext_resource type="PackedScene" uid="uid://ct8gig3s6mkxc" path="res://scenes/game_over_screen.tscn" id="8_vp242"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_blc8q")
+
+[node name="PlayerHealthBar" parent="." instance=ExtResource("2_shmos")]
+texture_filter = 1
+offset_right = 211.0
+
+[node name="AmmoBar" parent="." instance=ExtResource("5_8x32h")]
+offset_left = 6.0
+offset_top = 44.0
+offset_right = 46.0
+offset_bottom = 84.0
+
+[node name="LifeBar" parent="." instance=ExtResource("6_ll5ik")]
+offset_left = 309.0
+offset_top = 41.0
+offset_right = 349.0
+offset_bottom = 41.0
+
+[node name="BreadHealthBar" parent="." instance=ExtResource("6_4xupc")]
+texture_filter = 1
+
+[node name="EnemyCursor" type="Sprite2D" parent="."]
+z_index = 2
+texture_filter = 1
+texture = ExtResource("7_i33ht")
+offset = Vector2(-8, 0.5)
+script = ExtResource("8_qfhds")
+
+[node name="GameOver" parent="." instance=ExtResource("8_vp242")]
+texture_filter = 1
+
+[connection signal="next_pressed" from="GameOver" to="." method="_on_game_over_next_pressed"]
+[connection signal="quit_pressed" from="GameOver" to="." method="_on_game_over_quit_pressed"]
+[connection signal="retry_pressed" from="GameOver" to="." method="_on_game_over_retry_pressed"]
