@@ -1,1 +1,1 @@
-Our game for the Pirate Software Game Jam 14
+A game made for the 2-week Pirate Software Game Jam 14 by four internet strangers.
